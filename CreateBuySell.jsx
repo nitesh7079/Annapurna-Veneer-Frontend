@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-const API_BASE_URL = 'http://localhost:3001/api/v1';
+const API_BASE_URL = 'https://shyam-veneer-backend.onrender.com/api/v1';
 
 const CreateBuySell = ({ onTransactionCreated }) => {
   const [formData, setFormData] = useState({

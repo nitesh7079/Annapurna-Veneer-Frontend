@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { bankAPI } from '../services/api';
 import LoadingSpinner from '../components/LoadingSpinner';
 
-const API_URL = 'http://localhost:3001/api/v1';
+const API_URL = 'https://shyam-veneer-backend.onrender.com/api/v1';
 
 const otherCreditAPI = {
   getAll: async () => {

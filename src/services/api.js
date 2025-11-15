@@ -1,20 +1,10 @@
 import axios from 'axios';
 
 const getApiUrl = () => {
-  const hostname = window.location.hostname;
-  const port = window.location.port;
-  
-  console.log('Detecting API URL for hostname:', hostname, 'port:', port);
-  
-  if (hostname !== 'localhost' && hostname !== '127.0.0.1' && hostname !== '') {
-    const apiUrl = `http://${hostname}:3001/api/v1`;
-    console.log('Using network IP for API:', apiUrl);
-    return apiUrl;
-  }
-  
-  const apiUrl = 'http://localhost:3001/api/v1';
-  console.log('Using localhost for API:', apiUrl);
-  return apiUrl;
+  // Use deployed backend by default. Change here if you want a different base.
+  const deployed = 'https://shyam-veneer-backend.onrender.com/api/v1';
+  console.log('Using deployed API URL:', deployed);
+  return deployed;
 };
 
 // Test API connectivity
@@ -115,39 +105,19 @@ api.interceptors.response.use(
 export const userAPI = {
   register: async (userData) => {
     try {
-      const response = await fetch('http://localhost:3001/api/v1/user/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(userData),
-      });
-      const data = await response.json();
-      if (!response.ok) {
-        throw data;
-      }
-      return data;
+      const response = await api.post('/user/register', userData);
+      return response.data;
     } catch (error) {
-      throw error;
+      throw error.response?.data || error;
     }
   },
 
   login: async (credentials) => {
     try {
-      const response = await fetch('http://localhost:3001/api/v1/user/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(credentials),
-      });
-      const data = await response.json();
-      if (!response.ok) {
-        throw data;
-      }
-      return data;
+      const response = await api.post('/user/login', credentials);
+      return response.data;
     } catch (error) {
-      throw error;
+      throw error.response?.data || error;
     }
   },
 };
