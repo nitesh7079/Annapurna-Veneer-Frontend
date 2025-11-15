@@ -26,7 +26,6 @@ function Sell() {
     Under: '',
     Quantity: '',
     Amount: '',
-    Vat: '',
     VatAmount: '',
     BillNumber: '',
     CustomCharges: '',
@@ -173,7 +172,6 @@ function Sell() {
         Under: '',
         Quantity: '',
         Amount: '',
-        Vat: '',
         VatAmount: '',
         BillNumber: '',
         CustomCharges: '',
@@ -418,7 +416,6 @@ function Sell() {
                 <th className="px-6 py-4 text-left text-xs font-bold text-amber-50 uppercase tracking-wider border-r border-amber-600">Under</th>
                 <th className="px-6 py-4 text-left text-xs font-bold text-amber-50 uppercase tracking-wider border-r border-amber-600">Quantity</th>
                 <th className="px-6 py-4 text-left text-xs font-bold text-amber-50 uppercase tracking-wider border-r border-amber-600">Amount</th>
-                <th className="px-6 py-4 text-left text-xs font-bold text-amber-50 uppercase tracking-wider border-r border-amber-600">VAT</th>
                 <th className="px-6 py-4 text-left text-xs font-bold text-amber-50 uppercase tracking-wider border-r border-amber-600">VAT Amount</th>
                 <th className="px-6 py-4 text-left text-xs font-bold text-amber-50 uppercase tracking-wider border-r border-amber-600">Bill#</th>
                 <th className="px-6 py-4 text-left text-xs font-bold text-amber-50 uppercase tracking-wider border-r border-amber-600">Custom Charges</th>
@@ -434,7 +431,7 @@ function Sell() {
             <tbody className="bg-white divide-y-2 divide-amber-100">
               {Object.keys(groupOrdersByCustomer()).length === 0 ? (
                 <tr>
-                  <td colSpan="17" className="px-6 py-4 text-center text-gray-500">
+                  <td colSpan="16" className="px-6 py-4 text-center text-gray-500">
                     No sell orders found
                   </td>
                 </tr>
@@ -472,7 +469,6 @@ function Sell() {
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">-</td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">-</td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">-</td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">-</td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <span className={`px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${
                             allConfirmed 
@@ -502,7 +498,6 @@ function Sell() {
                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{order.Under || '-'}</td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{order.Quantity}</td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">₹{order.Amount}</td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{order.Vat || '-'}%</td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">₹{order.VatAmount || '-'}</td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{order.BillNumber || '-'}</td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">₹{order.CustomCharges || '-'}</td>
@@ -588,24 +583,33 @@ function Sell() {
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Item Name *</label>
-                <input
-                  type="text"
+                <select
                   name="ItemName"
                   value={formData.ItemName}
                   onChange={handleInputChange}
                   required
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
+                >
+                  <option value="">Select Item Name</option>
+                  <option value="2.5mm Core">2.5mm Core</option>
+                  <option value="2.5mm Fali">2.5mm Fali</option>
+                  <option value="1.8mm Core">1.8mm Core</option>
+                  <option value="1.8mm Fali">1.8mm Fali</option>
+                </select>
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Under</label>
-                <input
-                  type="text"
+                <select
                   name="Under"
                   value={formData.Under}
                   onChange={handleInputChange}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
+                >
+                  <option value="">Select Category</option>
+                  <option value="Sundry Creditors">Sundry Creditors</option>
+                  <option value="Sundry Debitors">Sundry Debitors</option>
+                  <option value="Suspense A/C">Suspense A/C</option>
+                </select>
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Quantity *</label>
@@ -630,16 +634,6 @@ function Sell() {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">VAT (%)</label>
-                <input
-                  type="number"
-                  name="Vat"
-                  value={formData.Vat}
-                  onChange={handleInputChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
-              <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">VAT Amount</label>
                 <input
                   type="number"
@@ -649,6 +643,7 @@ function Sell() {
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Bill Number</label>
                 <input

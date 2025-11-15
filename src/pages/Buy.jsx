@@ -26,7 +26,6 @@ function Buy() {
     Under: '',
     Quantity: '',
     Amount: '',
-    Vat: '',
     VatAmount: '',
     BillNumber: '',
     PhoneNumber: '',
@@ -176,7 +175,6 @@ function Buy() {
         Under: '',
         Quantity: '',
         Amount: '',
-        Vat: '',
         VatAmount: '',
         BillNumber: '',
         PhoneNumber: '',
@@ -432,7 +430,6 @@ function Buy() {
                 <th className="px-6 py-4 text-left text-xs font-bold text-amber-50 uppercase tracking-wider border-r border-amber-600">Under</th>
                 <th className="px-6 py-4 text-left text-xs font-bold text-amber-50 uppercase tracking-wider border-r border-amber-600">Quantity</th>
                 <th className="px-6 py-4 text-left text-xs font-bold text-amber-50 uppercase tracking-wider border-r border-amber-600">Amount</th>
-                <th className="px-6 py-4 text-left text-xs font-bold text-amber-50 uppercase tracking-wider border-r border-amber-600">VAT</th>
                 <th className="px-6 py-4 text-left text-xs font-bold text-amber-50 uppercase tracking-wider border-r border-amber-600">VAT Amount</th>
                 <th className="px-6 py-4 text-left text-xs font-bold text-amber-50 uppercase tracking-wider border-r border-amber-600">Bill#</th>
                 <th className="px-6 py-4 text-left text-xs font-bold text-amber-50 uppercase tracking-wider border-r border-amber-600">Phone</th>
@@ -447,7 +444,7 @@ function Buy() {
             <tbody className="bg-white divide-y-2 divide-amber-100">
               {orders.length === 0 ? (
                 <tr>
-                  <td colSpan="16" className="px-6 py-4 text-center text-gray-500">
+                  <td colSpan="15" className="px-6 py-4 text-center text-gray-500">
                     No buy orders found
                   </td>
                 </tr>
@@ -482,7 +479,6 @@ function Buy() {
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">-</td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">-</td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">-</td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">-</td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <span className={`px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${
                             allConfirmed 
@@ -512,7 +508,6 @@ function Buy() {
                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{order.Under || '-'}</td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{order.Quantity}</td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">₹{order.Amount}</td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{order.Vat || '-'}%</td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">₹{order.VatAmount || '-'}</td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{order.BillNumber || '-'}</td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{order.PhoneNumber || '-'}</td>
@@ -646,25 +641,12 @@ function Buy() {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">VAT *</label>
-                <input
-                  type="text"
-                  name="Vat"
-                  value={formData.Vat}
-                  onChange={handleInputChange}
-                  required
-                  placeholder="e.g., 18%"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">VAT Amount *</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">VAT Amount</label>
                 <input
                   type="text"
                   name="VatAmount"
                   value={formData.VatAmount}
                   onChange={handleInputChange}
-                  required
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
