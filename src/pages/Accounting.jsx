@@ -341,32 +341,32 @@ const Accounting = () => {
         </div>
 
         {/* Amount Breakdown */}
-        <div className="bg-white rounded-lg shadow-md p-6">
-          <h3 className="text-xl font-semibold mb-4">Amount Breakdown</h3>
+        <div className="bg-white border-4 border-amber-200 rounded-2xl shadow-xl p-6">
+          <h3 className="text-2xl font-bold mb-4 text-amber-900">Amount Breakdown</h3>
           <div className="space-y-3">
             <div className="flex justify-between items-center">
-              <span className="text-gray-700">Buy Amount:</span>
-              <span className="font-semibold text-red-600">{formatCurrency(summary.totalBuyAmount)}</span>
+              <span className="text-gray-800 font-medium">Buy Amount:</span>
+              <span className="font-bold text-red-600">{formatCurrency(summary.totalBuyAmount)}</span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-gray-700">Sell Amount:</span>
-              <span className="font-semibold text-green-600">{formatCurrency(summary.totalSellAmount)}</span>
+              <span className="text-gray-800 font-medium">Sell Amount:</span>
+              <span className="font-bold text-green-600">{formatCurrency(summary.totalSellAmount)}</span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-gray-700">Other Credit:</span>
-              <span className="font-semibold text-green-600">{formatCurrency(summary.totalOtherCreditAmount)}</span>
+              <span className="text-gray-800 font-medium">Other Credit:</span>
+              <span className="font-bold text-green-600">{formatCurrency(summary.totalOtherCreditAmount)}</span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-gray-700">Other Debit:</span>
-              <span className="font-semibold text-red-600">{formatCurrency(summary.totalOtherDebitAmount)}</span>
+              <span className="text-gray-800 font-medium">Other Debit:</span>
+              <span className="font-bold text-red-600">{formatCurrency(summary.totalOtherDebitAmount)}</span>
             </div>
           </div>
         </div>
       </div>
 
       {/* Recent Transactions Summary */}
-      <div className="bg-white rounded-lg shadow-md p-6">
-        <h3 className="text-xl font-semibold mb-4">Recent Transactions Summary</h3>
+      <div className="bg-white border-4 border-amber-200 rounded-2xl shadow-xl p-6">
+        <h3 className="text-2xl font-bold mb-4 text-amber-900">Recent Transactions Summary</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {/* Recent Buy */}
           <div className="border border-gray-200 rounded-lg p-4">
