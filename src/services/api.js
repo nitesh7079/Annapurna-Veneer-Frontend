@@ -1,17 +1,17 @@
 import axios from 'axios';
 
 const getApiUrl = () => {
-  // Shyam Veneer - Use deployed backend by default. Change here if you want a different base.
-  const deployed = 'https://shyam-veneer-backend.onrender.com/api/v1';
-  console.log('Shyam Veneer API - Using deployed backend:', deployed);
+  // Annapurna Veneer - Use deployed backend by default. Change here if you want a different base.
+  const deployed = 'https://annapurna-veneer-backend.onrender.com/api/v1';
+  console.log('Annapurna Veneer API - Using deployed backend:', deployed);
   return deployed;
 };
 
-// Shyam Veneer - Test API connectivity
+// Annapurna Veneer - Test API connectivity
 const testApiConnectivity = async (apiUrl) => {
   try {
     const testUrl = apiUrl.replace('/api/v1', '/api/v1/accounts/balance');
-    console.log('Shyam Veneer API - Testing connectivity to:', testUrl);
+    console.log('Annapurna Veneer API - Testing connectivity to:', testUrl);
     
     const response = await fetch(testUrl, {
       method: 'GET',
@@ -20,22 +20,22 @@ const testApiConnectivity = async (apiUrl) => {
     });
     
     if (response.ok) {
-      console.log('Shyam Veneer API - Connectivity test successful');
+      console.log('Annapurna Veneer API - Connectivity test successful');
       return true;
     } else {
-      console.error('Shyam Veneer API - Connectivity test failed with status:', response.status);
+      console.error('Annapurna Veneer API - Connectivity test failed with status:', response.status);
       return false;
     }
   } catch (error) {
-    console.error('Shyam Veneer API - Connectivity test error:', error);
+    console.error('Annapurna Veneer API - Connectivity test error:', error);
     return false;
   }
 };
 
 const apiUrl = getApiUrl();
-console.log('Shyam Veneer - API URL being used:', apiUrl);
-console.log('Shyam Veneer - Current hostname:', window.location.hostname);
-console.log('Shyam Veneer - Current port:', window.location.port);
+console.log('Annapurna Veneer - API URL being used:', apiUrl);
+console.log('Annapurna Veneer - Current hostname:', window.location.hostname);
+console.log('Annapurna Veneer - Current port:', window.location.port);
 
 const api = axios.create({
   baseURL: apiUrl,
