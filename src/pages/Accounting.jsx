@@ -139,11 +139,11 @@ const Accounting = () => {
 
   // Format currency
   const formatCurrency = (amount) => {
-    return new Intl.NumberFormat('en-IN', {
-      style: 'currency',
-      currency: 'INR',
-      minimumFractionDigits: 2
-    }).format(amount);
+    const numAmount = parseFloat(amount) || 0;
+    return `₹${numAmount.toLocaleString('en-US', {
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0
+    })}`;
   };
 
   // Get profit/loss color
