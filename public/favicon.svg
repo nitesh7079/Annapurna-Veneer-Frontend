@@ -6,8 +6,8 @@
   <ellipse cx="16" cy="12" rx="10" ry="2" fill="#fbbf24" opacity="0.3"/>
   <ellipse cx="16" cy="20" rx="8" ry="1.5" fill="#f59e0b" opacity="0.4"/>
   
-  <!-- AV Letters -->
-  <text x="16" y="20" font-family="Arial, sans-serif" font-size="12" font-weight="bold" text-anchor="middle" fill="white">AV</text>
+  <!-- SV Letters -->
+  <text x="16" y="20" font-family="Arial, sans-serif" font-size="12" font-weight="bold" text-anchor="middle" fill="white">SV</text>
   
   <!-- Gradient definition -->
   <defs>

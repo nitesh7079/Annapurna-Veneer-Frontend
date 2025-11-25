@@ -165,7 +165,7 @@ const Login = () => {
           {/* Company Logo/Brand */}
           <div className="mb-6">
             <div className="w-20 h-20 mx-auto bg-gradient-to-br from-amber-600 to-amber-800 rounded-2xl shadow-2xl flex items-center justify-center transform hover:scale-105 transition-transform duration-300">
-              <span className="text-2xl font-bold text-white">AV</span>
+              <span className="text-2xl font-bold text-white">SV</span>
             </div>
           </div>
           <h1 className="text-4xl font-bold bg-gradient-to-r from-amber-800 via-amber-700 to-amber-900 bg-clip-text text-transparent mb-2">
