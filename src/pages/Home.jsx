@@ -16,17 +16,17 @@ const Home = () => {
     { id: 7, name: 'Waterproof Ply', image: './Ply/p7.jpg', price: '₹140/sq.ft' },
     { id: 8, name: 'Block Board', image: './Ply/p8.jpg', price: '₹125/sq.ft' },
     { id: 9, name: 'MDF Board', image: './Ply/p9.jpg', price: '₹100/sq.ft' },
-    { id: 10, name: 'Veneer Sheet', image: './Ply/p10.jpg', price: '₹160/sq.ft' },
+    { id: 10, name: 'Veneer Sheet', image: './Ply/10.jpg', price: '₹160/sq.ft' },
   ];
 
   // Furniture products (placeholder - you'll provide images)
   const furnitureProducts = [
-    { id: 1, name: 'Luxury Sofa Set', image: '/furniture/f1.jpg', price: '₹45,000' },
-    { id: 2, name: 'King Size Bed', image: '/furniture/f2.jpg', price: '₹35,000' },
-    { id: 3, name: 'Dining Table Set', image: '/furniture/f3.jpg', price: '₹28,000' },
-    { id: 4, name: 'Wardrobe', image: '/furniture/f4.jpg', price: '₹50,000' },
-    { id: 5, name: 'Study Table', image: '/furniture/f5.jpg', price: '₹15,000' },
-    { id: 6, name: 'TV Unit', image: '/furniture/f6.jpg', price: '₹22,000' },
+    { id: 1, name: 'Luxury Sofa Set', image: './laxury/Luxury Sofa Set.jpg', price: '₹45,000' },
+    { id: 2, name: 'King Size Bed', image: './laxury/King Size Bed.jpg', price: '₹35,000' },
+    { id: 3, name: 'Dining Table Set', image: './laxury/DiningTableSet.jpg', price: '₹28,000' },
+    { id: 4, name: 'Wardrobe', image: './laxury/Wardrobe.jpg', price: '₹50,000' },
+    { id: 5, name: 'Study Table', image: './laxury/Study Table.jpg', price: '₹15,000' },
+    { id: 6, name: 'TV Unit', image: './laxury/TV Unit.jpg', price: '₹22,000' },
     { id: 7, name: 'Coffee Table', image: '/furniture/f7.jpg', price: '₹12,000' },
     { id: 8, name: 'Bookshelf', image: '/furniture/f8.jpg', price: '₹18,000' },
     { id: 9, name: 'Shoe Rack', image: '/furniture/f9.jpg', price: '₹8,000' },
