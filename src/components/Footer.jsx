@@ -49,8 +49,9 @@ const Footer = () => {
             <p className="text-yellow-300 text-sm font-medium">
               © 2025 Annapurna Veneer. All rights reserved.
             </p>
-            <div className="flex space-x-6 mt-4 md:mt-0">
+            <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-6 mt-4 md:mt-0 items-center">
               <span className="text-cyan-200 text-sm font-medium">Made with ❤️ for quality wood solutions</span>
+              <span className="text-cyan-200 text-sm font-medium">• Created By Nitesh Raj</span>
             </div>
           </div>
         </div>
