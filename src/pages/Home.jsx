@@ -3,6 +3,14 @@ import { useState } from 'react';
 
 const Home = () => {
   const [showComingSoon, setShowComingSoon] = useState(false);
+  const [showChatbot, setShowChatbot] = useState(false);
+  const [chatStep, setChatStep] = useState('greeting'); // greeting, form, submitted
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    message: ''
+  });
 
   // Ply products with images
   const plyProducts = [
@@ -31,6 +39,25 @@ const Home = () => {
   const handleComingSoon = () => {
     setShowComingSoon(true);
     setTimeout(() => setShowComingSoon(false), 3000);
+  };
+
+  const handleFormChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    // TODO: API integration will be added here
+    console.log('Form submitted:', formData);
+    setChatStep('submitted');
+    setTimeout(() => {
+      setShowChatbot(false);
+      setChatStep('greeting');
+      setFormData({ name: '', email: '', phone: '', message: '' });
+    }, 3000);
   };
 
   const ProductCard = ({ product, category }) => (
@@ -98,6 +125,156 @@ const Home = () => {
           </div>
         </div>
       )}
+
+      {/* AI Chatbot */}
+      <div className="fixed bottom-6 right-6 z-50">
+        {/* Chatbot Window */}
+        {showChatbot && (
+          <div className="mb-4 bg-white rounded-2xl shadow-2xl w-80 sm:w-96 animate-fadeInUp border-2 border-amber-600">
+            {/* Header */}
+            <div className="bg-gradient-to-r from-amber-700 to-orange-700 text-white p-4 rounded-t-2xl flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center animate-pulse">
+                  <span className="text-2xl">🤖</span>
+                </div>
+                <div>
+                  <h3 className="font-bold">Shyam Assistant</h3>
+                  <p className="text-xs text-amber-100">Online now</p>
+                </div>
+              </div>
+              <button
+                onClick={() => setShowChatbot(false)}
+                className="text-white hover:bg-white/20 rounded-full w-8 h-8 flex items-center justify-center transition-colors"
+              >
+                ✕
+              </button>
+            </div>
+
+            {/* Chat Body */}
+            <div className="p-6 max-h-96 overflow-y-auto">
+              {/* Greeting Step */}
+              {chatStep === 'greeting' && (
+                <div className="space-y-4">
+                  <div className="bg-amber-100 text-amber-900 p-4 rounded-lg rounded-tl-none animate-fadeIn">
+                    <p className="mb-2">👋 Hello! Welcome to Shyam Veneer!</p>
+                    <p className="mb-3">How are you today?</p>
+                    <p className="text-sm">I'm here to help you with your plywood and furniture needs.</p>
+                  </div>
+                  <button
+                    onClick={() => setChatStep('form')}
+                    className="w-full bg-gradient-to-r from-amber-600 to-orange-600 text-white py-3 rounded-lg font-semibold hover:from-amber-700 hover:to-orange-700 transition-all transform hover:scale-105"
+                  >
+                    I'd like to contact you
+                  </button>
+                </div>
+              )}
+
+              {/* Form Step */}
+              {chatStep === 'form' && (
+                <div className="animate-fadeIn">
+                  <div className="bg-amber-100 text-amber-900 p-4 rounded-lg rounded-tl-none mb-4">
+                    <p className="mb-2">Great! Please fill in your details:</p>
+                    <p className="text-sm">We'll get back to you as soon as possible!</p>
+                  </div>
+                  <form onSubmit={handleFormSubmit} className="space-y-3">
+                    <div>
+                      <label className="block text-sm font-semibold text-gray-700 mb-1">Name *</label>
+                      <input
+                        type="text"
+                        name="name"
+                        value={formData.name}
+                        onChange={handleFormChange}
+                        required
+                        className="w-full px-4 py-2 border border-amber-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent outline-none"
+                        placeholder="Your name"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-semibold text-gray-700 mb-1">Email *</label>
+                      <input
+                        type="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleFormChange}
+                        required
+                        className="w-full px-4 py-2 border border-amber-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent outline-none"
+                        placeholder="your@email.com"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-semibold text-gray-700 mb-1">Phone *</label>
+                      <input
+                        type="tel"
+                        name="phone"
+                        value={formData.phone}
+                        onChange={handleFormChange}
+                        required
+                        className="w-full px-4 py-2 border border-amber-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent outline-none"
+                        placeholder="+977-9860218415"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-semibold text-gray-700 mb-1">Message</label>
+                      <textarea
+                        name="message"
+                        value={formData.message}
+                        onChange={handleFormChange}
+                        rows="3"
+                        className="w-full px-4 py-2 border border-amber-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent outline-none resize-none"
+                        placeholder="How can we help you?"
+                      />
+                    </div>
+                    <div className="flex gap-2">
+                      <button
+                        type="button"
+                        onClick={() => setChatStep('greeting')}
+                        className="flex-1 bg-gray-200 text-gray-700 py-3 rounded-lg font-semibold hover:bg-gray-300 transition-colors"
+                      >
+                        Back
+                      </button>
+                      <button
+                        type="submit"
+                        className="flex-1 bg-gradient-to-r from-amber-600 to-orange-600 text-white py-3 rounded-lg font-semibold hover:from-amber-700 hover:to-orange-700 transition-all"
+                      >
+                        Submit
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              )}
+
+              {/* Submitted Step */}
+              {chatStep === 'submitted' && (
+                <div className="bg-green-100 text-green-800 p-6 rounded-lg text-center animate-fadeIn">
+                  <div className="text-5xl mb-3">✅</div>
+                  <p className="font-bold text-lg mb-2">Thank you!</p>
+                  <p className="text-sm">We've received your message and will contact you soon.</p>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* Chatbot Button */}
+        <button
+          onClick={() => setShowChatbot(!showChatbot)}
+          className="bg-gradient-to-r from-amber-600 to-orange-600 text-white w-16 h-16 rounded-full shadow-2xl hover:from-amber-700 hover:to-orange-700 transition-all transform hover:scale-110 flex items-center justify-center relative group"
+        >
+          {showChatbot ? (
+            <span className="text-2xl">✕</span>
+          ) : (
+            <>
+              <span className="text-3xl animate-bounce-slow">🤖</span>
+              <span className="absolute -top-1 -right-1 w-4 h-4 bg-green-500 border-2 border-white rounded-full animate-pulse"></span>
+            </>
+          )}
+          {!showChatbot && (
+            <span className="absolute -top-12 right-0 bg-gray-800 text-white text-xs px-3 py-2 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+              Need help? Chat with us!
+            </span>
+          )}
+        </button>
+      </div>
 
       {/* Hero Section - Modern & Clean */}
       <section className="relative min-h-[600px] flex items-center justify-center overflow-hidden">
