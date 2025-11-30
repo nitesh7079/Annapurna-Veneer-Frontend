@@ -152,32 +152,32 @@ const NotificationsFixed = () => {
   const statistics = getStatistics();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50">
+    <div className="min-h-screen bg-gradient-to-br from-teal-50 via-cyan-50 to-emerald-50">
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
-        <div className="bg-gradient-to-r from-amber-900 via-amber-800 to-amber-900 rounded-2xl shadow-2xl p-8 mb-8 border-4 border-amber-700">
+        <div className="bg-gradient-to-r from-teal-700 via-teal-600 to-emerald-700 rounded-2xl shadow-2xl p-8 mb-8 border-4 border-teal-600">
           <div className="flex justify-between items-center">
             <div className="flex items-center space-x-4">
-              <div className="bg-amber-100 p-4 rounded-xl shadow-lg">
-                <svg className="w-12 h-12 text-amber-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="bg-cyan-100 p-4 rounded-xl shadow-lg">
+                <svg className="w-12 h-12 text-teal-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
                 </svg>
               </div>
               <div>
-                <h1 className="text-4xl font-bold text-amber-50 tracking-wide drop-shadow-lg">Notifications</h1>
-                <p className="text-amber-200 mt-1 text-sm">Annapurna Veneer - Premium Plywood</p>
+                <h1 className="text-4xl font-bold text-cyan-50 tracking-wide drop-shadow-lg">Notifications</h1>
+                <p className="text-cyan-200 mt-1 text-sm">Annapurna Veneer - Premium Plywood</p>
               </div>
             </div>
             <div className="space-x-3">
               <button
                 onClick={checkOverduePayments}
-                className="bg-gradient-to-r from-orange-600 to-orange-700 hover:from-orange-700 hover:to-orange-800 text-white px-6 py-3 rounded-xl font-semibold shadow-xl hover:shadow-2xl transition-all transform hover:scale-105"
+                className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white px-6 py-3 rounded-xl font-semibold shadow-xl hover:shadow-2xl transition-all transform hover:scale-105"
               >
                 Check Overdue
               </button>
               <button
                 onClick={fetchNotifications}
-                className="bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-700 hover:to-amber-800 text-white px-6 py-3 rounded-xl font-semibold shadow-xl hover:shadow-2xl transition-all transform hover:scale-105"
+                className="bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700 text-white px-6 py-3 rounded-xl font-semibold shadow-xl hover:shadow-2xl transition-all transform hover:scale-105"
               >
                 Refresh
               </button>
@@ -199,7 +199,7 @@ const NotificationsFixed = () => {
 
         {/* Statistics Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-          <div className="bg-white border-4 border-amber-300 p-6 rounded-2xl shadow-2xl hover:shadow-3xl transition-shadow">
+          <div className="bg-white border-4 border-teal-300 p-6 rounded-2xl shadow-2xl hover:shadow-3xl transition-shadow">
             <div className="flex items-center">
               <div className="p-4 rounded-xl bg-gradient-to-br from-blue-100 to-blue-200 shadow-lg">
                 <svg className="w-10 h-10 text-blue-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -207,13 +207,13 @@ const NotificationsFixed = () => {
                 </svg>
               </div>
               <div className="ml-4">
-                <h3 className="text-lg font-bold text-amber-900">Total Notifications</h3>
+                <h3 className="text-lg font-bold text-teal-900">Total Notifications</h3>
                 <p className="text-4xl font-bold text-blue-600">{statistics.total}</p>
               </div>
             </div>
           </div>
 
-          <div className="bg-white border-4 border-amber-300 p-6 rounded-2xl shadow-2xl hover:shadow-3xl transition-shadow">
+          <div className="bg-white border-4 border-teal-300 p-6 rounded-2xl shadow-2xl hover:shadow-3xl transition-shadow">
             <div className="flex items-center">
               <div className="p-4 rounded-xl bg-gradient-to-br from-red-100 to-red-200 shadow-lg">
                 <svg className="w-10 h-10 text-red-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -221,13 +221,13 @@ const NotificationsFixed = () => {
                 </svg>
               </div>
               <div className="ml-4">
-                <h3 className="text-lg font-bold text-amber-900">Unread</h3>
+                <h3 className="text-lg font-bold text-teal-900">Unread</h3>
                 <p className="text-4xl font-bold text-red-600">{statistics.unread}</p>
               </div>
             </div>
           </div>
 
-          <div className="bg-white border-4 border-amber-300 p-6 rounded-2xl shadow-2xl hover:shadow-3xl transition-shadow">
+          <div className="bg-white border-4 border-teal-300 p-6 rounded-2xl shadow-2xl hover:shadow-3xl transition-shadow">
             <div className="flex items-center">
               <div className="p-4 rounded-xl bg-gradient-to-br from-green-100 to-green-200 shadow-lg">
                 <svg className="w-10 h-10 text-green-700" fill="currentColor" viewBox="0 0 20 20">
@@ -235,7 +235,7 @@ const NotificationsFixed = () => {
                 </svg>
               </div>
               <div className="ml-4">
-                <h3 className="text-lg font-bold text-amber-900">Read</h3>
+                <h3 className="text-lg font-bold text-teal-900">Read</h3>
                 <p className="text-4xl font-bold text-green-600">{statistics.read}</p>
               </div>
             </div>
@@ -243,8 +243,8 @@ const NotificationsFixed = () => {
         </div>
 
         {/* Filter Controls */}
-        <div className="bg-white border-4 border-amber-200 rounded-2xl shadow-2xl p-6">
-          <h3 className="text-2xl font-bold text-amber-900 mb-6">Filter & Search</h3>
+        <div className="bg-white border-4 border-teal-200 rounded-2xl shadow-2xl p-6">
+          <h3 className="text-2xl font-bold text-teal-900 mb-6">Filter & Search</h3>
           
           {/* Quick Filter Buttons */}
           <div className="mb-6">
@@ -253,8 +253,8 @@ const NotificationsFixed = () => {
                 onClick={() => setFilterType('all')}
                 className={`px-6 py-3 rounded-xl text-sm font-medium transition-all transform hover:scale-105 ${
                   filterType === 'all'
-                    ? 'bg-gradient-to-r from-amber-600 to-amber-700 text-white shadow-xl'
-                    : 'bg-amber-100 text-amber-900 hover:bg-amber-200 border-2 border-amber-300'
+                    ? 'bg-gradient-to-r from-yellow-500 to-yellow-600 text-white shadow-xl'
+                    : 'bg-cyan-100 text-teal-900 hover:bg-teal-200 border-2 border-teal-300'
                 }`}
               >
                 All ({statistics.total})
@@ -286,34 +286,34 @@ const NotificationsFixed = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {/* Customer Name Search */}
             <div>
-              <label className="block text-sm font-bold text-amber-900 mb-2">Search by Customer Name</label>
+              <label className="block text-sm font-bold text-teal-900 mb-2">Search by Customer Name</label>
               <input
                 type="text"
                 value={searchName}
                 onChange={(e) => setSearchName(e.target.value)}
                 placeholder="Enter customer name..."
-                className="w-full px-4 py-3 border-2 border-amber-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all"
+                className="w-full px-4 py-3 border-2 border-teal-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-yellow-400 transition-all"
               />
             </div>
 
             {/* Date Filter */}
             <div>
-              <label className="block text-sm font-bold text-amber-900 mb-2">Filter by Date</label>
+              <label className="block text-sm font-bold text-teal-900 mb-2">Filter by Date</label>
               <input
                 type="date"
                 value={searchDate}
                 onChange={(e) => setSearchDate(e.target.value)}
-                className="w-full px-4 py-3 border-2 border-amber-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all"
+                className="w-full px-4 py-3 border-2 border-teal-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-yellow-400 transition-all"
               />
             </div>
 
             {/* Transaction Type Filter */}
             <div>
-              <label className="block text-sm font-bold text-amber-900 mb-2">Transaction Type</label>
+              <label className="block text-sm font-bold text-teal-900 mb-2">Transaction Type</label>
               <select
                 value={transactionTypeFilter}
                 onChange={(e) => setTransactionTypeFilter(e.target.value)}
-                className="w-full px-4 py-3 border-2 border-amber-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all"
+                className="w-full px-4 py-3 border-2 border-teal-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-yellow-400 transition-all"
               >
                 <option value="all">All Types</option>
                 <option value="Buy">Buy</option>
@@ -332,7 +332,7 @@ const NotificationsFixed = () => {
                   setSearchDate('');
                   setTransactionTypeFilter('all');
                 }}
-                className="w-full px-4 py-3 bg-gradient-to-r from-orange-600 to-orange-700 hover:from-orange-700 hover:to-orange-800 text-white rounded-xl shadow-xl hover:shadow-2xl transition-all transform hover:scale-105"
+                className="w-full px-4 py-3 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white rounded-xl shadow-xl hover:shadow-2xl transition-all transform hover:scale-105"
               >
                 Clear All Filters
               </button>
@@ -340,50 +340,50 @@ const NotificationsFixed = () => {
           </div>
 
           {/* Results Summary */}
-          <div className="mt-6 p-4 bg-amber-50 border-2 border-amber-200 rounded-xl">
-            <p className="text-sm text-amber-900 font-semibold">
-              Showing <span className="text-amber-700 text-lg">{filteredNotifications.length}</span> of <span className="text-amber-700 text-lg">{statistics.total}</span> notifications
+          <div className="mt-6 p-4 bg-teal-50 border-2 border-teal-200 rounded-xl">
+            <p className="text-sm text-teal-900 font-semibold">
+              Showing <span className="text-teal-700 text-lg">{filteredNotifications.length}</span> of <span className="text-teal-700 text-lg">{statistics.total}</span> notifications
             </p>
           </div>
         </div>
 
         {/* Notifications List */}
-        <div className="bg-white border-4 border-amber-200 rounded-2xl shadow-2xl overflow-hidden">
+        <div className="bg-white border-4 border-teal-200 rounded-2xl shadow-2xl overflow-hidden">
           {filteredNotifications.length === 0 ? (
-            <div className="p-12 text-center text-amber-800">
+            <div className="p-12 text-center text-teal-800">
               {notifications.length === 0 ? (
                 <div>
                   <div className="text-6xl mb-4">🎉</div>
-                  <p className="text-xl font-bold text-amber-900">No notifications found</p>
-                  <p className="text-sm text-amber-700">All caught up!</p>
+                  <p className="text-xl font-bold text-teal-900">No notifications found</p>
+                  <p className="text-sm text-teal-700">All caught up!</p>
                 </div>
               ) : (
                 <div>
                   <div className="text-6xl mb-4">🔍</div>
-                  <p className="text-xl font-bold text-amber-900">No notifications match your filters</p>
-                  <p className="text-sm text-amber-700">Try adjusting your search criteria</p>
+                  <p className="text-xl font-bold text-teal-900">No notifications match your filters</p>
+                  <p className="text-sm text-teal-700">Try adjusting your search criteria</p>
                 </div>
               )}
             </div>
           ) : (
-            <div className="divide-y divide-amber-200">
+            <div className="divide-y divide-teal-200">
               {filteredNotifications.map((notification) => (
                 <div
                   key={notification._id}
                   className={`p-6 transition-colors ${
                     notification.IsReaded 
-                      ? 'bg-amber-50/30' 
-                      : 'bg-white border-l-4 border-amber-600 shadow-lg'
+                      ? 'bg-teal-50/30' 
+                      : 'bg-white border-l-4 border-teal-600 shadow-lg'
                   }`}
                 >
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
                       <div className="flex items-center space-x-3 mb-3">
-                        <h3 className="text-xl font-bold text-amber-900">
+                        <h3 className="text-xl font-bold text-teal-900">
                           {notification.CustomerName}
                         </h3>
                         {!notification.IsReaded && (
-                          <span className="inline-flex items-center px-3 py-1 rounded-xl text-xs font-bold bg-gradient-to-r from-amber-200 to-amber-300 text-amber-900 border-2 border-amber-400 shadow-md">
+                          <span className="inline-flex items-center px-3 py-1 rounded-xl text-xs font-bold bg-gradient-to-r from-cyan-200 to-teal-300 text-teal-900 border-2 border-teal-400 shadow-md">
                             NEW
                           </span>
                         )}
@@ -404,7 +404,7 @@ const NotificationsFixed = () => {
                         )}
                       </div>
                       
-                      <p className="text-amber-900 mb-3">
+                      <p className="text-teal-900 mb-3">
                         <span className="font-bold">Item:</span> {notification.ItemName}
                       </p>
                       
@@ -425,7 +425,7 @@ const NotificationsFixed = () => {
                         </div>
                       </div>
                       
-                      <p className="text-sm text-amber-700 font-semibold">
+                      <p className="text-sm text-teal-700 font-semibold">
                         <span className="font-bold">Created:</span> {formatDate(notification.createdAt || notification.NotificationDate)}
                       </p>
                     </div>
@@ -437,7 +437,7 @@ const NotificationsFixed = () => {
                           disabled={markingAsRead === notification._id}
                           className={`px-6 py-2 text-sm font-bold rounded-xl transition-all transform ${
                             markingAsRead === notification._id
-                              ? 'bg-amber-200 text-amber-500 cursor-not-allowed'
+                              ? 'bg-teal-200 text-cyan-500 cursor-not-allowed'
                               : 'bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white shadow-xl hover:scale-105'
                           }`}
                         >
@@ -464,3 +464,6 @@ const NotificationsFixed = () => {
 };
 
 export default NotificationsFixed;
+
+
+

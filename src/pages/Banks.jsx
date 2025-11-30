@@ -176,24 +176,24 @@ const Banks = () => {
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50 p-6">
+        <div className="min-h-screen bg-gradient-to-br from-teal-50 via-cyan-50 to-emerald-50 p-6">
             <div className="max-w-7xl mx-auto">
-                <div className="bg-gradient-to-r from-amber-900 via-amber-800 to-amber-900 rounded-2xl shadow-2xl p-8 mb-6 border-4 border-amber-700">
+                <div className="bg-gradient-to-r from-teal-800 via-teal-700 to-emerald-800 rounded-2xl shadow-2xl p-8 mb-6 border-4 border-teal-600">
                     <div className="flex justify-between items-center">
                         <div className="flex items-center space-x-4">
-                            <div className="bg-amber-100 p-4 rounded-xl shadow-lg">
-                                <svg className="w-12 h-12 text-amber-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <div className="bg-cyan-100 p-4 rounded-xl shadow-lg">
+                                <svg className="w-12 h-12 text-teal-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
                                 </svg>
                             </div>
                             <div>
-                                <h1 className="text-4xl font-bold text-amber-50 tracking-wide drop-shadow-lg">Bank Accounts</h1>
-                                <p className="text-amber-200 mt-1 text-sm">Annapurna Veneer - Premium Plywood</p>
+                                <h1 className="text-4xl font-bold text-cyan-50 tracking-wide drop-shadow-lg">Bank Accounts</h1>
+                                <p className="text-cyan-200 mt-1 text-sm">Annapurna Veneer - Premium Plywood</p>
                             </div>
                         </div>
                         <button
                             onClick={() => setShowAddForm(true)}
-                            className="bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-700 hover:to-amber-800 text-white px-8 py-3 rounded-xl font-semibold shadow-xl hover:shadow-2xl transition-all transform hover:scale-105 border-2 border-amber-500"
+                            className="bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700 text-white px-8 py-3 rounded-xl font-semibold shadow-xl hover:shadow-2xl transition-all transform hover:scale-105 border-2 border-yellow-400"
                         >
                             <span className="flex items-center">
                                 <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -210,7 +210,7 @@ const Banks = () => {
                             placeholder="Search banks by name, account number, holder name, or branch..."
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
-                            className="w-full px-4 py-3 border-2 border-amber-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 bg-white shadow-sm"
+                            className="w-full px-4 py-3 border-2 border-teal-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 bg-white shadow-sm"
                         />
                     </div>
                 </div>
@@ -229,10 +229,10 @@ const Banks = () => {
                 {!selectedBank && (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         {filteredBanks.map((bank) => (
-                            <div key={bank._id} className="bg-white border-4 border-amber-200 rounded-2xl shadow-xl p-6 hover:shadow-2xl hover:border-amber-300 transition-all duration-300">
+                            <div key={bank._id} className="bg-white border-4 border-teal-200 rounded-2xl shadow-xl p-6 hover:shadow-2xl hover:border-teal-300 transition-all duration-300">
                                 <div className="flex justify-between items-start mb-4">
                                     <div className="flex items-center gap-2">
-                                        <h3 className="text-xl font-bold text-amber-900">{bank.bankName}</h3>
+                                        <h3 className="text-xl font-bold text-teal-900">{bank.bankName}</h3>
                                         <span className={`px-3 py-1 rounded-xl text-xs font-semibold shadow-sm ${
                                             bank.isActive ? 'bg-green-100 text-green-800 border-2 border-green-300' : 'bg-red-100 text-red-800 border-2 border-red-300'
                                         }`}>
@@ -242,26 +242,26 @@ const Banks = () => {
                                     <span className={`px-3 py-1 rounded-xl text-xs font-semibold shadow-sm ${
                                         bank.accountType === 'Current' ? 'bg-blue-100 text-blue-800 border-2 border-blue-300' :
                                         bank.accountType === 'Savings' ? 'bg-green-100 text-green-800 border-2 border-green-300' :
-                                        'bg-amber-100 text-amber-800 border-2 border-amber-300'
+                                        'bg-teal-100 text-teal-800 border-2 border-teal-300'
                                     }`}>
                                         {bank.accountType}
                                     </span>
                                 </div>
                                 
                                 <div className="space-y-2 text-sm text-gray-700">
-                                    <p><span className="font-semibold text-amber-900">Account Holder:</span> {bank.accountHolderName}</p>
-                                    <p><span className="font-semibold text-amber-900">Account No:</span> ****{bank.accountNumber.slice(-4)}</p>
-                                    <p><span className="font-semibold text-amber-900">IFSC:</span> {bank.ifscCode}</p>
-                                    <p><span className="font-semibold text-amber-900">Branch:</span> {bank.branchName}</p>
+                                    <p><span className="font-semibold text-teal-900">Account Holder:</span> {bank.accountHolderName}</p>
+                                    <p><span className="font-semibold text-teal-900">Account No:</span> ****{bank.accountNumber.slice(-4)}</p>
+                                    <p><span className="font-semibold text-teal-900">IFSC:</span> {bank.ifscCode}</p>
+                                    <p><span className="font-semibold text-teal-900">Branch:</span> {bank.branchName}</p>
                                     {bank.contactPerson && (
-                                        <p><span className="font-semibold text-amber-900">Contact:</span> {bank.contactPerson}</p>
+                                        <p><span className="font-semibold text-teal-900">Contact:</span> {bank.contactPerson}</p>
                                     )}
                                 </div>
 
-                                <div className="mt-4 pt-4 border-t-2 border-amber-200 space-y-2">
+                                <div className="mt-4 pt-4 border-t-2 border-teal-200 space-y-2">
                                     <button
                                         onClick={() => handleViewTransactions(bank)}
-                                        className="w-full bg-gradient-to-r from-amber-100 to-amber-200 text-amber-900 font-semibold px-4 py-2 rounded-xl hover:from-amber-200 hover:to-amber-300 shadow-md hover:shadow-lg transition-all"
+                                        className="w-full bg-gradient-to-r from-teal-100 to-cyan-200 text-teal-900 font-semibold px-4 py-2 rounded-xl hover:from-teal-200 hover:to-cyan-300 shadow-md hover:shadow-lg transition-all"
                                     >
                                         View Transactions
                                     </button>
@@ -578,3 +578,5 @@ const Banks = () => {
 };
 
 export default Banks;
+
+

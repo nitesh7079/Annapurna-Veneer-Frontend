@@ -137,44 +137,44 @@ const Login = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50 flex items-center justify-center relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-teal-50 via-cyan-50 to-emerald-50 flex items-center justify-center relative overflow-hidden">
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {/* Floating Plywood Sheets */}
-        <div className="absolute top-10 left-10 w-32 h-20 bg-gradient-to-r from-amber-200 to-amber-300 rounded-lg shadow-xl opacity-20 animate-bounce-slow transform rotate-12"></div>
-        <div className="absolute top-32 right-20 w-24 h-16 bg-gradient-to-r from-orange-200 to-orange-300 rounded-lg shadow-xl opacity-30 animate-float transform -rotate-6"></div>
-        <div className="absolute bottom-32 left-32 w-40 h-24 bg-gradient-to-r from-yellow-200 to-amber-200 rounded-lg shadow-xl opacity-25 animate-pulse transform rotate-3"></div>
+        <div className="absolute top-10 left-10 w-32 h-20 bg-gradient-to-r from-teal-200 to-cyan-300 rounded-lg shadow-xl opacity-20 animate-bounce-slow transform rotate-12"></div>
+        <div className="absolute top-32 right-20 w-24 h-16 bg-gradient-to-r from-cyan-200 to-teal-300 rounded-lg shadow-xl opacity-30 animate-float transform -rotate-6"></div>
+        <div className="absolute bottom-32 left-32 w-40 h-24 bg-gradient-to-r from-emerald-200 to-teal-200 rounded-lg shadow-xl opacity-25 animate-pulse transform rotate-3"></div>
         
         {/* Furniture Silhouettes */}
-        <div className="absolute top-20 right-32 w-16 h-24 bg-amber-300 opacity-15 animate-sway rounded-t-lg"></div>
-        <div className="absolute bottom-20 right-10 w-20 h-12 bg-orange-300 opacity-20 animate-float-slow rounded-lg"></div>
-        <div className="absolute top-1/2 left-5 w-12 h-20 bg-yellow-400 opacity-15 animate-bounce-slow rounded-lg"></div>
+        <div className="absolute top-20 right-32 w-16 h-24 bg-teal-300 opacity-15 animate-sway rounded-t-lg"></div>
+        <div className="absolute bottom-20 right-10 w-20 h-12 bg-cyan-300 opacity-20 animate-float-slow rounded-lg"></div>
+        <div className="absolute top-1/2 left-5 w-12 h-20 bg-emerald-400 opacity-15 animate-bounce-slow rounded-lg"></div>
         
         {/* Wood Grain Patterns */}
-        <div className="absolute top-1/4 left-1/4 w-48 h-2 bg-amber-400 opacity-10 animate-slide-right rounded-full"></div>
-        <div className="absolute bottom-1/4 right-1/4 w-32 h-2 bg-orange-400 opacity-15 animate-slide-left rounded-full"></div>
+        <div className="absolute top-1/4 left-1/4 w-48 h-2 bg-teal-400 opacity-10 animate-slide-right rounded-full"></div>
+        <div className="absolute bottom-1/4 right-1/4 w-32 h-2 bg-cyan-400 opacity-15 animate-slide-left rounded-full"></div>
         
         {/* Sawdust Particles */}
-        <div className="absolute top-16 left-1/2 w-2 h-2 bg-amber-500 opacity-30 animate-ping rounded-full"></div>
-        <div className="absolute bottom-40 left-1/3 w-1 h-1 bg-orange-500 opacity-40 animate-pulse rounded-full"></div>
-        <div className="absolute top-1/3 right-1/3 w-1.5 h-1.5 bg-yellow-500 opacity-35 animate-bounce rounded-full"></div>
+        <div className="absolute top-16 left-1/2 w-2 h-2 bg-teal-500 opacity-30 animate-ping rounded-full"></div>
+        <div className="absolute bottom-40 left-1/3 w-1 h-1 bg-cyan-500 opacity-40 animate-pulse rounded-full"></div>
+        <div className="absolute top-1/3 right-1/3 w-1.5 h-1.5 bg-emerald-500 opacity-35 animate-bounce rounded-full"></div>
       </div>
       
-      <div className="max-w-md w-full bg-gradient-to-br from-amber-50 to-orange-50 rounded-2xl shadow-2xl border-4 border-amber-200 p-8 backdrop-blur-sm relative z-10">
+      <div className="max-w-md w-full bg-gradient-to-br from-teal-50 to-cyan-100 rounded-2xl shadow-2xl border-4 border-teal-300 p-8 backdrop-blur-sm relative z-10">
         <div className="text-center mb-8">
           {/* Company Logo/Brand */}
           <div className="mb-6">
-            <div className="w-20 h-20 mx-auto bg-gradient-to-br from-amber-600 to-amber-800 rounded-2xl shadow-2xl flex items-center justify-center transform hover:scale-105 transition-transform duration-300">
+            <div className="w-20 h-20 mx-auto bg-gradient-to-br from-teal-600 to-emerald-700 rounded-2xl shadow-2xl flex items-center justify-center transform hover:scale-105 transition-transform duration-300">
               <span className="text-2xl font-bold text-white">AV</span>
             </div>
           </div>
-          <h1 className="text-4xl font-bold bg-gradient-to-r from-amber-800 via-amber-700 to-amber-900 bg-clip-text text-transparent mb-2">
+          <h1 className="text-4xl font-bold bg-gradient-to-r from-teal-800 via-teal-700 to-emerald-800 bg-clip-text text-transparent mb-2">
             {isLogin ? 'Welcome Back' : 'Join Us'}
           </h1>
-          <p className="text-amber-700 text-lg font-medium">
+          <p className="text-teal-700 text-lg font-medium">
             Annapurna Veneer - Premium Plywood Solutions
           </p>
-          <p className="text-amber-600 mt-1">
+          <p className="text-teal-600 mt-1">
             {isLogin ? 'Sign in to your account' : 'Create your account today'}
           </p>
         </div>
@@ -191,7 +191,7 @@ const Login = () => {
         <form onSubmit={handleSubmit} className="space-y-6">
           {!isLogin && (
             <div>
-              <label className="block text-sm font-bold text-amber-800 mb-2">
+              <label className="block text-sm font-bold text-teal-800 mb-2">
                 Full Name
               </label>
               <input
@@ -200,14 +200,14 @@ const Login = () => {
                 value={formData.fullName}
                 onChange={handleChange}
                 required={!isLogin}
-                className="w-full px-4 py-3 border-2 border-amber-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 bg-white shadow-lg transition-all duration-300 hover:shadow-xl"
+                className="w-full px-4 py-3 border-2 border-teal-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 bg-white shadow-lg transition-all duration-300 hover:shadow-xl"
                 placeholder="Enter your full name"
               />
             </div>
           )}
 
           <div>
-            <label className="block text-sm font-bold text-amber-800 mb-2">
+            <label className="block text-sm font-bold text-teal-800 mb-2">
               Email
             </label>
             <input
@@ -216,13 +216,13 @@ const Login = () => {
               value={formData.email}
               onChange={handleChange}
               required
-              className="w-full px-4 py-3 border-2 border-amber-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 bg-white shadow-lg transition-all duration-300 hover:shadow-xl"
+              className="w-full px-4 py-3 border-2 border-teal-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 bg-white shadow-lg transition-all duration-300 hover:shadow-xl"
               placeholder="Enter your email"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-bold text-amber-800 mb-2">
+            <label className="block text-sm font-bold text-teal-800 mb-2">
               Password
             </label>
             <input
@@ -231,14 +231,14 @@ const Login = () => {
               value={formData.password}
               onChange={handleChange}
               required
-              className="w-full px-4 py-3 border-2 border-amber-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 bg-white shadow-lg transition-all duration-300 hover:shadow-xl"
+              className="w-full px-4 py-3 border-2 border-teal-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 bg-white shadow-lg transition-all duration-300 hover:shadow-xl"
               placeholder="Enter your password"
             />
           </div>
 
           {!isLogin && (
             <div>
-              <label className="block text-sm font-bold text-amber-800 mb-2">
+              <label className="block text-sm font-bold text-teal-800 mb-2">
                 Phone Number
               </label>
               <input
@@ -247,7 +247,7 @@ const Login = () => {
                 value={formData.PhoneNo}
                 onChange={handleChange}
                 required={!isLogin}
-                className="w-full px-4 py-3 border-2 border-amber-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 bg-white shadow-lg transition-all duration-300 hover:shadow-xl"
+                className="w-full px-4 py-3 border-2 border-teal-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 bg-white shadow-lg transition-all duration-300 hover:shadow-xl"
                 placeholder="Enter your phone number"
               />
             </div>
@@ -256,7 +256,7 @@ const Login = () => {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-700 hover:to-amber-800 text-white font-bold py-4 px-6 rounded-xl shadow-2xl transition-all duration-300 transform hover:scale-105 hover:shadow-3xl disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700 text-white font-bold py-4 px-6 rounded-xl shadow-2xl transition-all duration-300 transform hover:scale-105 hover:shadow-3xl disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {loading ? 'Please wait...' : (isLogin ? 'Login' : 'Register')}
           </button>
@@ -265,7 +265,7 @@ const Login = () => {
         <div className="mt-8 text-center">
           <button
             onClick={toggleMode}
-            className="text-amber-700 hover:text-amber-900 text-sm font-semibold transition-colors duration-300 hover:underline"
+            className="text-teal-700 hover:text-teal-900 text-sm font-semibold transition-colors duration-300 hover:underline"
           >
             {isLogin 
               ? "Don't have an account? Register here" 
@@ -274,11 +274,11 @@ const Login = () => {
           </button>
         </div>
 
-        <div className="mt-6 p-4 bg-gradient-to-r from-amber-100 to-orange-100 border-2 border-amber-300 rounded-xl shadow-lg">
-          <p className="text-sm text-amber-800 text-center">
-            <strong className="text-amber-900">🏭 Premium Plywood Solutions</strong>
+        <div className="mt-6 p-4 bg-gradient-to-r from-teal-100 to-cyan-100 border-2 border-teal-300 rounded-xl shadow-lg">
+          <p className="text-sm text-teal-800 text-center">
+            <strong className="text-teal-900">🏭 Premium Plywood Solutions</strong>
             <br />
-            <span className="text-amber-700">Quality wood products for your furniture needs</span>
+            <span className="text-teal-700">Quality wood products for your furniture needs</span>
           </p>
         </div>
       </div>
@@ -287,3 +287,5 @@ const Login = () => {
 };
 
 export default Login;
+
+

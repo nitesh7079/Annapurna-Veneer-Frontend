@@ -286,20 +286,20 @@ function Sell() {
   if (loading) return <LoadingSpinner />;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50">
+    <div className="min-h-screen bg-gradient-to-br from-teal-50 via-cyan-50 to-emerald-50">
       <div className="container mx-auto px-4 py-8">
       {/* Header Section with Wood Theme */}
-      <div className="bg-gradient-to-r from-amber-900 via-amber-800 to-amber-900 rounded-2xl shadow-2xl p-8 mb-8 border-4 border-amber-700">
+      <div className="bg-gradient-to-r from-teal-800 via-teal-700 to-emerald-800 rounded-2xl shadow-2xl p-8 mb-8 border-4 border-teal-600">
         <div className="flex justify-between items-center">
           <div className="flex items-center space-x-4">
-            <div className="bg-amber-100 p-4 rounded-xl shadow-lg">
-              <svg className="w-12 h-12 text-amber-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="bg-cyan-100 p-4 rounded-xl shadow-lg">
+              <svg className="w-12 h-12 text-teal-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
             </div>
             <div>
-              <h1 className="text-4xl font-bold text-amber-50 tracking-wide drop-shadow-lg">Sales Orders</h1>
-              <p className="text-amber-200 mt-1 text-sm">Annapurna Veneer - Premium Plywood</p>
+              <h1 className="text-4xl font-bold text-cyan-50 tracking-wide drop-shadow-lg">Sales Orders</h1>
+              <p className="text-cyan-200 mt-1 text-sm">Annapurna Veneer - Premium Plywood</p>
             </div>
           </div>
           <div className="space-x-3">
@@ -316,7 +316,7 @@ function Sell() {
             </button>
             <button
               onClick={() => setShowAddModal(true)}
-              className="bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-700 hover:to-amber-800 text-white px-8 py-3 rounded-xl font-semibold shadow-xl hover:shadow-2xl transition-all transform hover:scale-105 border-2 border-amber-500"
+              className="bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700 text-white px-8 py-3 rounded-xl font-semibold shadow-xl hover:shadow-2xl transition-all transform hover:scale-105 border-2 border-yellow-400"
             >
               <span className="flex items-center">
                 <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -352,49 +352,49 @@ function Sell() {
       )}
 
       {/* Filter Section with Wood Theme */}
-      <div className="bg-white rounded-2xl shadow-xl p-6 mb-6 border-4 border-amber-200">
-        <h2 className="text-2xl font-bold mb-6 text-amber-900 flex items-center">
-          <svg className="w-7 h-7 mr-3 text-amber-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <div className="bg-white rounded-2xl shadow-xl p-6 mb-6 border-4 border-teal-200">
+        <h2 className="text-2xl font-bold mb-6 text-teal-900 flex items-center">
+          <svg className="w-7 h-7 mr-3 text-teal-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
           </svg>
           Search & Filter Orders
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           <div>
-            <label className="block text-sm font-semibold text-amber-900 mb-2">Customer Name</label>
+            <label className="block text-sm font-semibold text-teal-900 mb-2">Customer Name</label>
             <input
               type="text"
               name="customerName"
               value={filters.customerName}
               onChange={handleFilterChange}
               placeholder="Search by name..."
-              className="w-full px-4 py-3 border-2 border-amber-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 bg-white shadow-sm"
+              className="w-full px-4 py-3 border-2 border-teal-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 bg-white shadow-sm"
             />
           </div>
           <div>
-            <label className="block text-sm font-semibold text-amber-900 mb-2">Date From</label>
+            <label className="block text-sm font-semibold text-teal-900 mb-2">Date From</label>
             <input
               type="date"
               name="dateFrom"
               value={filters.dateFrom}
               onChange={handleFilterChange}
-              className="w-full px-4 py-3 border-2 border-amber-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 bg-white shadow-sm"
+              className="w-full px-4 py-3 border-2 border-teal-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 bg-white shadow-sm"
             />
           </div>
           <div>
-            <label className="block text-sm font-semibold text-amber-900 mb-2">Date To</label>
+            <label className="block text-sm font-semibold text-teal-900 mb-2">Date To</label>
             <input
               type="date"
               name="dateTo"
               value={filters.dateTo}
               onChange={handleFilterChange}
-              className="w-full px-4 py-3 border-2 border-amber-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 bg-white shadow-sm"
+              className="w-full px-4 py-3 border-2 border-teal-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 bg-white shadow-sm"
             />
           </div>
           <div className="flex items-end">
             <button
               onClick={clearFilters}
-              className="w-full px-6 py-3 bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-700 hover:to-amber-800 text-white rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all transform hover:scale-105"
+              className="w-full px-6 py-3 bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-700 hover:to-emerald-700 text-white rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all transform hover:scale-105"
             >
               Clear Filters
             </button>
@@ -405,30 +405,30 @@ function Sell() {
       {loading && <LoadingSpinner />}
 
       {/* Orders Table with Wood Theme */}
-      <div className="bg-white shadow-2xl rounded-2xl overflow-hidden border-4 border-amber-200">
+      <div className="bg-white shadow-2xl rounded-2xl overflow-hidden border-4 border-teal-200">
         <div className="overflow-x-auto">
-          <table className="min-w-full divide-y-2 divide-amber-200">
-            <thead className="bg-gradient-to-r from-amber-800 via-amber-700 to-amber-800">
+          <table className="min-w-full divide-y-2 divide-teal-200">
+            <thead className="bg-gradient-to-r from-teal-800 via-teal-700 to-emerald-800">
               <tr>
-                <th className="px-6 py-4 text-left text-xs font-bold text-amber-50 uppercase tracking-wider border-r border-amber-600">Order#</th>
-                <th className="px-6 py-4 text-left text-xs font-bold text-amber-50 uppercase tracking-wider border-r border-amber-600">Customer</th>
-                <th className="px-6 py-4 text-left text-xs font-bold text-amber-50 uppercase tracking-wider border-r border-amber-600">Item</th>
-                <th className="px-6 py-4 text-left text-xs font-bold text-amber-50 uppercase tracking-wider border-r border-amber-600">Under</th>
-                <th className="px-6 py-4 text-left text-xs font-bold text-amber-50 uppercase tracking-wider border-r border-amber-600">Quantity</th>
-                <th className="px-6 py-4 text-left text-xs font-bold text-amber-50 uppercase tracking-wider border-r border-amber-600">Amount</th>
-                <th className="px-6 py-4 text-left text-xs font-bold text-amber-50 uppercase tracking-wider border-r border-amber-600">VAT Amount</th>
-                <th className="px-6 py-4 text-left text-xs font-bold text-amber-50 uppercase tracking-wider border-r border-amber-600">Bill#</th>
-                <th className="px-6 py-4 text-left text-xs font-bold text-amber-50 uppercase tracking-wider border-r border-amber-600">Custom Charges</th>
-                <th className="px-6 py-4 text-left text-xs font-bold text-amber-50 uppercase tracking-wider border-r border-amber-600">Phone</th>
-                <th className="px-6 py-4 text-left text-xs font-bold text-amber-50 uppercase tracking-wider border-r border-amber-600">Vehicle</th>
-                <th className="px-6 py-4 text-left text-xs font-bold text-amber-50 uppercase tracking-wider border-r border-amber-600">Payment Status</th>
-                <th className="px-6 py-4 text-left text-xs font-bold text-amber-50 uppercase tracking-wider border-r border-amber-600">Payment Deadline</th>
-                <th className="px-6 py-4 text-left text-xs font-bold text-amber-50 uppercase tracking-wider border-r border-amber-600">Mode of Payment</th>
-                <th className="px-6 py-4 text-left text-xs font-bold text-amber-50 uppercase tracking-wider border-r border-amber-600">Delivery Address</th>
-                <th className="px-6 py-4 text-left text-xs font-bold text-amber-50 uppercase tracking-wider">Actions</th>
+                <th className="px-6 py-4 text-left text-xs font-bold text-cyan-50 uppercase tracking-wider border-r border-teal-600">Order#</th>
+                <th className="px-6 py-4 text-left text-xs font-bold text-cyan-50 uppercase tracking-wider border-r border-teal-600">Customer</th>
+                <th className="px-6 py-4 text-left text-xs font-bold text-cyan-50 uppercase tracking-wider border-r border-teal-600">Item</th>
+                <th className="px-6 py-4 text-left text-xs font-bold text-cyan-50 uppercase tracking-wider border-r border-teal-600">Under</th>
+                <th className="px-6 py-4 text-left text-xs font-bold text-cyan-50 uppercase tracking-wider border-r border-teal-600">Quantity</th>
+                <th className="px-6 py-4 text-left text-xs font-bold text-cyan-50 uppercase tracking-wider border-r border-teal-600">Amount</th>
+                <th className="px-6 py-4 text-left text-xs font-bold text-cyan-50 uppercase tracking-wider border-r border-teal-600">VAT Amount</th>
+                <th className="px-6 py-4 text-left text-xs font-bold text-cyan-50 uppercase tracking-wider border-r border-teal-600">Bill#</th>
+                <th className="px-6 py-4 text-left text-xs font-bold text-cyan-50 uppercase tracking-wider border-r border-teal-600">Custom Charges</th>
+                <th className="px-6 py-4 text-left text-xs font-bold text-cyan-50 uppercase tracking-wider border-r border-teal-600">Phone</th>
+                <th className="px-6 py-4 text-left text-xs font-bold text-cyan-50 uppercase tracking-wider border-r border-teal-600">Vehicle</th>
+                <th className="px-6 py-4 text-left text-xs font-bold text-cyan-50 uppercase tracking-wider border-r border-teal-600">Payment Status</th>
+                <th className="px-6 py-4 text-left text-xs font-bold text-cyan-50 uppercase tracking-wider border-r border-teal-600">Payment Deadline</th>
+                <th className="px-6 py-4 text-left text-xs font-bold text-cyan-50 uppercase tracking-wider border-r border-teal-600">Mode of Payment</th>
+                <th className="px-6 py-4 text-left text-xs font-bold text-cyan-50 uppercase tracking-wider border-r border-teal-600">Delivery Address</th>
+                <th className="px-6 py-4 text-left text-xs font-bold text-cyan-50 uppercase tracking-wider">Actions</th>
               </tr>
             </thead>
-            <tbody className="bg-white divide-y-2 divide-amber-100">
+            <tbody className="bg-white divide-y-2 divide-teal-100">
               {Object.keys(groupOrdersByCustomer()).length === 0 ? (
                 <tr>
                   <td colSpan="16" className="px-6 py-4 text-center text-gray-500">
@@ -905,3 +905,6 @@ function Sell() {
 }
 
 export default Sell;
+
+
+

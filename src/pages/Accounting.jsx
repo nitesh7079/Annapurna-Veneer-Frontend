@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { buyAPI, sellAPI, otherCreditAPI, otherDebitAPI, notificationAPI } from '../services/api';
 
 const Accounting = () => {
@@ -195,24 +195,24 @@ const Accounting = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50 p-6">
+    <div className="min-h-screen bg-gradient-to-br from-teal-50 via-cyan-50 to-emerald-50 p-6">
       <div className="container mx-auto">
-      <div className="bg-gradient-to-r from-amber-900 via-amber-800 to-amber-900 rounded-2xl shadow-2xl p-8 mb-6 border-4 border-amber-700">
+      <div className="bg-gradient-to-r from-teal-800 via-teal-700 to-emerald-800 rounded-2xl shadow-2xl p-8 mb-6 border-4 border-teal-600">
         <div className="flex justify-between items-center">
           <div className="flex items-center space-x-4">
-            <div className="bg-amber-100 p-4 rounded-xl shadow-lg">
-              <svg className="w-12 h-12 text-amber-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="bg-cyan-100 p-4 rounded-xl shadow-lg">
+              <svg className="w-12 h-12 text-teal-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
               </svg>
             </div>
             <div>
-              <h1 className="text-4xl font-bold text-amber-50 tracking-wide drop-shadow-lg">Accounting Dashboard</h1>
-              <p className="text-amber-200 mt-1 text-sm">Annapurna Veneer - Premium Plywood</p>
+              <h1 className="text-4xl font-bold text-cyan-50 tracking-wide drop-shadow-lg">Accounting Dashboard</h1>
+              <p className="text-cyan-200 mt-1 text-sm">Annapurna Veneer - Premium Plywood</p>
             </div>
           </div>
           <button 
             onClick={fetchAllData}
-            className="bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-700 hover:to-amber-800 text-white px-8 py-3 rounded-xl font-semibold shadow-xl hover:shadow-2xl transition-all transform hover:scale-105"
+            className="bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700 text-white px-8 py-3 rounded-xl font-semibold shadow-xl hover:shadow-2xl transition-all transform hover:scale-105"
           >
             <span className="flex items-center">
               <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -245,8 +245,8 @@ const Accounting = () => {
         </div>
 
         {/* Profit/Loss Card */}
-        <div className={`${summary.profitLoss >= 0 ? 'bg-blue-50 border-blue-300' : 'bg-orange-50 border-orange-300'} border-4 rounded-2xl shadow-xl p-6`}>
-          <h3 className="text-xl font-bold text-amber-900 mb-2">Profit / Loss</h3>
+        <div className={`${summary.profitLoss >= 0 ? 'bg-blue-50 border-blue-300' : 'bg-purple-50 border-purple-300'} border-4 rounded-2xl shadow-xl p-6`}>
+          <h3 className="text-xl font-bold text-teal-900 mb-2">Profit / Loss</h3>
           <p className={`text-3xl font-bold ${getProfitLossColor(summary.profitLoss)}`}>
             {formatCurrency(summary.profitLoss)}
           </p>
@@ -318,8 +318,8 @@ const Accounting = () => {
       {/* Detailed Breakdown */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
         {/* Transaction Counts */}
-        <div className="bg-white border-4 border-amber-200 rounded-2xl shadow-xl p-6">
-          <h3 className="text-2xl font-bold mb-4 text-amber-900">Transaction Counts</h3>
+        <div className="bg-white border-4 border-teal-200 rounded-2xl shadow-xl p-6">
+          <h3 className="text-2xl font-bold mb-4 text-teal-900">Transaction Counts</h3>
           <div className="space-y-3">
             <div className="flex justify-between items-center">
               <span className="text-gray-800 font-medium">Buy Transactions:</span>
@@ -341,8 +341,8 @@ const Accounting = () => {
         </div>
 
         {/* Amount Breakdown */}
-        <div className="bg-white border-4 border-amber-200 rounded-2xl shadow-xl p-6">
-          <h3 className="text-2xl font-bold mb-4 text-amber-900">Amount Breakdown</h3>
+        <div className="bg-white border-4 border-teal-200 rounded-2xl shadow-xl p-6">
+          <h3 className="text-2xl font-bold mb-4 text-teal-900">Amount Breakdown</h3>
           <div className="space-y-3">
             <div className="flex justify-between items-center">
               <span className="text-gray-800 font-medium">Buy Amount:</span>
@@ -365,8 +365,8 @@ const Accounting = () => {
       </div>
 
       {/* Recent Transactions Summary */}
-      <div className="bg-white border-4 border-amber-200 rounded-2xl shadow-xl p-6">
-        <h3 className="text-2xl font-bold mb-4 text-amber-900">Recent Transactions Summary</h3>
+      <div className="bg-white border-4 border-teal-200 rounded-2xl shadow-xl p-6">
+        <h3 className="text-2xl font-bold mb-4 text-teal-900">Recent Transactions Summary</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {/* Recent Buy */}
           <div className="border border-gray-200 rounded-lg p-4">
@@ -431,3 +431,6 @@ const Accounting = () => {
 };
 
 export default Accounting;
+
+
+

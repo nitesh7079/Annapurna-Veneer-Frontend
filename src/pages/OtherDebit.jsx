@@ -302,19 +302,19 @@ function OtherDebit() {
   if (loading) return <LoadingSpinner />;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50">
+    <div className="min-h-screen bg-gradient-to-br from-teal-50 via-cyan-50 to-emerald-50">
       <div className="container mx-auto px-4 py-8">
-      <div className="bg-gradient-to-r from-amber-900 via-amber-800 to-amber-900 rounded-2xl shadow-2xl p-8 mb-8 border-4 border-amber-700">
+      <div className="bg-gradient-to-r from-teal-800 via-teal-700 to-emerald-800 rounded-2xl shadow-2xl p-8 mb-8 border-4 border-teal-600">
         <div className="flex justify-between items-center">
           <div className="flex items-center space-x-4">
-            <div className="bg-amber-100 p-4 rounded-xl shadow-lg">
-              <svg className="w-12 h-12 text-amber-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="bg-cyan-100 p-4 rounded-xl shadow-lg">
+              <svg className="w-12 h-12 text-teal-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
               </svg>
             </div>
             <div>
-              <h1 className="text-4xl font-bold text-amber-50 tracking-wide drop-shadow-lg">Other Debit</h1>
-              <p className="text-amber-200 mt-1 text-sm">Annapurna Veneer - Premium Plywood</p>
+              <h1 className="text-4xl font-bold text-cyan-50 tracking-wide drop-shadow-lg">Other Debit</h1>
+              <p className="text-cyan-200 mt-1 text-sm">Annapurna Veneer - Premium Plywood</p>
             </div>
           </div>
           <div className="space-x-3">
@@ -331,7 +331,7 @@ function OtherDebit() {
             </button>
             <button
               onClick={() => setShowAddModal(true)}
-              className="bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-700 hover:to-amber-800 text-white px-8 py-3 rounded-xl font-semibold shadow-xl hover:shadow-2xl transition-all transform hover:scale-105 border-2 border-amber-500"
+              className="bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700 text-white px-8 py-3 rounded-xl font-semibold shadow-xl hover:shadow-2xl transition-all transform hover:scale-105 border-2 border-yellow-400"
             >
               <span className="flex items-center">
                 <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -367,27 +367,27 @@ function OtherDebit() {
       )}
 
       {/* Filters */}
-      <div className="bg-white border-4 border-amber-200 p-6 rounded-2xl shadow-xl">
-        <h3 className="text-xl font-bold mb-4 text-amber-900">Filters</h3>
+      <div className="bg-white border-4 border-teal-200 p-6 rounded-2xl shadow-xl">
+        <h3 className="text-xl font-bold mb-4 text-teal-900">Filters</h3>
         <div className="grid grid-cols-5 gap-4">
           <div>
-            <label className="block text-sm font-semibold text-amber-800 mb-2">Name</label>
+            <label className="block text-sm font-semibold text-teal-800 mb-2">Name</label>
             <input
               type="text"
               name="name"
               value={filters.name}
               onChange={handleFilterChange}
               placeholder="Search name..."
-              className="w-full px-4 py-2 border-2 border-amber-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 shadow-sm"
+              className="w-full px-4 py-2 border-2 border-teal-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 shadow-sm"
             />
           </div>
           <div>
-            <label className="block text-sm font-semibold text-amber-800 mb-2">Category</label>
+            <label className="block text-sm font-semibold text-teal-800 mb-2">Category</label>
             <select
               name="category"
               value={filters.category}
               onChange={handleFilterChange}
-              className="w-full px-4 py-2 border-2 border-amber-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 shadow-sm"
+              className="w-full px-4 py-2 border-2 border-teal-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 shadow-sm"
             >
               <option value="">All Categories</option>
               <option value="Purchase">Purchase</option>
@@ -397,23 +397,23 @@ function OtherDebit() {
             </select>
           </div>
           <div>
-            <label className="block text-sm font-semibold text-amber-800 mb-2">Date From</label>
+            <label className="block text-sm font-semibold text-teal-800 mb-2">Date From</label>
             <input
               type="date"
               name="dateFrom"
               value={filters.dateFrom}
               onChange={handleFilterChange}
-              className="w-full px-4 py-2 border-2 border-amber-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 shadow-sm"
+              className="w-full px-4 py-2 border-2 border-teal-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 shadow-sm"
             />
           </div>
           <div>
-            <label className="block text-sm font-semibold text-amber-800 mb-2">Date To</label>
+            <label className="block text-sm font-semibold text-teal-800 mb-2">Date To</label>
             <input
               type="date"
               name="dateTo"
               value={filters.dateTo}
               onChange={handleFilterChange}
-              className="w-full px-4 py-2 border-2 border-amber-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 shadow-sm"
+              className="w-full px-4 py-2 border-2 border-teal-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 shadow-sm"
             />
           </div>
           <div className="flex items-end">
@@ -428,21 +428,21 @@ function OtherDebit() {
       </div>
 
       {/* Transactions Table */}
-      <div className="bg-white border-4 border-amber-200 rounded-2xl shadow-2xl overflow-hidden">
+      <div className="bg-white border-4 border-teal-200 rounded-2xl shadow-2xl overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-amber-200">
-            <thead className="bg-gradient-to-r from-amber-800 via-amber-700 to-amber-800">
+          <table className="min-w-full divide-y divide-teal-200">
+            <thead className="bg-gradient-to-r from-teal-800 via-teal-700 to-emerald-800">
               <tr>
-                <th className="px-6 py-4 text-left text-xs font-bold text-amber-50 uppercase tracking-wider border-r border-amber-600">Order#</th>
-                <th className="px-6 py-4 text-left text-xs font-bold text-amber-50 uppercase tracking-wider border-r border-amber-600">Name</th>
-                <th className="px-6 py-4 text-left text-xs font-bold text-amber-50 uppercase tracking-wider border-r border-amber-600">Transaction Name</th>
-                <th className="px-6 py-4 text-left text-xs font-bold text-amber-50 uppercase tracking-wider border-r border-amber-600">Transaction Type</th>
-                <th className="px-6 py-4 text-left text-xs font-bold text-amber-50 uppercase tracking-wider border-r border-amber-600">Amount</th>
-                <th className="px-6 py-4 text-left text-xs font-bold text-amber-50 uppercase tracking-wider border-r border-amber-600">Category</th>
-                <th className="px-6 py-4 text-left text-xs font-bold text-amber-50 uppercase tracking-wider border-r border-amber-600">Payment Status</th>
-                <th className="px-6 py-4 text-left text-xs font-bold text-amber-50 uppercase tracking-wider border-r border-amber-600">Mode of Payment</th>
-                <th className="px-6 py-4 text-left text-xs font-bold text-amber-50 uppercase tracking-wider border-r border-amber-600">Description</th>
-                <th className="px-6 py-4 text-left text-xs font-bold text-amber-50 uppercase tracking-wider">Actions</th>
+                <th className="px-6 py-4 text-left text-xs font-bold text-cyan-50 uppercase tracking-wider border-r border-teal-600">Order#</th>
+                <th className="px-6 py-4 text-left text-xs font-bold text-cyan-50 uppercase tracking-wider border-r border-teal-600">Name</th>
+                <th className="px-6 py-4 text-left text-xs font-bold text-cyan-50 uppercase tracking-wider border-r border-teal-600">Transaction Name</th>
+                <th className="px-6 py-4 text-left text-xs font-bold text-cyan-50 uppercase tracking-wider border-r border-teal-600">Transaction Type</th>
+                <th className="px-6 py-4 text-left text-xs font-bold text-cyan-50 uppercase tracking-wider border-r border-teal-600">Amount</th>
+                <th className="px-6 py-4 text-left text-xs font-bold text-cyan-50 uppercase tracking-wider border-r border-teal-600">Category</th>
+                <th className="px-6 py-4 text-left text-xs font-bold text-cyan-50 uppercase tracking-wider border-r border-teal-600">Payment Status</th>
+                <th className="px-6 py-4 text-left text-xs font-bold text-cyan-50 uppercase tracking-wider border-r border-teal-600">Mode of Payment</th>
+                <th className="px-6 py-4 text-left text-xs font-bold text-cyan-50 uppercase tracking-wider border-r border-teal-600">Description</th>
+                <th className="px-6 py-4 text-left text-xs font-bold text-cyan-50 uppercase tracking-wider">Actions</th>
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
@@ -828,3 +828,5 @@ function OtherDebit() {
 }
 
 export default OtherDebit;
+
+
