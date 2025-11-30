@@ -45,12 +45,15 @@ const Footer = () => {
         </div>
 
         <div className="border-t border-amber-700 mt-8 pt-8">
-          <div className="flex flex-col md:flex-row justify-between items-center">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-amber-300 text-sm font-medium">
               © 2025 Shyam Veneer. All rights reserved.
             </p>
-            <div className="flex space-x-6 mt-4 md:mt-0">
+            <div className="flex flex-col md:flex-row items-center gap-4 md:gap-6">
               <span className="text-amber-200 text-sm font-medium">Made with ❤️ for quality wood solutions</span>
+              <span className="text-amber-200 text-sm font-medium">
+                Created by <a href="https://ashishdev.com" target="_blank" rel="noopener noreferrer" className="text-amber-300 hover:text-amber-100 font-semibold underline transition-colors">Ashish Sharma</a>
+              </span>
             </div>
           </div>
         </div>
