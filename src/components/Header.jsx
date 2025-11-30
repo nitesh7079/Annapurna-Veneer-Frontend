@@ -38,21 +38,21 @@ const Header = () => {
   const isTransactionActive = transactionDropdown.some(item => location.pathname === item.href);
 
   return (
-    <header className="bg-gradient-to-r from-amber-900 via-amber-800 to-amber-900 shadow-2xl">
+    <header className="bg-gradient-to-r from-teal-700 via-teal-600 to-emerald-700 shadow-2xl">
       {/* Main Navigation */}
-      <div className="bg-gradient-to-r from-amber-900 via-amber-800 to-amber-900 border-b-4 border-amber-600">
+      <div className="bg-gradient-to-r from-teal-700 via-teal-600 to-emerald-700 border-b-4 border-yellow-500">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4">
             {/* Logo */}
             <Link to="/" className="flex items-center group">
-              <div className="w-16 h-16 bg-gradient-to-br from-amber-500 to-amber-700 rounded-2xl flex items-center justify-center shadow-xl border-4 border-amber-300 transform group-hover:scale-110 transition-transform">
+              <div className="w-16 h-16 bg-gradient-to-br from-yellow-500 to-yellow-600 rounded-2xl flex items-center justify-center shadow-xl border-4 border-yellow-300 transform group-hover:scale-110 transition-transform">
                 <span className="text-white font-bold text-2xl">AV</span>
               </div>
               <div className="ml-4">
                 <h1 className="text-2xl font-bold text-white tracking-tight drop-shadow-lg">
                   Annapurna Veneer
                 </h1>
-                <p className="text-sm text-amber-200 font-bold">Premium Plywood Solutions</p>
+                <p className="text-sm text-cyan-200 font-bold">Premium Plywood Solutions</p>
               </div>
             </Link>
 
@@ -65,8 +65,8 @@ const Header = () => {
                     to={item.href}
                     className={`px-4 py-2 text-sm font-bold transition-all duration-200 flex items-center space-x-1 transform hover:scale-105 relative ${
                       location.pathname === item.href
-                        ? "text-amber-900 bg-gradient-to-r from-amber-200 to-amber-300 rounded-xl shadow-xl border-2 border-amber-400"
-                        : "text-white hover:text-amber-900 hover:bg-gradient-to-r hover:from-amber-100 hover:to-amber-200 rounded-xl border-2 border-transparent hover:border-amber-300 hover:shadow-lg"
+                        ? "text-teal-900 bg-gradient-to-r from-yellow-300 to-yellow-400 rounded-xl shadow-xl border-2 border-yellow-500"
+                        : "text-white hover:text-teal-900 hover:bg-gradient-to-r hover:from-cyan-100 hover:to-teal-100 rounded-xl border-2 border-transparent hover:border-cyan-300 hover:shadow-lg"
                     }`}
                   >
                     <span>{item.name}</span>
@@ -99,8 +99,8 @@ const Header = () => {
                       onClick={() => setIsTransactionsOpen(!isTransactionsOpen)}
                       className={`px-4 py-2 text-sm font-bold transition-all duration-200 flex items-center space-x-1 transform hover:scale-105 ${
                         isTransactionActive
-                          ? "text-amber-900 bg-gradient-to-r from-amber-200 to-amber-300 rounded-xl shadow-xl border-2 border-amber-400"
-                          : "text-white hover:text-amber-900 hover:bg-gradient-to-r hover:from-amber-100 hover:to-amber-200 rounded-xl border-2 border-transparent hover:border-amber-300 hover:shadow-lg"
+                          ? "text-teal-900 bg-gradient-to-r from-yellow-300 to-yellow-400 rounded-xl shadow-xl border-2 border-yellow-500"
+                          : "text-white hover:text-teal-900 hover:bg-gradient-to-r hover:from-cyan-100 hover:to-teal-100 rounded-xl border-2 border-transparent hover:border-cyan-300 hover:shadow-lg"
                       }`}
                     >
                       <span>Transactions</span>
@@ -115,7 +115,7 @@ const Header = () => {
                     </button>
                     
                     {isTransactionsOpen && (
-                      <div className="absolute top-full left-0 mt-2 w-48 bg-white border-4 border-amber-300 rounded-xl shadow-2xl z-50">
+                      <div className="absolute top-full left-0 mt-2 w-48 bg-white border-4 border-teal-300 rounded-xl shadow-2xl z-50">
                         {transactionDropdown.map((item) => (
                           <Link
                             key={item.name}
@@ -123,8 +123,8 @@ const Header = () => {
                             onClick={() => setIsTransactionsOpen(false)}
                             className={`block px-4 py-3 text-sm font-bold transition-all ${
                               location.pathname === item.href
-                                ? "text-amber-900 bg-gradient-to-r from-amber-200 to-amber-300"
-                                : "text-amber-900 hover:bg-gradient-to-r hover:from-amber-100 hover:to-amber-200"
+                                ? "text-teal-900 bg-gradient-to-r from-cyan-200 to-teal-200"
+                                : "text-teal-900 hover:bg-gradient-to-r hover:from-cyan-100 hover:to-teal-100"
                             } first:rounded-t-lg last:rounded-b-lg`}
                           >
                             {item.name}
@@ -139,15 +139,15 @@ const Header = () => {
               {/* User Info & Logout */}
               {isAuthenticated() ? (
                 <div className="flex items-center space-x-4">
-                  <div className="flex items-center space-x-2 bg-amber-800 px-4 py-2 rounded-xl border-2 border-amber-600 shadow-lg">
-                    <div className="w-10 h-10 bg-gradient-to-br from-amber-400 to-amber-600 rounded-full flex items-center justify-center shadow-xl border-2 border-amber-300">
+                  <div className="flex items-center space-x-2 bg-teal-800 px-4 py-2 rounded-xl border-2 border-teal-600 shadow-lg">
+                    <div className="w-10 h-10 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-full flex items-center justify-center shadow-xl border-2 border-yellow-300">
                       <span className="text-white text-sm font-bold">
                         {user?.fullName?.charAt(0)?.toUpperCase()}
                       </span>
                     </div>
                     <div className="text-sm">
                       <p className="font-bold text-white">{user?.fullName}</p>
-                      <p className="text-amber-200 font-semibold">
+                      <p className="text-cyan-200 font-semibold">
                         {isAdmin() ? 'Administrator' : 'User'}
                       </p>
                     </div>
@@ -160,7 +160,7 @@ const Header = () => {
                   </button>
                 </div>
               ) : (
-                <div className="text-sm text-amber-200 font-semibold">
+                <div className="text-sm text-cyan-200 font-semibold">
                   Not logged in
                 </div>
               )}
@@ -169,7 +169,7 @@ const Header = () => {
             {/* Mobile Menu Button */}
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="lg:hidden p-2 hover:bg-amber-700 rounded-xl border-2 border-amber-600 bg-amber-800 shadow-lg transition-all"
+              className="lg:hidden p-2 hover:bg-teal-700 rounded-xl border-2 border-teal-600 bg-teal-800 shadow-lg transition-all"
             >
               <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 {isMenuOpen ? (
@@ -185,7 +185,7 @@ const Header = () => {
 
       {/* Mobile Menu */}
       {isMenuOpen && (
-        <div className="lg:hidden border-t-4 border-amber-600 bg-gradient-to-b from-amber-800 to-amber-900 shadow-2xl">
+        <div className="lg:hidden border-t-4 border-yellow-500 bg-gradient-to-b from-teal-800 to-teal-900 shadow-2xl">
           <nav className="px-4 py-4 space-y-2">
             {navigation.map((item) => (
               <Link
@@ -193,8 +193,8 @@ const Header = () => {
                 to={item.href}
                 className={`block px-4 py-3 rounded-xl text-base font-bold transition-all shadow-lg ${
                   location.pathname === item.href
-                    ? "text-amber-900 bg-gradient-to-r from-amber-200 to-amber-300 border-2 border-amber-400"
-                    : "text-white bg-amber-700 hover:bg-gradient-to-r hover:from-amber-200 hover:to-amber-300 hover:text-amber-900 border-2 border-amber-600"
+                    ? "text-teal-900 bg-gradient-to-r from-yellow-300 to-yellow-400 border-2 border-yellow-500"
+                    : "text-white bg-teal-700 hover:bg-gradient-to-r hover:from-cyan-200 hover:to-teal-200 hover:text-teal-900 border-2 border-teal-600"
                 }`}
                 onClick={() => setIsMenuOpen(false)}
               >
@@ -232,8 +232,8 @@ const Header = () => {
                   onClick={() => setIsTransactionsOpen(!isTransactionsOpen)}
                   className={`w-full flex items-center justify-between px-4 py-3 rounded-xl text-base font-bold transition-all shadow-lg ${
                     isTransactionActive
-                      ? "text-amber-900 bg-gradient-to-r from-amber-200 to-amber-300 border-2 border-amber-400"
-                      : "text-white bg-amber-700 border-2 border-amber-600"
+                      ? "text-teal-900 bg-gradient-to-r from-yellow-300 to-yellow-400 border-2 border-yellow-500"
+                      : "text-white bg-teal-700 border-2 border-teal-600"
                   }`}
                 >
                   <span>Transactions</span>
@@ -255,8 +255,8 @@ const Header = () => {
                         to={item.href}
                         className={`block px-4 py-3 rounded-xl text-sm font-bold transition-all shadow-lg ${
                           location.pathname === item.href
-                            ? "text-amber-900 bg-gradient-to-r from-amber-200 to-amber-300 border-2 border-amber-400"
-                            : "text-white bg-amber-600 hover:bg-gradient-to-r hover:from-amber-200 hover:to-amber-300 hover:text-amber-900 border-2 border-amber-500"
+                            ? "text-teal-900 bg-gradient-to-r from-yellow-300 to-yellow-400 border-2 border-yellow-500"
+                            : "text-white bg-teal-600 hover:bg-gradient-to-r hover:from-cyan-200 hover:to-teal-200 hover:text-teal-900 border-2 border-teal-500"
                         }`}
                         onClick={() => setIsMenuOpen(false)}
                       >

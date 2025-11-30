@@ -21,29 +21,29 @@ body {
   min-height: 100vh;
 }
 
-/* Wood Theme Custom Styles */
+/* Modern Teal Theme Custom Styles */
 .wood-texture {
-  background: linear-gradient(45deg, #f59e0b 25%, transparent 25%),
-              linear-gradient(-45deg, #f59e0b 25%, transparent 25%),
-              linear-gradient(45deg, transparent 75%, #f59e0b 75%),
-              linear-gradient(-45deg, transparent 75%, #f59e0b 75%);
+  background: linear-gradient(45deg, #14b8a6 25%, transparent 25%),
+              linear-gradient(-45deg, #14b8a6 25%, transparent 25%),
+              linear-gradient(45deg, transparent 75%, #14b8a6 75%),
+              linear-gradient(-45deg, transparent 75%, #14b8a6 75%);
   background-size: 20px 20px;
   background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
 }
 
 .sawdust-particle {
-  background: radial-gradient(circle, #d97706 30%, #f59e0b 70%);
+  background: radial-gradient(circle, #0d9488 30%, #14b8a6 70%);
   border-radius: 50%;
 }
 
 .plywood-grain {
   background: repeating-linear-gradient(
     90deg,
-    #fef3c7 0px,
-    #fde68a 2px,
-    #fcd34d 4px,
-    #fde68a 6px,
-    #fef3c7 8px
+    #f0fdfa 0px,
+    #ccfbf1 2px,
+    #99f6e4 4px,
+    #ccfbf1 6px,
+    #f0fdfa 8px
   );
   opacity: 0.3;
 }
