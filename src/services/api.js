@@ -1,10 +1,28 @@
 import axios from 'axios';
 
+const getBaseApiUrl = () => {
+  return 'https://annapurna-veneer-backend.onrender.com/api/v1';
+};
+
 const getApiUrl = () => {
-  // Annapurna Veneer - Use deployed backend by default. Change here if you want a different base.
-  const deployed = 'https://annapurna-veneer-backend.onrender.com/api/v1';
-  console.log('Annapurna Veneer API - Using deployed backend:', deployed);
-  return deployed;
+  // Get selected company from localStorage
+  const companyData = localStorage.getItem('selectedCompany');
+  const baseUrl = getBaseApiUrl();
+  
+  if (companyData) {
+    try {
+      const company = JSON.parse(companyData);
+      const companyUrl = `${baseUrl}/${company.id}`;
+      console.log('Annapurna Veneer API - Using company-specific URL:', companyUrl, 'for company:', company.name);
+      return companyUrl;
+    } catch (error) {
+      console.error('Error parsing company data:', error);
+    }
+  }
+  
+  // Fallback to base URL
+  console.log('Annapurna Veneer API - Using base URL (no company selected):', baseUrl);
+  return baseUrl;
 };
 
 // Annapurna Veneer - Test API connectivity
@@ -37,75 +55,97 @@ console.log('Annapurna Veneer - API URL being used:', apiUrl);
 console.log('Annapurna Veneer - Current hostname:', window.location.hostname);
 console.log('Annapurna Veneer - Current port:', window.location.port);
 
-const api = axios.create({
-  baseURL: apiUrl,
-  headers: {
-    'Content-Type': 'application/json',
-  },
-  timeout: 15000,
-  withCredentials: false,
-});
+// Function to get or create API instance with current company context
+const getApiInstance = () => {
+  const currentApiUrl = getApiUrl();
+  
+  const apiInstance = axios.create({
+    baseURL: currentApiUrl,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    timeout: 15000,
+    withCredentials: false,
+  });
 
-api.interceptors.request.use(
-  (config) => {
-    // Add JWT token and userId from localStorage to all requests
-    const savedUser = localStorage.getItem('user');
-    const savedToken = localStorage.getItem('token');
-    
-    if (savedToken) {
-      config.headers['Authorization'] = `Bearer ${savedToken}`;
-      console.log('Annapurna Veneer API - Added JWT token to request');
-    }
-    
-    if (savedUser) {
-      try {
-        const user = JSON.parse(savedUser);
-        console.log('Annapurna Veneer API - User from localStorage:', user);
-        if (user && user.id) {
-          config.headers['x-user-id'] = user.id;
-          console.log('Annapurna Veneer API - Added x-user-id header:', user.id);
-        }
-      } catch (error) {
-        console.error('Annapurna Veneer API - Error parsing user from localStorage:', error);
+  apiInstance.interceptors.request.use(
+    (config) => {
+      // Add JWT token and userId from localStorage to all requests
+      const savedUser = localStorage.getItem('user');
+      const savedToken = localStorage.getItem('token');
+      const companyData = localStorage.getItem('selectedCompany');
+      
+      if (savedToken) {
+        config.headers['Authorization'] = `Bearer ${savedToken}`;
+        console.log('Annapurna Veneer API - Added JWT token to request');
       }
-    }
-    
-    console.log('Annapurna Veneer API - Request:', {
-      url: config.baseURL + config.url,
-      method: config.method,
-      data: config.data,
-      hasToken: !!savedToken,
-      userId: config.headers['x-user-id']
-    });
-    return config;
-  },
-  (error) => {
-    console.error('Annapurna Veneer API - Request Error:', error);
-    return Promise.reject(error);
-  }
-);
+      
+      if (savedUser) {
+        try {
+          const user = JSON.parse(savedUser);
+          console.log('Annapurna Veneer API - User from localStorage:', user);
+          if (user && user.id) {
+            config.headers['x-user-id'] = user.id;
+            console.log('Annapurna Veneer API - Added x-user-id header:', user.id);
+          }
+        } catch (error) {
+          console.error('Annapurna Veneer API - Error parsing user from localStorage:', error);
+        }
+      }
 
-api.interceptors.response.use(
-  (response) => {
-    console.log('Annapurna Veneer API - Response:', response.data);
-    return response;
-  },
-  (error) => {
-    console.error('Annapurna Veneer API - Response Error:', {
-      message: error.message,
-      status: error.response?.status,
-      data: error.response?.data,
-      url: error.config?.url,
-    });
-    return Promise.reject(error);
-  }
-);
+      if (companyData) {
+        try {
+          const company = JSON.parse(companyData);
+          config.headers['x-company-id'] = company.id;
+          console.log('Annapurna Veneer API - Added x-company-id header:', company.id);
+        } catch (error) {
+          console.error('Annapurna Veneer API - Error parsing company from localStorage:', error);
+        }
+      }
+      
+      console.log('Annapurna Veneer API - Request:', {
+        url: config.baseURL + config.url,
+        method: config.method,
+        data: config.data,
+        hasToken: !!savedToken,
+        userId: config.headers['x-user-id'],
+        companyId: config.headers['x-company-id']
+      });
+      return config;
+    },
+    (error) => {
+      console.error('Annapurna Veneer API - Request Error:', error);
+      return Promise.reject(error);
+    }
+  );
+
+  apiInstance.interceptors.response.use(
+    (response) => {
+      console.log('Annapurna Veneer API - Response:', response.data);
+      return response;
+    },
+    (error) => {
+      console.error('Annapurna Veneer API - Response Error:', {
+        message: error.message,
+        status: error.response?.status,
+        data: error.response?.data,
+        url: error.config?.url,
+      });
+      return Promise.reject(error);
+    }
+  );
+
+  return apiInstance;
+};
+
+const api = getApiInstance();
 
 // Annapurna Veneer - User Authentication API
 export const userAPI = {
   register: async (userData) => {
     try {
-      const response = await api.post('/user/register', userData);
+      const apiInstance = getApiInstance();
+      const response = await apiInstance.post('/user/register', userData);
       return response.data;
     } catch (error) {
       throw error.response?.data || error;
@@ -114,7 +154,8 @@ export const userAPI = {
 
   login: async (credentials) => {
     try {
-      const response = await api.post('/user/login', credentials);
+      const apiInstance = getApiInstance();
+      const response = await apiInstance.post('/user/login', credentials);
       return response.data;
     } catch (error) {
       throw error.response?.data || error;
@@ -127,7 +168,7 @@ export const buyAPI = {
   // Get all buy orders
   getAll: async () => {
     try {
-      const response = await api.get('/buy');
+      const apiInstance = getApiInstance(); const response = await apiInstance.get('/buy');
       return response.data;
     } catch (error) {
       throw error.response?.data || { message: 'Failed to fetch buy orders' };
@@ -137,7 +178,7 @@ export const buyAPI = {
   // Create new buy order
   create: async (buyData) => {
     try {
-      const response = await api.post('/buy', buyData);
+      const apiInstance = getApiInstance(); const response = await apiInstance.post('/buy', buyData);
       return response.data;
     } catch (error) {
       throw error.response?.data || { message: 'Failed to create buy order' };
@@ -147,7 +188,7 @@ export const buyAPI = {
   // Apply payment to buy orders
   applyPayment: async (paymentData) => {
     try {
-      const response = await api.post('/buy/payments', paymentData);
+      const apiInstance = getApiInstance(); const response = await apiInstance.post('/buy/payments', paymentData);
       return response.data;
     } catch (error) {
       throw error.response?.data || { message: 'Failed to apply payment' };
@@ -160,7 +201,7 @@ export const sellAPI = {
   // Get all sell orders
   getAll: async () => {
     try {
-      const response = await api.get('/sell');
+      const apiInstance = getApiInstance(); const response = await apiInstance.get('/sell');
       return response.data;
     } catch (error) {
       throw error.response?.data || { message: 'Failed to fetch sell orders' };
@@ -170,7 +211,7 @@ export const sellAPI = {
   // Create new sell order
   create: async (sellData) => {
     try {
-      const response = await api.post('/sell', sellData);
+      const apiInstance = getApiInstance(); const response = await apiInstance.post('/sell', sellData);
       return response.data;
     } catch (error) {
       throw error.response?.data || { message: 'Failed to create sell order' };
@@ -180,7 +221,7 @@ export const sellAPI = {
   // Apply payment to sell orders
   applyPayment: async (paymentData) => {
     try {
-      const response = await api.post('/sell/payments', paymentData);
+      const apiInstance = getApiInstance(); const response = await apiInstance.post('/sell/payments', paymentData);
       return response.data;
     } catch (error) {
       throw error.response?.data || { message: 'Failed to apply payment' };
@@ -193,7 +234,7 @@ export const buySellAPI = {
   // Get all buy/sell entries
   getAll: async () => {
     try {
-      const response = await api.get('/buySell');
+      const apiInstance = getApiInstance(); const response = await apiInstance.get('/buySell');
       return response.data;
     } catch (error) {
       throw error.response?.data || { message: 'Failed to fetch data' };
@@ -203,7 +244,7 @@ export const buySellAPI = {
   // Create new buy/sell entry
   create: async (buySellData) => {
     try {
-      const response = await api.post('/buySell', buySellData);
+      const apiInstance = getApiInstance(); const response = await apiInstance.post('/buySell', buySellData);
       return response.data;
     } catch (error) {
       throw error.response?.data || { message: 'Failed to create entry' };
@@ -221,7 +262,7 @@ export const accountAPI = {
         Object.entries(filters).filter(([key, value]) => value !== '' && value !== null && value !== undefined)
       );
       const queryParams = new URLSearchParams(cleanFilters).toString();
-      const response = await api.get(`/accounts${queryParams ? '?' + queryParams : ''}`);
+      const apiInstance = getApiInstance(); const response = await apiInstance.get(`/accounts${queryParams ? '?' + queryParams : ''}`);
       return response.data;
     } catch (error) {
       throw error.response?.data || { message: 'Failed to fetch transactions' };
@@ -239,7 +280,7 @@ export const accountAPI = {
       const url = `/accounts/latest-per-person${queryParams ? '?' + queryParams : ''}`;
       console.log('Annapurna Veneer API - URL for latest per person:', `${api.defaults.baseURL}${url}`);
       
-      const response = await api.get(url);
+      const apiInstance = getApiInstance(); const response = await apiInstance.get(url);
       console.log('Annapurna Veneer API - Latest per person response:', response.data);
       return response.data;
     } catch (error) {
@@ -286,7 +327,7 @@ export const accountAPI = {
   create: async (transactionData) => {
     try {
       console.log('Annapurna Veneer API - Creating transaction:', transactionData);
-      const response = await api.post('/accounts', transactionData);
+      const apiInstance = getApiInstance(); const response = await apiInstance.post('/accounts', transactionData);
       console.log('Annapurna Veneer API - Transaction created:', response.data);
       return response.data;
     } catch (error) {
@@ -308,7 +349,7 @@ export const accountAPI = {
   // Get current balance
   getBalance: async () => {
     try {
-      const response = await api.get('/accounts/balance');
+      const apiInstance = getApiInstance(); const response = await apiInstance.get('/accounts/balance');
       return response.data;
     } catch (error) {
       throw error.response?.data || { message: 'Failed to fetch balance' };
@@ -319,7 +360,7 @@ export const accountAPI = {
   getSummary: async (filters = {}) => {
     try {
       const queryParams = new URLSearchParams(filters).toString();
-      const response = await api.get(`/accounts/summary${queryParams ? '?' + queryParams : ''}`);
+      const apiInstance = getApiInstance(); const response = await apiInstance.get(`/accounts/summary${queryParams ? '?' + queryParams : ''}`);
       return response.data;
     } catch (error) {
       throw error.response?.data || { message: 'Failed to fetch summary' };
@@ -329,7 +370,7 @@ export const accountAPI = {
   // Delete transaction
   delete: async (id) => {
     try {
-      const response = await api.delete(`/accounts/${id}`);
+      const apiInstance = getApiInstance(); const response = await apiInstance.delete(`/accounts/${id}`);
       return response.data;
     } catch (error) {
       throw error.response?.data || { message: 'Failed to delete transaction' };
@@ -340,7 +381,7 @@ export const accountAPI = {
   getPendingPayments: async (filters = {}) => {
     try {
       const queryParams = new URLSearchParams(filters).toString();
-      const response = await api.get(`/accounts/pending/payments${queryParams ? '?' + queryParams : ''}`);
+      const apiInstance = getApiInstance(); const response = await apiInstance.get(`/accounts/pending/payments${queryParams ? '?' + queryParams : ''}`);
       return response.data;
     } catch (error) {
       throw error.response?.data || { message: 'Failed to fetch pending payments' };
@@ -350,7 +391,7 @@ export const accountAPI = {
   // Confirm payment
   confirmPayment: async (transactionId, confirmedAmount) => {
     try {
-      const response = await api.put(`/accounts/${transactionId}/confirm`, { confirmedAmount });
+      const apiInstance = getApiInstance(); const response = await apiInstance.put(`/accounts/${transactionId}/confirm`, { confirmedAmount });
       return response.data;
     } catch (error) {
       throw error.response?.data || { message: 'Failed to confirm payment' };
@@ -363,7 +404,7 @@ export const otherCreditAPI = {
   // Get all other credit transactions
   getAll: async () => {
     try {
-      const response = await api.get('/otherCredit');
+      const apiInstance = getApiInstance(); const response = await apiInstance.get('/otherCredit');
       return response.data;
     } catch (error) {
       throw error.response?.data || { message: 'Failed to fetch other credit transactions' };
@@ -373,7 +414,7 @@ export const otherCreditAPI = {
   // Add new other credit transaction
   add: async (creditData) => {
     try {
-      const response = await api.post('/otherCredit', creditData);
+      const apiInstance = getApiInstance(); const response = await apiInstance.post('/otherCredit', creditData);
       return response.data;
     } catch (error) {
       throw error.response?.data || { message: 'Failed to add other credit transaction' };
@@ -383,7 +424,7 @@ export const otherCreditAPI = {
   // Add payment to other credit transaction
   addPayment: async (paymentData) => {
     try {
-      const response = await api.post('/otherCredit/payments', paymentData);
+      const apiInstance = getApiInstance(); const response = await apiInstance.post('/otherCredit/payments', paymentData);
       return response.data;
     } catch (error) {
       throw error.response?.data || { message: 'Failed to add payment to other credit transaction' };
@@ -396,7 +437,7 @@ export const otherDebitAPI = {
   // Get all other debit transactions
   getAll: async () => {
     try {
-      const response = await api.get('/otherDebit');
+      const apiInstance = getApiInstance(); const response = await apiInstance.get('/otherDebit');
       return response.data;
     } catch (error) {
       throw error.response?.data || { message: 'Failed to fetch other debit transactions' };
@@ -406,7 +447,7 @@ export const otherDebitAPI = {
   // Add new other debit transaction
   add: async (debitData) => {
     try {
-      const response = await api.post('/otherDebit', debitData);
+      const apiInstance = getApiInstance(); const response = await apiInstance.post('/otherDebit', debitData);
       return response.data;
     } catch (error) {
       throw error.response?.data || { message: 'Failed to add other debit transaction' };
@@ -416,7 +457,7 @@ export const otherDebitAPI = {
   // Add payment to other debit transaction
   addPayment: async (paymentData) => {
     try {
-      const response = await api.post('/otherDebit/payments', paymentData);
+      const apiInstance = getApiInstance(); const response = await apiInstance.post('/otherDebit/payments', paymentData);
       return response.data;
     } catch (error) {
       throw error.response?.data || { message: 'Failed to add payment to other debit transaction' };
@@ -429,7 +470,7 @@ export const bankAPI = {
   // Get all banks
   getAll: async () => {
     try {
-      const response = await api.get('/banks');
+      const apiInstance = getApiInstance(); const response = await apiInstance.get('/banks');
       return response.data;
     } catch (error) {
       throw error.response?.data || { message: 'Failed to fetch banks' };
@@ -439,7 +480,7 @@ export const bankAPI = {
   // Get payment methods (Cash + all banks)
   getPaymentMethods: async () => {
     try {
-      const response = await api.get('/banks/payment-methods');
+      const apiInstance = getApiInstance(); const response = await apiInstance.get('/banks/payment-methods');
       return response.data;
     } catch (error) {
       throw error.response?.data || { message: 'Failed to fetch payment methods' };
@@ -449,7 +490,7 @@ export const bankAPI = {
   // Get bank transactions
   getBankTransactions: async (bankId) => {
     try {
-      const response = await api.get(`/banks/${bankId}/transactions`);
+      const apiInstance = getApiInstance(); const response = await apiInstance.get(`/banks/${bankId}/transactions`);
       return response.data;
     } catch (error) {
       throw error.response?.data || { message: 'Failed to fetch bank transactions' };
@@ -462,7 +503,7 @@ export const notificationAPI = {
   // Get all notifications
   getAll: async () => {
     try {
-      const response = await api.get('/notifications/all');
+      const apiInstance = getApiInstance(); const response = await apiInstance.get('/notifications/all');
       return response.data;
     } catch (error) {
       throw error.response?.data || { message: 'Failed to fetch notifications' };
@@ -472,7 +513,7 @@ export const notificationAPI = {
   // Get unread notifications
   getUnread: async () => {
     try {
-      const response = await api.get('/notifications/unreaded');
+      const apiInstance = getApiInstance(); const response = await apiInstance.get('/notifications/unreaded');
       return response.data;
     } catch (error) {
       throw error.response?.data || { message: 'Failed to fetch unread notifications' };
@@ -482,7 +523,7 @@ export const notificationAPI = {
   // Create new notification
   create: async (notificationData) => {
     try {
-      const response = await api.post('/notifications/newNotification', notificationData);
+      const apiInstance = getApiInstance(); const response = await apiInstance.post('/notifications/newNotification', notificationData);
       return response.data;
     } catch (error) {
       throw error.response?.data || { message: 'Failed to create notification' };
@@ -492,7 +533,7 @@ export const notificationAPI = {
   // Mark notification as read
   markAsRead: async (id) => {
     try {
-      const response = await api.put(`/notifications/markAsRead/${id}`);
+      const apiInstance = getApiInstance(); const response = await apiInstance.put(`/notifications/markAsRead/${id}`);
       return response.data;
     } catch (error) {
       throw error.response?.data || { message: 'Failed to mark notification as read' };
@@ -502,7 +543,7 @@ export const notificationAPI = {
   // Manual check for overdue payments
   checkOverdue: async () => {
     try {
-      const response = await api.post('/notifications/checkOverdue');
+      const apiInstance = getApiInstance(); const response = await apiInstance.post('/notifications/checkOverdue');
       return response.data;
     } catch (error) {
       throw error.response?.data || { message: 'Failed to check overdue payments' };

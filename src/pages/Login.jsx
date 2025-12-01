@@ -1,11 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import { useCompany } from '../contexts/CompanyContext';
 import LoadingSpinner from '../components/LoadingSpinner';
 
 const Login = () => {
   const navigate = useNavigate();
+  const { selectedCompany } = useCompany();
   const [isLogin, setIsLogin] = useState(true);
+
+  // Redirect to company selection if no company is selected
+  useEffect(() => {
+    if (!selectedCompany) {
+      navigate('/company-selection');
+    }
+  }, [selectedCompany, navigate]);
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
@@ -54,8 +63,8 @@ const Login = () => {
 
     try {
       const url = isLogin 
-        ? 'https://annapurna-veneer-backend.onrender.com/api/v1/user/login'
-        : 'https://annapurna-veneer-backend.onrender.com/api/v1/user/register';
+        ? `https://annapurna-veneer-backend.onrender.com/api/v1/${selectedCompany.id}/user/login`
+        : `https://annapurna-veneer-backend.onrender.com/api/v1/${selectedCompany.id}/user/register`;
       
       const body = isLogin 
         ? { email: formData.email, password: formData.password }
@@ -132,7 +141,7 @@ const Login = () => {
     resetForm();
   };
 
-  if (loading) {
+  if (loading || !selectedCompany) {
     return <LoadingSpinner />;
   }
 
@@ -165,18 +174,24 @@ const Login = () => {
           {/* Company Logo/Brand */}
           <div className="mb-6">
             <div className="w-20 h-20 mx-auto bg-gradient-to-br from-teal-600 to-emerald-700 rounded-2xl shadow-2xl flex items-center justify-center transform hover:scale-105 transition-transform duration-300">
-              <span className="text-2xl font-bold text-white">AV</span>
+              <span className="text-4xl">{selectedCompany.logo}</span>
             </div>
           </div>
           <h1 className="text-4xl font-bold bg-gradient-to-r from-teal-800 via-teal-700 to-emerald-800 bg-clip-text text-transparent mb-2">
             {isLogin ? 'Welcome Back' : 'Join Us'}
           </h1>
           <p className="text-teal-700 text-lg font-medium">
-            Annapurna Veneer - Premium Plywood Solutions
+            {selectedCompany.name}
           </p>
           <p className="text-teal-600 mt-1">
             {isLogin ? 'Sign in to your account' : 'Create your account today'}
           </p>
+          <button
+            onClick={() => navigate('/company-selection')}
+            className="mt-2 text-sm text-teal-600 hover:text-teal-800 underline"
+          >
+            ← Change Company
+          </button>
         </div>
 
         {error && (

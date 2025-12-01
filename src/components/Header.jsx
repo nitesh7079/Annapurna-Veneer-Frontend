@@ -1,14 +1,23 @@
 import { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import { useCompany } from '../contexts/CompanyContext';
 import { useNotifications } from '../contexts/NotificationContext';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isTransactionsOpen, setIsTransactionsOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
   const { user, isAuthenticated, isAdmin, logout } = useAuth();
+  const { selectedCompany, clearCompany } = useCompany();
   const { unreadCount, connectionError } = useNotifications();
+
+  const handleCompanySwitch = () => {
+    logout();
+    clearCompany();
+    navigate('/company-selection');
+  };
 
   // Define navigation based on user role
   const getNavigation = () => {
@@ -46,13 +55,13 @@ const Header = () => {
             {/* Logo */}
             <Link to="/" className="flex items-center group">
               <div className="w-16 h-16 bg-gradient-to-br from-yellow-500 to-yellow-600 rounded-2xl flex items-center justify-center shadow-xl border-4 border-yellow-300 transform group-hover:scale-110 transition-transform">
-                <span className="text-white font-bold text-2xl">AV</span>
+                <span className="text-4xl">{selectedCompany?.logo || 'AV'}</span>
               </div>
               <div className="ml-4">
                 <h1 className="text-2xl font-bold text-white tracking-tight drop-shadow-lg">
-                  Annapurna Veneer
+                  {selectedCompany?.name || 'Annapurna Veneer'}
                 </h1>
-                <p className="text-sm text-cyan-200 font-bold">Premium Plywood Solutions</p>
+                <p className="text-sm text-cyan-200 font-bold">{selectedCompany?.description || 'Premium Plywood Solutions'}</p>
               </div>
             </Link>
 
@@ -152,6 +161,13 @@ const Header = () => {
                       </p>
                     </div>
                   </div>
+                  <button
+                    onClick={handleCompanySwitch}
+                    className="px-4 py-2 text-sm font-bold text-white bg-gradient-to-r from-cyan-600 to-teal-600 hover:from-cyan-700 hover:to-teal-700 rounded-xl shadow-xl hover:shadow-2xl transition-all transform hover:scale-105 border-2 border-cyan-500"
+                    title="Switch to another company"
+                  >
+                    Switch Company
+                  </button>
                   <button
                     onClick={logout}
                     className="px-4 py-2 text-sm font-bold text-white bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 rounded-xl shadow-xl hover:shadow-2xl transition-all transform hover:scale-105 border-2 border-red-500"
@@ -268,6 +284,43 @@ const Header = () => {
               </div>
             )}
           </nav>
+          
+          {/* Mobile User Info and Actions */}
+          {isAuthenticated() && (
+            <div className="px-4 pb-4 mt-4 border-t-2 border-teal-600 pt-4">
+              <div className="flex items-center space-x-3 bg-teal-800 px-4 py-3 rounded-xl border-2 border-teal-600 shadow-lg mb-3">
+                <div className="w-12 h-12 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-full flex items-center justify-center shadow-xl border-2 border-yellow-300">
+                  <span className="text-white text-base font-bold">
+                    {user?.fullName?.charAt(0)?.toUpperCase()}
+                  </span>
+                </div>
+                <div className="text-sm">
+                  <p className="font-bold text-white">{user?.fullName}</p>
+                  <p className="text-cyan-200 font-semibold">
+                    {isAdmin() ? 'Administrator' : 'User'}
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={() => {
+                  handleCompanySwitch();
+                  setIsMenuOpen(false);
+                }}
+                className="w-full px-4 py-3 mb-2 text-sm font-bold text-white bg-gradient-to-r from-cyan-600 to-teal-600 hover:from-cyan-700 hover:to-teal-700 rounded-xl shadow-xl transition-all border-2 border-cyan-500"
+              >
+                Switch Company
+              </button>
+              <button
+                onClick={() => {
+                  logout();
+                  setIsMenuOpen(false);
+                }}
+                className="w-full px-4 py-3 text-sm font-bold text-white bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 rounded-xl shadow-xl transition-all border-2 border-red-500"
+              >
+                Logout
+              </button>
+            </div>
+          )}
         </div>
       )}
     </header>

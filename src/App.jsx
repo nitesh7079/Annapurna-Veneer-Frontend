@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
+import { CompanyProvider } from './contexts/CompanyContext';
 import { NotificationProvider } from './contexts/NotificationContext';
 import Header from './components/Header';
 import SessionManager from './components/SessionManager';
@@ -7,6 +8,7 @@ import Footer from './components/Footer';
 import ProtectedRoute from './components/ProtectedRoute';
 import Home from './pages/Home';
 import Login from './pages/Login';
+import CompanySelection from './pages/CompanySelection';
 import Buy from './pages/Buy';
 import Sell from './pages/Sell';
 import Accounting from './pages/Accounting';
@@ -31,9 +33,13 @@ const AppContent = () => {
     );
   }
 
-  // If not authenticated, show login page
+  // If not authenticated, redirect to login
   if (!isAuthenticated()) {
-    return <Login />;
+    return (
+      <Routes>
+        <Route path="*" element={<Login />} />
+      </Routes>
+    );
   }
 
   return (
@@ -108,16 +114,27 @@ const AppContent = () => {
   );
 };
 
-// Main App wrapper with AuthProvider and NotificationProvider
+// Main App wrapper with all providers
 function App() {
   return (
-    <AuthProvider>
-      <NotificationProvider>
-        <Router>
-          <AppContent />
-        </Router>
-      </NotificationProvider>
-    </AuthProvider>
+    <CompanyProvider>
+      <AuthProvider>
+        <NotificationProvider>
+          <Router>
+            <Routes>
+              {/* Company Selection Route - Always accessible */}
+              <Route path="/company-selection" element={<CompanySelection />} />
+              
+              {/* Login Route */}
+              <Route path="/login" element={<Login />} />
+              
+              {/* All other routes wrapped in AppContent */}
+              <Route path="/*" element={<AppContent />} />
+            </Routes>
+          </Router>
+        </NotificationProvider>
+      </AuthProvider>
+    </CompanyProvider>
   );
 }
 
