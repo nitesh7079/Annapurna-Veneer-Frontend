@@ -55,6 +55,8 @@ function OtherDebit() {
     Amount: '',
     ModeofPayment: '',
     Category: 'Other',
+    TransactionName: '',
+    TransactionType: 'Debit',
     PaymentStatus: 'Pending',
     Description: '',
   });
@@ -179,7 +181,12 @@ function OtherDebit() {
     setSuccess('');
 
     try {
-      const response = await otherDebitAPI.create(formData);
+      const dataToSend = {
+        ...formData,
+        TransactionName: formData.Category,
+        TransactionType: 'Debit'
+      };
+      const response = await otherDebitAPI.create(dataToSend);
       setSuccess(response.message || 'Transaction created successfully!');
       setShowAddModal(false);
       setFormData({
@@ -187,6 +194,8 @@ function OtherDebit() {
         Amount: '',
         ModeofPayment: '',
         Category: 'Other',
+        TransactionName: '',
+        TransactionType: 'Debit',
         PaymentStatus: 'Pending',
         Description: '',
       });

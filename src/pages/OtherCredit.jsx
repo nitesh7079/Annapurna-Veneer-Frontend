@@ -55,6 +55,8 @@ function OtherCredit() {
     Amount: '',
     ModeofPayment: '',
     Category: 'Other',
+    TransactionName: '',
+    TransactionType: 'Credit',
     PaymentStatus: 'Pending',
     Description: '',
   });
@@ -179,7 +181,12 @@ function OtherCredit() {
     setSuccess('');
 
     try {
-      const response = await otherCreditAPI.create(formData);
+      const dataToSend = {
+        ...formData,
+        TransactionName: formData.Category,
+        TransactionType: 'Credit'
+      };
+      const response = await otherCreditAPI.create(dataToSend);
       setSuccess(response.message || 'Transaction created successfully!');
       setShowAddModal(false);
       setFormData({
@@ -187,6 +194,8 @@ function OtherCredit() {
         Amount: '',
         ModeofPayment: '',
         Category: 'Other',
+        TransactionName: '',
+        TransactionType: 'Credit',
         PaymentStatus: 'Pending',
         Description: '',
       });
