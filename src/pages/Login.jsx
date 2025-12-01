@@ -70,6 +70,14 @@ const Login = () => {
         ? { email: formData.email, password: formData.password, companyId: selectedCompany.id }
         : { ...formData, companyId: selectedCompany.id };
 
+      console.log('🚀 Login attempt:', {
+        url,
+        companyId: selectedCompany.id,
+        companyName: selectedCompany.name,
+        isLogin,
+        body: isLogin ? { email: body.email, companyId: body.companyId } : { ...body, password: '***' }
+      });
+
       // Add timeout and better error handling
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
@@ -85,6 +93,8 @@ const Login = () => {
       });
 
       clearTimeout(timeoutId);
+
+      console.log('📡 Response status:', response.status, response.statusText);
 
       let data;
       
@@ -108,7 +118,12 @@ const Login = () => {
         setError(data.message || 'Authentication failed');
       }
     } catch (err) {
-      console.error('Authentication error:', err);
+      console.error('❌ Authentication error:', err);
+      console.error('Error details:', {
+        name: err.name,
+        message: err.message,
+        stack: err.stack
+      });
       
       if (err.name === 'AbortError') {
         setError('Connection timeout. Please check your internet connection and try again.');
