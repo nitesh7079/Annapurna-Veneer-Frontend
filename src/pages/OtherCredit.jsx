@@ -52,7 +52,6 @@ function OtherCredit() {
 
   const [formData, setFormData] = useState({
     Name: '',
-    TransactionName: '',
     Amount: '',
     ModeofPayment: '',
     Category: 'Other',
@@ -185,7 +184,6 @@ function OtherCredit() {
       setShowAddModal(false);
       setFormData({
         Name: '',
-        TransactionName: '',
         Amount: '',
         ModeofPayment: '',
         Category: 'Other',
@@ -393,6 +391,7 @@ function OtherCredit() {
               <option value="Sales">Sales</option>
               <option value="Investment">Investment</option>
               <option value="Salary">Salary</option>
+              <option value="Sundry Creditors">Sundry Creditors</option>
             </select>
           </div>
           <div>
@@ -434,10 +433,8 @@ function OtherCredit() {
               <tr>
                 <th className="px-6 py-4 text-left text-xs font-bold text-cyan-50 uppercase tracking-wider border-r border-teal-600">Order#</th>
                 <th className="px-6 py-4 text-left text-xs font-bold text-cyan-50 uppercase tracking-wider border-r border-teal-600">Name</th>
-                <th className="px-6 py-4 text-left text-xs font-bold text-cyan-50 uppercase tracking-wider border-r border-teal-600">Transaction Name</th>
-                <th className="px-6 py-4 text-left text-xs font-bold text-cyan-50 uppercase tracking-wider border-r border-teal-600">Transaction Type</th>
-                <th className="px-6 py-4 text-left text-xs font-bold text-cyan-50 uppercase tracking-wider border-r border-teal-600">Amount</th>
                 <th className="px-6 py-4 text-left text-xs font-bold text-cyan-50 uppercase tracking-wider border-r border-teal-600">Category</th>
+                <th className="px-6 py-4 text-left text-xs font-bold text-cyan-50 uppercase tracking-wider border-r border-teal-600">Amount</th>
                 <th className="px-6 py-4 text-left text-xs font-bold text-cyan-50 uppercase tracking-wider border-r border-teal-600">Payment Status</th>
                 <th className="px-6 py-4 text-left text-xs font-bold text-cyan-50 uppercase tracking-wider border-r border-teal-600">Mode of Payment</th>
                 <th className="px-6 py-4 text-left text-xs font-bold text-cyan-50 uppercase tracking-wider border-r border-teal-600">Description</th>
@@ -504,10 +501,8 @@ function OtherCredit() {
                           <tr key={transaction._id} className="hover:bg-gray-50 bg-white">
                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 pl-12">{transaction.OrderNumber}</td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-400">└─ {transaction.Name}</td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{transaction.TransactionName}</td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{transaction.TransactionType}</td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">₹{transaction.Amount}</td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{transaction.Category}</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">₹{transaction.Amount}</td>
                             <td className="px-6 py-4 whitespace-nowrap">
                               <span className={`px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${
                                 transaction.PaymentStatus === 'Confirmed' 
@@ -582,17 +577,6 @@ function OtherCredit() {
                 )}
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Transaction Name *</label>
-                <input
-                  type="text"
-                  name="TransactionName"
-                  value={formData.TransactionName}
-                  onChange={handleInputChange}
-                  required
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
-              <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Amount *</label>
                 <input
                   type="number"
@@ -616,6 +600,7 @@ function OtherCredit() {
                   <option value="Sales">Sales</option>
                   <option value="Investment">Investment</option>
                   <option value="Salary">Salary</option>
+                  <option value="Sundry Creditors">Sundry Creditors</option>
                 </select>
               </div>
               <div>
