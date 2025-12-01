@@ -63,12 +63,12 @@ const Login = () => {
 
     try {
       const url = isLogin 
-        ? `https://annapurna-veneer-backend.onrender.com/api/v1/${selectedCompany.id}/user/login`
-        : `https://annapurna-veneer-backend.onrender.com/api/v1/${selectedCompany.id}/user/register`;
+        ? `https://annapurna-veneer-backend.onrender.com/api/v1/user/login`
+        : `https://annapurna-veneer-backend.onrender.com/api/v1/user/register`;
       
       const body = isLogin 
-        ? { email: formData.email, password: formData.password }
-        : formData;
+        ? { email: formData.email, password: formData.password, companyId: selectedCompany.id }
+        : { ...formData, companyId: selectedCompany.id };
 
       // Add timeout and better error handling
       const controller = new AbortController();
@@ -77,7 +77,8 @@ const Login = () => {
       const response = await fetch(url, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'x-company-id': selectedCompany.id
         },
         body: JSON.stringify(body),
         signal: controller.signal

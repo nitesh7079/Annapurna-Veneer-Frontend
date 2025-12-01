@@ -32,9 +32,8 @@ export const CompanyProvider = ({ children }) => {
   };
 
   const getApiUrl = () => {
-    if (!selectedCompany) return null;
-    // Base API URL with company identifier
-    return `https://annapurna-veneer-backend.onrender.com/api/v1/${selectedCompany.id}`;
+    // Return base API URL - company ID sent as header instead
+    return 'https://annapurna-veneer-backend.onrender.com/api/v1';
   };
 
   return (

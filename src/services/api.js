@@ -5,23 +5,9 @@ const getBaseApiUrl = () => {
 };
 
 const getApiUrl = () => {
-  // Get selected company from localStorage
-  const companyData = localStorage.getItem('selectedCompany');
+  // Always return base URL - company ID will be sent as header
   const baseUrl = getBaseApiUrl();
-  
-  if (companyData) {
-    try {
-      const company = JSON.parse(companyData);
-      const companyUrl = `${baseUrl}/${company.id}`;
-      console.log('Annapurna Veneer API - Using company-specific URL:', companyUrl, 'for company:', company.name);
-      return companyUrl;
-    } catch (error) {
-      console.error('Error parsing company data:', error);
-    }
-  }
-  
-  // Fallback to base URL
-  console.log('Annapurna Veneer API - Using base URL (no company selected):', baseUrl);
+  console.log('Annapurna Veneer API - Using base URL:', baseUrl);
   return baseUrl;
 };
 
