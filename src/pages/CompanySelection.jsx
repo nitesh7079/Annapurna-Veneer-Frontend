@@ -1,8 +1,10 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useCompany } from '../contexts/CompanyContext';
 
 function CompanySelection() {
   const navigate = useNavigate();
+  const { selectCompany } = useCompany();
 
   const companies = [
     {
@@ -43,8 +45,24 @@ function CompanySelection() {
   ];
 
   const handleCompanySelect = (company) => {
-    localStorage.setItem('selectedCompany', JSON.stringify(company));
+    console.log('🏢 Selecting company:', company.name, company.id);
+    
+    // Clear all previous data
+    localStorage.removeItem('user');
+    localStorage.removeItem('token');
+    localStorage.removeItem('loginTime');
+    localStorage.removeItem('lastActivity');
+    
+    // Set new company using context
+    selectCompany(company);
+    
+    // Navigate to login
     navigate('/login');
+    
+    // Force reload to ensure clean state
+    setTimeout(() => {
+      window.location.reload();
+    }, 100);
   };
 
   return (

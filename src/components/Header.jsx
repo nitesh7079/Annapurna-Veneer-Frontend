@@ -14,9 +14,21 @@ const Header = () => {
   const { unreadCount, connectionError } = useNotifications();
 
   const handleCompanySwitch = () => {
+    console.log('🔄 Switching company - clearing all data...');
+    
+    // Logout user
     logout();
+    
+    // Clear company selection
     clearCompany();
+    
+    // Navigate to company selection
     navigate('/company-selection');
+    
+    // Force page reload to clear all cached data
+    setTimeout(() => {
+      window.location.reload();
+    }, 100);
   };
 
   // Define navigation based on user role

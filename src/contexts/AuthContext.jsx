@@ -86,12 +86,13 @@ export const AuthProvider = ({ children }) => {
       clearInterval(sessionCheckTimer.current);
     }
     
-    // Clear state and storage
+    // Clear state and storage (but keep selectedCompany for potential re-login)
     setUser(null);
     localStorage.removeItem('user');
     localStorage.removeItem('token');
     localStorage.removeItem('loginTime');
     localStorage.removeItem('lastActivity');
+    // Note: We don't remove 'selectedCompany' here - only when switching companies
   };
 
   // Check if session is still valid
