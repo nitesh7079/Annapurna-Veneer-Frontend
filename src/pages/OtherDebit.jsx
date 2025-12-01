@@ -178,11 +178,8 @@ function OtherDebit() {
     setError('');
     setSuccess('');
 
-    console.log('Form Data being submitted:', formData);
-
     try {
       const response = await otherDebitAPI.create(formData);
-      console.log('Response:', response);
       setSuccess(response.message || 'Transaction created successfully!');
       setShowAddModal(false);
       setFormData({
@@ -195,7 +192,6 @@ function OtherDebit() {
       });
       fetchTransactions();
     } catch (err) {
-      console.error('Error creating transaction:', err);
       setError(err.message || 'Failed to create transaction');
     } finally {
       setLoading(false);
