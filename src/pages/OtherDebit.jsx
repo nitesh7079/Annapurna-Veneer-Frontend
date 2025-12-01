@@ -16,7 +16,10 @@ const otherDebitAPI = {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data),
     });
-    if (!response.ok) throw new Error('Failed to create');
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(errorData.message || `Failed to create: ${response.statusText}`);
+    }
     return response.json();
   },
   applyPayment: async (data) => {
@@ -186,6 +189,7 @@ function OtherDebit() {
         TransactionName: formData.Category,
         TransactionType: 'Debit'
       };
+      console.log('Sending data to backend:', dataToSend);
       const response = await otherDebitAPI.create(dataToSend);
       setSuccess(response.message || 'Transaction created successfully!');
       setShowAddModal(false);
@@ -625,6 +629,7 @@ function OtherDebit() {
                   <option value="">Select Payment Mode</option>
                   {formData.PaymentStatus === 'Confirmed' && (
                     <>
+                      <option value="Cash">Cash</option>
                       {banks.filter(bank => bank.isActive).map((bank) => (
                         <option key={bank._id} value={bank.bankName}>
                           {bank.bankName}
