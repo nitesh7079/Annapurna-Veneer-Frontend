@@ -1,8 +1,25 @@
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
+import { useCompany } from '../contexts/CompanyContext';
 
 const Home = () => {
   const [activeTab, setActiveTab] = useState('current');
+  const { selectedCompany } = useCompany();
+
+  // Get company-specific content
+  const getCompanyContent = () => {
+    const companyName = selectedCompany?.name || 'Annapurna Veneer';
+    const companyType = companyName.includes('Ply') ? 'Plywood' : 'Veneer';
+    
+    return {
+      name: companyName,
+      tagline: companyType === 'Plywood' ? 'Premium Plywood Excellence' : 'Premium Plywood Excellence',
+      description: `Leading Supplier of Premium Quality ${companyType} & Veneer`,
+      subtitle: 'Your trusted partner for superior wood materials and future furniture solutions'
+    };
+  };
+
+  const companyContent = getCompanyContent();
 
   // Current business offerings
   const currentServices = [
@@ -113,16 +130,16 @@ const Home = () => {
             
             {/* Main Heading */}
             <h1 className="text-5xl md:text-7xl font-extrabold mb-6 drop-shadow-2xl tracking-tight">
-              <span className="block">Annapurna Veneer</span>
-              <span className="block text-3xl md:text-4xl mt-2 text-yellow-300 font-bold">Premium Plywood Excellence</span>
+              <span className="block">{companyContent.name}</span>
+              <span className="block text-3xl md:text-4xl mt-2 text-yellow-300 font-bold">{companyContent.tagline}</span>
             </h1>
             
             {/* Subheading */}
             <p className="text-xl md:text-2xl mb-3 text-cyan-100 font-semibold max-w-3xl mx-auto leading-relaxed">
-              Leading Supplier of Premium Quality Plywood & Veneer
+              {companyContent.description}
             </p>
             <p className="text-lg md:text-xl mb-10 text-emerald-200 max-w-2xl mx-auto">
-              Your trusted partner for superior wood materials and future furniture solutions
+              {companyContent.subtitle}
             </p>
             
             {/* Key Features */}
