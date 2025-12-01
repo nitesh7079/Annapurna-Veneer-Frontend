@@ -15,30 +15,30 @@ function CompanySelection() {
       color: 'from-teal-600 to-emerald-600'
     },
     {
-      id: 'company-2',
-      name: 'Company 2',
-      description: 'Your Business Description',
+      id: 'sagun-veneer',
+      name: 'Sagun Veneer',
+      description: 'Quality Veneer Solutions',
       logo: '🏭',
       color: 'from-blue-600 to-cyan-600'
     },
     {
-      id: 'company-3',
-      name: 'Company 3',
-      description: 'Your Business Description',
+      id: 'shyam-veneer',
+      name: 'Shyam Veneer',
+      description: 'Trusted Veneer Products',
       logo: '🏪',
       color: 'from-purple-600 to-pink-600'
     },
     {
-      id: 'company-4',
-      name: 'Company 4',
-      description: 'Your Business Description',
+      id: 'shakti-ply',
+      name: 'Shakti Ply',
+      description: 'Premium Plywood Supplier',
       logo: '🏬',
       color: 'from-orange-600 to-red-600'
     },
     {
-      id: 'company-5',
-      name: 'Company 5',
-      description: 'Your Business Description',
+      id: 'krishna-ply',
+      name: 'Krishna Ply',
+      description: 'Quality Plywood Products',
       logo: '🏛️',
       color: 'from-green-600 to-teal-600'
     }
