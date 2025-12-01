@@ -391,6 +391,8 @@ function OtherCredit() {
               <option value="Sales">Sales</option>
               <option value="Investment">Investment</option>
               <option value="Salary">Salary</option>
+              <option value="Sundry Creditors">Sundry Creditors</option>
+              <option value="Sundry Debitors">Sundry Debitors</option>
             </select>
           </div>
           <div>
@@ -600,6 +602,8 @@ function OtherCredit() {
                   <option value="Sales">Sales</option>
                   <option value="Investment">Investment</option>
                   <option value="Salary">Salary</option>
+                  <option value="Sundry Creditors">Sundry Creditors</option>
+                  <option value="Sundry Debitors">Sundry Debitors</option>
                 </select>
               </div>
               <div>

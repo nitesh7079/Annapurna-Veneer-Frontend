@@ -392,6 +392,8 @@ function OtherDebit() {
               <option value="Expense">Expense</option>
               <option value="Utility">Utility</option>
               <option value="Other">Other</option>
+              <option value="Sundry Creditors">Sundry Creditors</option>
+              <option value="Sundry Debitors">Sundry Debitors</option>
             </select>
           </div>
           <div>
@@ -601,6 +603,8 @@ function OtherDebit() {
                   <option value="Purchase">Purchase</option>
                   <option value="Expense">Expense</option>
                   <option value="Utility">Utility</option>
+                  <option value="Sundry Creditors">Sundry Creditors</option>
+                  <option value="Sundry Debitors">Sundry Debitors</option>
                 </select>
               </div>
               <div>
