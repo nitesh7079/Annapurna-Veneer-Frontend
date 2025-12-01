@@ -79,11 +79,16 @@ const getApiInstance = () => {
         }
       }
 
+      // Removed x-company-id header due to CORS restrictions
+      // Company ID should be sent in request body instead
       if (companyData) {
         try {
           const company = JSON.parse(companyData);
-          config.headers['x-company-id'] = company.id;
-          console.log('Annapurna Veneer API - Added x-company-id header:', company.id);
+          // Add companyId to request data instead of header
+          if (config.data && typeof config.data === 'object') {
+            config.data.companyId = company.id;
+          }
+          console.log('Annapurna Veneer API - Added companyId to request body:', company.id);
         } catch (error) {
           console.error('Annapurna Veneer API - Error parsing company from localStorage:', error);
         }
@@ -94,8 +99,7 @@ const getApiInstance = () => {
         method: config.method,
         data: config.data,
         hasToken: !!savedToken,
-        userId: config.headers['x-user-id'],
-        companyId: config.headers['x-company-id']
+        userId: config.headers['x-user-id']
       });
       return config;
     },

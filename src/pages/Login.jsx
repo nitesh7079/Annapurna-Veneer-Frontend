@@ -85,8 +85,7 @@ const Login = () => {
       const response = await fetch(url, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
-          'x-company-id': selectedCompany.id
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify(body),
         signal: controller.signal
