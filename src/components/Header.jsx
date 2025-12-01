@@ -22,13 +22,8 @@ const Header = () => {
     // Clear company selection
     clearCompany();
     
-    // Navigate to company selection
-    navigate('/company-selection');
-    
-    // Force page reload to clear all cached data
-    setTimeout(() => {
-      window.location.reload();
-    }, 100);
+    // Navigate to company selection (React Router handles the transition)
+    navigate('/company-selection', { replace: true });
   };
 
   // Define navigation based on user role

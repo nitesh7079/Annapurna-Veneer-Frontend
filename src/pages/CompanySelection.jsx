@@ -56,13 +56,8 @@ function CompanySelection() {
     // Set new company using context
     selectCompany(company);
     
-    // Navigate to login
+    // Navigate to login (no reload needed)
     navigate('/login');
-    
-    // Force reload to ensure clean state
-    setTimeout(() => {
-      window.location.reload();
-    }, 100);
   };
 
   return (

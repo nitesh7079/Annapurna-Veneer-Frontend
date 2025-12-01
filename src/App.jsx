@@ -1,6 +1,6 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
-import { CompanyProvider } from './contexts/CompanyContext';
+import { CompanyProvider, useCompany } from './contexts/CompanyContext';
 import { NotificationProvider } from './contexts/NotificationContext';
 import Header from './components/Header';
 import SessionManager from './components/SessionManager';
@@ -114,6 +114,22 @@ const AppContent = () => {
   );
 };
 
+// Component to handle root redirect logic
+const RootRedirect = () => {
+  const { selectedCompany } = useCompany();
+  const { isAuthenticated } = useAuth();
+
+  if (!selectedCompany) {
+    return <Navigate to="/company-selection" replace />;
+  }
+  
+  if (!isAuthenticated()) {
+    return <Navigate to="/login" replace />;
+  }
+  
+  return <AppContent />;
+};
+
 // Main App wrapper with all providers
 function App() {
   return (
@@ -128,8 +144,8 @@ function App() {
               {/* Login Route */}
               <Route path="/login" element={<Login />} />
               
-              {/* All other routes wrapped in AppContent */}
-              <Route path="/*" element={<AppContent />} />
+              {/* All other routes with redirect logic */}
+              <Route path="/*" element={<RootRedirect />} />
             </Routes>
           </Router>
         </NotificationProvider>
