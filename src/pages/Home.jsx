@@ -344,7 +344,7 @@ const Home = () => {
           
           {/* Why Choose Us */}
           <div className="mt-16 bg-white rounded-3xl shadow-xl p-8 md:p-12 border-2 border-teal-100">
-            <h3 className="text-3xl font-bold text-teal-900 mb-8 text-center">Why Choose Annapurna Veneer?</h3>
+            <h3 className="text-3xl font-bold text-teal-900 mb-8 text-center">Why Choose {companyContent.name}?</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
               <div className="text-center">
                 <div className="w-16 h-16 bg-gradient-to-br from-teal-500 to-emerald-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
