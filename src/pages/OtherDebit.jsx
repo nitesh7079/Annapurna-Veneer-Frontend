@@ -629,7 +629,6 @@ function OtherDebit() {
                   <option value="">Select Payment Mode</option>
                   {formData.PaymentStatus === 'Confirmed' && (
                     <>
-                      <option value="Cash">Cash</option>
                       {banks.filter(bank => bank.isActive).map((bank) => (
                         <option key={bank._id} value={bank.bankName}>
                           {bank.bankName}
