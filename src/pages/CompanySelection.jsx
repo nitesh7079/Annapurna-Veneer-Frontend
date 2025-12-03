@@ -46,7 +46,12 @@ function CompanySelection() {
 
   const handleCompanySelect = (company) => {
     console.log('🏢 Selecting company:', company.name, company.id);
-    
+
+    if (company.id === 'shyam-veneer') {
+      window.location.href = 'https://www.shyamveneer.com/';
+      return;
+    }
+
     // Clear all previous data
     localStorage.removeItem('user');
     localStorage.removeItem('token');
