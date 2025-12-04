@@ -25,7 +25,7 @@ const Banks = () => {
     });
 
     const getApiUrl = () => {
-        return 'https://express-js-on-vercel-eosin-three.vercel.app';
+        return 'https://shyam-veneer-backend.onrender.com';
     };
 
     const API_URL = getApiUrl();
