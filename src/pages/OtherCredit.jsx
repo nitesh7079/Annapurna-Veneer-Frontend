@@ -599,11 +599,41 @@ function OtherCredit() {
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
                   <option value="">Select Category</option>
-                  <option value="Sales">Sales</option>
-                  <option value="Investment">Investment</option>
-                  <option value="Salary">Salary</option>
+                  <option value="Bank Accounts">Bank Accounts</option>
+                  <option value="Bank OCC A/c">Bank OCC A/c</option>
+                  <option value="Bank OD A/c">Bank OD A/c</option>
+                  <option value="Branch/Divisions">Branch/Divisions</option>
+                  <option value="Capital Account">Capital Account</option>
+                  <option value="Cash-in-hand">Cash-in-hand</option>
+                  <option value="Current Assets">Current Assets</option>
+                  <option value="Current Liabilities">Current Liabilities</option>
+                  <option value="Deposits (Asset)">Deposits (Asset)</option>
+                  <option value="Direct Expenses">Direct Expenses</option>
+                  <option value="Direct Incomes">Direct Incomes</option>
+                  <option value="Duties & Taxes">Duties & Taxes</option>
+                  <option value="Expenses (Direct)">Expenses (Direct)</option>
+                  <option value="Expenses (Indirect)">Expenses (Indirect)</option>
+                  <option value="Fixed Assets">Fixed Assets</option>
+                  <option value="Income (Direct)">Income (Direct)</option>
+                  <option value="Income (Indirect)">Income (Indirect)</option>
+                  <option value="Indirect Expenses">Indirect Expenses</option>
+                  <option value="Indirect Incomes">Indirect Incomes</option>
+                  <option value="Investments">Investments</option>
+                  <option value="Loans & Advances (Asset)">Loans & Advances (Asset)</option>
+                  <option value="Loans (Liability)">Loans (Liability)</option>
+                  <option value="Misc. Expenses (ASSET)">Misc. Expenses (ASSET)</option>
+                  <option value="Provisions">Provisions</option>
+                  <option value="Purchase Accounts">Purchase Accounts</option>
+                  <option value="Reserves & Surplus">Reserves & Surplus</option>
+                  <option value="Retained Earnings">Retained Earnings</option>
+                  <option value="Sales Accounts">Sales Accounts</option>
+                  <option value="Secured Loans">Secured Loans</option>
+                  <option value="Stock-in-hand">Stock-in-hand</option>
                   <option value="Sundry Creditors">Sundry Creditors</option>
                   <option value="Sundry Debitors">Sundry Debitors</option>
+                  <option value="Suspense A/c">Suspense A/c</option>
+                  <option value="Unsecured Loans">Unsecured Loans</option>
+                  <option value="VAT A/C">VAT A/C</option>
                 </select>
               </div>
               <div>
