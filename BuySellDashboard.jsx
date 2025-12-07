@@ -245,25 +245,25 @@ const BuySellDashboard = () => {
             <div className="bg-green-50 p-6 rounded-lg border border-green-200">
               <h3 className="text-lg font-semibold text-green-800">Buy History</h3>
               <p className="text-2xl font-bold text-green-600">{dashboardData.buyHistory.count}</p>
-              <p className="text-sm text-green-600">₹{dashboardData.buyHistory.totalAmount.toLocaleString()}</p>
+              <p className="text-sm text-green-600">₹{dashboardData.buyHistory.totalAmount.toLocaleString('en-IN')}</p>
             </div>
             
             <div className="bg-blue-50 p-6 rounded-lg border border-blue-200">
               <h3 className="text-lg font-semibold text-blue-800">Sell History</h3>
               <p className="text-2xl font-bold text-blue-600">{dashboardData.sellHistory.count}</p>
-              <p className="text-sm text-blue-600">₹{dashboardData.sellHistory.totalAmount.toLocaleString()}</p>
+              <p className="text-sm text-blue-600">₹{dashboardData.sellHistory.totalAmount.toLocaleString('en-IN')}</p>
             </div>
             
             <div className="bg-orange-50 p-6 rounded-lg border border-orange-200">
               <h3 className="text-lg font-semibold text-orange-800">Buy Pending</h3>
               <p className="text-2xl font-bold text-orange-600">{dashboardData.buyPending.count}</p>
-              <p className="text-sm text-orange-600">₹{dashboardData.buyPending.pendingAmount.toLocaleString()}</p>
+              <p className="text-sm text-orange-600">₹{dashboardData.buyPending.pendingAmount.toLocaleString('en-IN')}</p>
             </div>
             
             <div className="bg-purple-50 p-6 rounded-lg border border-purple-200">
               <h3 className="text-lg font-semibold text-purple-800">Sell Pending</h3>
               <p className="text-2xl font-bold text-purple-600">{dashboardData.sellPending.count}</p>
-              <p className="text-sm text-purple-600">₹{dashboardData.sellPending.pendingAmount.toLocaleString()}</p>
+              <p className="text-sm text-purple-600">₹{dashboardData.sellPending.pendingAmount.toLocaleString('en-IN')}</p>
             </div>
           </div>
 
@@ -278,12 +278,12 @@ const BuySellDashboard = () => {
               <div>
                 <p className="text-sm text-gray-600">Profit/Loss</p>
                 <p className={`text-xl font-bold ${dashboardData.summary.profitLoss >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                  ₹{dashboardData.summary.profitLoss.toLocaleString()}
+                  ₹{dashboardData.summary.profitLoss.toLocaleString('en-IN')}
                 </p>
               </div>
               <div>
                 <p className="text-sm text-gray-600">Total Pending Amount</p>
-                <p className="text-xl font-bold text-orange-600">₹{dashboardData.summary.totalPendingAmount.toLocaleString()}</p>
+                <p className="text-xl font-bold text-orange-600">₹{dashboardData.summary.totalPendingAmount.toLocaleString('en-IN')}</p>
               </div>
             </div>
           </div>
@@ -346,7 +346,7 @@ const BuySellDashboard = () => {
               <td className="px-4 py-2 border-b">{transaction.name}</td>
               <td className="px-4 py-2 border-b">{transaction.itemName}</td>
               <td className="px-4 py-2 border-b">{transaction.quantity}</td>
-              <td className="px-4 py-2 border-b">₹{transaction.amount.toLocaleString()}</td>
+              <td className="px-4 py-2 border-b">₹{transaction.amount.toLocaleString('en-IN')}</td>
               <td className="px-4 py-2 border-b">
                 <span className={`px-2 py-1 rounded-full text-xs ${
                   transaction.paymentStatus === 'Confirmed' 

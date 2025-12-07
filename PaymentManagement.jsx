@@ -228,7 +228,7 @@ const PaymentManagement = () => {
               </div>
               <div>
                 <p className="text-sm text-gray-600">Total Pending Amount</p>
-                <p className="text-xl font-bold text-orange-600">₹{calculateSelectedTotal().toLocaleString()}</p>
+                <p className="text-xl font-bold text-orange-600">₹{calculateSelectedTotal().toLocaleString('en-IN')}</p>
               </div>
               <div>
                 <p className="text-sm text-gray-600">Total Transactions</p>
@@ -351,10 +351,10 @@ const PaymentManagement = () => {
                       </td>
                       <td className="px-4 py-2 border-b">{transaction.name}</td>
                       <td className="px-4 py-2 border-b">{transaction.itemName}</td>
-                      <td className="px-4 py-2 border-b">₹{transaction.amount.toLocaleString()}</td>
-                      <td className="px-4 py-2 border-b">₹{(transaction.paidAmount || 0).toLocaleString()}</td>
+                      <td className="px-4 py-2 border-b">₹{transaction.amount.toLocaleString('en-IN')}</td>
+                      <td className="px-4 py-2 border-b">₹{(transaction.paidAmount || 0).toLocaleString('en-IN')}</td>
                       <td className="px-4 py-2 border-b font-semibold text-orange-600">
-                        ₹{pendingAmount.toLocaleString()}
+                        ₹{pendingAmount.toLocaleString('en-IN')}
                       </td>
                       <td className="px-4 py-2 border-b">
                         <button

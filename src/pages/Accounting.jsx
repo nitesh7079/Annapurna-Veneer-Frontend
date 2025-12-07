@@ -140,7 +140,7 @@ const Accounting = () => {
   // Format currency
   const formatCurrency = (amount) => {
     const numAmount = parseFloat(amount) || 0;
-    return `₹${numAmount.toLocaleString('en-US', {
+    return `₹${numAmount.toLocaleString('en-IN', {
       minimumFractionDigits: 0,
       maximumFractionDigits: 0
     })}`;
