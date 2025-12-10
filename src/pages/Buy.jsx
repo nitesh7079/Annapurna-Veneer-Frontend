@@ -6,9 +6,11 @@ function Buy() {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(false);
   const [showAddModal, setShowAddModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [showPaymentHistoryModal, setShowPaymentHistoryModal] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
+  const [editingOrder, setEditingOrder] = useState(null);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [expandedCustomers, setExpandedCustomers] = useState({});
@@ -185,6 +187,58 @@ function Buy() {
       fetchOrders();
     } catch (err) {
       setError(err.message || 'Failed to create buy order');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const openEditModal = (order) => {
+    setEditingOrder(order);
+    setFormData({
+      CustomerName: order.CustomerName || '',
+      ItemName: order.ItemName || '',
+      Under: order.Under || '',
+      Quantity: order.Quantity || '',
+      Amount: order.Amount || '',
+      VatAmount: order.VatAmount || '',
+      BillNumber: order.BillNumber || '',
+      PhoneNumber: order.PhoneNumber || '',
+      VehicleNumber: order.VehicleNumber || '',
+      PaymentStatus: order.PaymentStatus || 'Pending',
+      PaymentDeadline: order.PaymentDeadline ? new Date(order.PaymentDeadline).toISOString().split('T')[0] : '',
+      ModeofPayment: order.ModeofPayment || 'Cash',
+      DeliveryAddress: order.DeliveryAddress || '',
+    });
+    setShowEditModal(true);
+  };
+
+  const handleUpdate = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError('');
+    setSuccess('');
+
+    try {
+      const response = await buyAPI.update(editingOrder._id, formData);
+      setSuccess(response.message || 'Buy order updated successfully!');
+      setShowEditModal(false);
+      setEditingOrder(null);
+      setFormData({
+        CustomerName: '',
+        ItemName: '',
+        Under: '',
+        Quantity: '',
+        Amount: '',
+        VatAmount: '',
+        BillNumber: '',
+        PhoneNumber: '',
+        VehicleNumber: '',
+        ModeofPayment: 'Cash',
+        DeliveryAddress: '',
+      });
+      fetchOrders();
+    } catch (err) {
+      setError(err.message || 'Failed to update buy order');
     } finally {
       setLoading(false);
     }
@@ -528,6 +582,13 @@ function Buy() {
                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{order.DeliveryAddress || '-'}</td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
                               <button
+                                onClick={() => openEditModal(order)}
+                                className="text-amber-600 hover:text-amber-900 bg-amber-50 hover:bg-amber-100 px-2 py-1 rounded text-xs"
+                                title="Edit order"
+                              >
+                                Edit
+                              </button>
+                              <button
                                 onClick={() => openPaymentModal(order)}
                                 className="text-blue-600 hover:text-blue-900 bg-blue-50 hover:bg-blue-100 px-2 py-1 rounded text-xs"
                               >
@@ -787,6 +848,195 @@ function Buy() {
                   className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:bg-blue-300"
                 >
                   {loading ? 'Creating...' : 'Create Order'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Edit Buy Order Modal */}
+      {showEditModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <h2 className="text-2xl font-bold mb-4">Edit Buy Order</h2>
+            <form onSubmit={handleUpdate} className="space-y-4">
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Customer Name *</label>
+                  <input
+                    type="text"
+                    name="CustomerName"
+                    value={formData.CustomerName}
+                    onChange={handleInputChange}
+                    required
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Item Name *</label>
+                  <select
+                    name="ItemName"
+                    value={formData.ItemName}
+                    onChange={handleInputChange}
+                    required
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  >
+                    <option value="">Select Item</option>
+                    <option value="Goliya">Goliya</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Under *</label>
+                  <select
+                    name="Under"
+                    value={formData.Under}
+                    onChange={handleInputChange}
+                    required
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  >
+                    <option value="">Select Category</option>
+                    <option value="Sundry Creditors">Sundry Creditors</option>
+                    <option value="Sundry Debitors">Sundry Debitors</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Quantity *</label>
+                  <input
+                    type="number"
+                    name="Quantity"
+                    value={formData.Quantity}
+                    onChange={handleInputChange}
+                    required
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Amount *</label>
+                  <input
+                    type="number"
+                    name="Amount"
+                    value={formData.Amount}
+                    onChange={handleInputChange}
+                    required
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">VAT Amount</label>
+                  <input
+                    type="text"
+                    name="VatAmount"
+                    value={formData.VatAmount}
+                    onChange={handleInputChange}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Bill Number *</label>
+                  <input
+                    type="text"
+                    name="BillNumber"
+                    value={formData.BillNumber}
+                    onChange={handleInputChange}
+                    required
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Phone Number *</label>
+                  <input
+                    type="number"
+                    name="PhoneNumber"
+                    value={formData.PhoneNumber}
+                    onChange={handleInputChange}
+                    required
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Vehicle Number *</label>
+                  <input
+                    type="text"
+                    name="VehicleNumber"
+                    value={formData.VehicleNumber}
+                    onChange={handleInputChange}
+                    required
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Payment Status *</label>
+                  <select
+                    name="PaymentStatus"
+                    value={formData.PaymentStatus}
+                    onChange={handleInputChange}
+                    required
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  >
+                    <option value="Pending">Pending</option>
+                    <option value="Confirmed">Confirmed</option>
+                  </select>
+                </div>
+                {formData.PaymentStatus === 'Pending' && (
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Payment Deadline</label>
+                    <input
+                      type="date"
+                      name="PaymentDeadline"
+                      value={formData.PaymentDeadline}
+                      onChange={handleInputChange}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                  </div>
+                )}
+                {formData.PaymentStatus === 'Confirmed' && (
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Mode of Payment *</label>
+                    <select
+                      name="ModeofPayment"
+                      value={formData.ModeofPayment}
+                      onChange={handleInputChange}
+                      required
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    >
+                      <option value="">Select Payment Method</option>
+                      <option value="Cash">Cash</option>
+                      {banks.filter(bank => bank.isActive).map(bank => (
+                        <option key={bank._id} value={bank.bankName}>{bank.bankName}</option>
+                      ))}
+                    </select>
+                  </div>
+                )}
+                <div className="col-span-2">
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Delivery Address *</label>
+                  <textarea
+                    name="DeliveryAddress"
+                    value={formData.DeliveryAddress}
+                    onChange={handleInputChange}
+                    required
+                    rows="2"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+              </div>
+              <div className="flex justify-end space-x-3 pt-4">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setShowEditModal(false);
+                    setEditingOrder(null);
+                  }}
+                  className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="px-4 py-2 bg-amber-600 text-white rounded-md hover:bg-amber-700 disabled:bg-amber-300"
+                >
+                  {loading ? 'Updating...' : 'Update Order'}
                 </button>
               </div>
             </form>

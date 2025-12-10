@@ -153,6 +153,16 @@ export const buyAPI = {
       throw error.response?.data || { message: 'Failed to apply payment' };
     }
   },
+
+  // Update buy order
+  update: async (id, buyData) => {
+    try {
+      const response = await api.patch(`/buy/${id}`, buyData);
+      return response.data;
+    } catch (error) {
+      throw error.response?.data || { message: 'Failed to update buy order' };
+    }
+  },
 };
 
 // Shyam Veneer - Sell Orders API
@@ -184,6 +194,16 @@ export const sellAPI = {
       return response.data;
     } catch (error) {
       throw error.response?.data || { message: 'Failed to apply payment' };
+    }
+  },
+
+  // Update sell order
+  update: async (id, sellData) => {
+    try {
+      const response = await api.patch(`/sell/${id}`, sellData);
+      return response.data;
+    } catch (error) {
+      throw error.response?.data || { message: 'Failed to update sell order' };
     }
   },
 };
@@ -389,6 +409,16 @@ export const otherCreditAPI = {
       throw error.response?.data || { message: 'Failed to add payment to other credit transaction' };
     }
   },
+
+  // Update other credit transaction
+  update: async (id, creditData) => {
+    try {
+      const response = await api.patch(`/otherCredit/${id}`, creditData);
+      return response.data;
+    } catch (error) {
+      throw error.response?.data || { message: 'Failed to update other credit transaction' };
+    }
+  },
 };
 
 // Shyam Veneer - Other Debit API
@@ -420,6 +450,16 @@ export const otherDebitAPI = {
       return response.data;
     } catch (error) {
       throw error.response?.data || { message: 'Failed to add payment to other debit transaction' };
+    }
+  },
+
+  // Update other debit transaction
+  update: async (id, debitData) => {
+    try {
+      const response = await api.patch(`/otherDebit/${id}`, debitData);
+      return response.data;
+    } catch (error) {
+      throw error.response?.data || { message: 'Failed to update other debit transaction' };
     }
   },
 };
