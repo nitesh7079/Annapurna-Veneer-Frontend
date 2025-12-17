@@ -172,7 +172,7 @@ const Accounting = () => {
       <div className="container mx-auto p-6">
         <div className="flex justify-center items-center h-64">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
-          <span className="ml-3 text-lg">Loading financial data...</span>
+          <span className="ml-3 text-lg">sclatean loading...</span>
         </div>
       </div>
     );

@@ -258,7 +258,7 @@ const Login = () => {
             disabled={loading}
             className="w-full bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-700 hover:to-amber-800 text-white font-bold py-4 px-6 rounded-xl shadow-2xl transition-all duration-300 transform hover:scale-105 hover:shadow-3xl disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {loading ? 'Please wait...' : (isLogin ? 'Login' : 'Register')}
+            {loading ? 'sclatean loading...' : (isLogin ? 'Login' : 'Register')}
           </button>
         </form>
 

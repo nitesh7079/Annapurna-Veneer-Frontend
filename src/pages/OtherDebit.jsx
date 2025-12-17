@@ -754,7 +754,7 @@ function OtherDebit() {
                   disabled={loading}
                   className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md transition disabled:opacity-50"
                 >
-                  {loading ? 'Creating...' : 'Create Transaction'}
+                  {loading ? 'sclatean loading...' : 'Create Transaction'}
                 </button>
               </div>
             </form>
@@ -837,7 +837,7 @@ function OtherDebit() {
                   disabled={loading}
                   className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-md transition disabled:opacity-50"
                 >
-                  {loading ? 'Adding...' : 'Add Payment'}
+                  {loading ? 'sclatean loading...' : 'Add Payment'}
                 </button>
               </div>
             </form>
@@ -1003,7 +1003,7 @@ function OtherDebit() {
                   disabled={loading}
                   className="px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white rounded-md transition disabled:opacity-50"
                 >
-                  {loading ? 'Updating...' : 'Update Transaction'}
+                  {loading ? 'sclatean loading...' : 'Update Transaction'}
                 </button>
               </div>
             </form>

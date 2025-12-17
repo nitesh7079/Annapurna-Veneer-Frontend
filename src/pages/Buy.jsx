@@ -847,7 +847,7 @@ function Buy() {
                   disabled={loading}
                   className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:bg-blue-300"
                 >
-                  {loading ? 'Creating...' : 'Create Order'}
+                  {loading ? 'sclatean loading...' : 'Create Order'}
                 </button>
               </div>
             </form>
@@ -1036,7 +1036,7 @@ function Buy() {
                   disabled={loading}
                   className="px-4 py-2 bg-amber-600 text-white rounded-md hover:bg-amber-700 disabled:bg-amber-300"
                 >
-                  {loading ? 'Updating...' : 'Update Order'}
+                  {loading ? 'sclatean loading...' : 'Update Order'}
                 </button>
               </div>
             </form>
@@ -1122,7 +1122,7 @@ function Buy() {
                   disabled={loading}
                   className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 disabled:bg-green-300"
                 >
-                  {loading ? 'Processing...' : 'Apply Payment'}
+                  {loading ? 'sclatean loading...' : 'Apply Payment'}
                 </button>
               </div>
             </form>

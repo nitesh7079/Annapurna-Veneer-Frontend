@@ -170,7 +170,7 @@ const Banks = () => {
     if (loading && banks.length === 0) {
         return (
             <div className="min-h-screen flex items-center justify-center">
-                <div className="text-lg text-gray-600">Loading banks...</div>
+                <div className="text-lg text-gray-600">sclatean loading...</div>
             </div>
         );
     }
@@ -346,7 +346,7 @@ const Banks = () => {
                         <div className="p-6">
                             {loadingTransactions ? (
                                 <div className="text-center py-8">
-                                    <div className="text-gray-600">Loading transactions...</div>
+                                    <div className="text-gray-600">sclatean loading...</div>
                                 </div>
                             ) : bankTransactions.length > 0 ? (
                                 <div className="overflow-x-auto">
@@ -566,7 +566,7 @@ const Banks = () => {
                                     disabled={loading}
                                     className="flex-1 bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 disabled:opacity-50 transition duration-200"
                                 >
-                                    {loading ? 'Adding...' : 'Add Bank'}
+                                    {loading ? 'sclatean loading...' : 'Add Bank'}
                                 </button>
                             </div>
                         </form>
