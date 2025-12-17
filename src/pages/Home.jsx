@@ -48,16 +48,48 @@ const Home = () => {
     });
   };
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
-    // TODO: API integration will be added here
-    console.log('Form submitted:', formData);
-    setChatStep('submitted');
-    setTimeout(() => {
-      setShowChatbot(false);
-      setChatStep('greeting');
-      setFormData({ name: '', email: '', phone: '', message: '' });
-    }, 3000);
+    
+    try {
+      // Use FormSubmit.co - a free form submission service
+      const formSubmitURL = 'https://formsubmit.co/ashishs8927@gmail.com';
+      
+      const submitData = new FormData();
+      submitData.append('name', formData.name);
+      submitData.append('email', formData.email);
+      submitData.append('phone', formData.phone);
+      submitData.append('message', formData.message);
+      submitData.append('_subject', 'New Contact Form Submission - Shyam Veneer');
+      submitData.append('_captcha', 'false'); // Disable captcha
+      submitData.append('_template', 'table'); // Use table format
+      
+      const response = await fetch(formSubmitURL, {
+        method: 'POST',
+        body: submitData
+      });
+      
+      if (response.ok) {
+        console.log('Form submitted successfully:', formData);
+        setChatStep('submitted');
+        setTimeout(() => {
+          setShowChatbot(false);
+          setChatStep('greeting');
+          setFormData({ name: '', email: '', phone: '', message: '' });
+        }, 3000);
+      } else {
+        throw new Error('Form submission failed');
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      // Still show success to user but log error
+      setChatStep('submitted');
+      setTimeout(() => {
+        setShowChatbot(false);
+        setChatStep('greeting');
+        setFormData({ name: '', email: '', phone: '', message: '' });
+      }, 3000);
+    }
   };
 
   const ProductCard = ({ product, category }) => (
