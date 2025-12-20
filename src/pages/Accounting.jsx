@@ -50,7 +50,12 @@ const Accounting = () => {
       calculateSummary(newFinancialData);
     } catch (err) {
       console.error('Error fetching financial data:', err);
-      setError('Failed to fetch financial data. Please try again.');
+      const errorMessage = err.message || 'Failed to fetch financial data';
+      if (errorMessage.includes('Network Error') || errorMessage.includes('timeout')) {
+        setError('Unable to connect to server. The backend may be starting up (this can take 30-60 seconds on first load). Please wait and try again.');
+      } else {
+        setError('Failed to fetch financial data. Please try again.');
+      }
     } finally {
       setLoading(false);
     }
