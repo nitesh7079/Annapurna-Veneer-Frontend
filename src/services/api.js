@@ -488,12 +488,32 @@ export const bankAPI = {
   },
 
   // Get bank transactions
-  getBankTransactions: async (bankId) => {
+  getBankTransactions: async (bankId, limit = 50) => {
     try {
-      const response = await api.get(`/banks/${bankId}/transactions`);
+      const response = await api.get(`/banks/${bankId}/transactions?limit=${limit}`);
       return response.data;
     } catch (error) {
       throw error.response?.data || { message: 'Failed to fetch bank transactions' };
+    }
+  },
+
+  // Add new bank
+  create: async (bankData) => {
+    try {
+      const response = await api.post('/banks', bankData);
+      return response.data;
+    } catch (error) {
+      throw error.response?.data || { message: 'Failed to add bank' };
+    }
+  },
+
+  // Toggle bank status
+  toggleStatus: async (bankId) => {
+    try {
+      const response = await api.patch(`/banks/${bankId}/toggle-status`);
+      return response.data;
+    } catch (error) {
+      throw error.response?.data || { message: 'Failed to toggle bank status' };
     }
   },
 };

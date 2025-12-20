@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import axios from 'axios';
+import { bankAPI } from '../services/api';
 
 const Banks = () => {
     const [banks, setBanks] = useState([]);
@@ -24,12 +24,6 @@ const Banks = () => {
         address: ''
     });
 
-    const getApiUrl = () => {
-        return 'https://shyam-veneer-backend-1.onrender.com';
-    };
-
-    const API_URL = getApiUrl();
-
     useEffect(() => {
         fetchBanks();
     }, []);
@@ -37,9 +31,9 @@ const Banks = () => {
     const fetchBanks = async () => {
         try {
             setLoading(true);
-            const response = await axios.get(`${API_URL}/api/v1/banks`);
-            if (response.data.success) {
-                setBanks(response.data.data);
+            const response = await bankAPI.getAll();
+            if (response.success) {
+                setBanks(response.data);
                 setError('');
             }
         } catch (err) {
@@ -53,10 +47,10 @@ const Banks = () => {
     const fetchBankTransactions = async (bankId) => {
         try {
             setLoadingTransactions(true);
-            const response = await axios.get(`${API_URL}/api/v1/banks/${bankId}/transactions?limit=50`);
-            if (response.data.success) {
-                setBankTransactions(response.data.data.transactions);
-                setBankSummary(response.data.data.summary);
+            const response = await bankAPI.getBankTransactions(bankId, 50);
+            if (response.success) {
+                setBankTransactions(response.data.transactions);
+                setBankSummary(response.data.summary);
             }
         } catch (err) {
             console.error('Error fetching bank transactions:', err);
@@ -70,9 +64,9 @@ const Banks = () => {
         e.preventDefault();
         try {
             setLoading(true);
-            const response = await axios.post(`${API_URL}/api/v1/banks`, formData);
+            const response = await bankAPI.create(formData);
             
-            if (response.data.success) {
+            if (response.success) {
                 // Reset form
                 setFormData({
                     bankName: '',
@@ -94,13 +88,13 @@ const Banks = () => {
             console.error('Error adding bank:', err);
             let errorMessage = 'Failed to add bank account';
             
-            if (err.response?.data?.errors) {
-                const validationErrors = err.response.data.errors
+            if (err.errors) {
+                const validationErrors = err.errors
                     .map(error => `${error.field}: ${error.message}`)
                     .join(', ');
                 errorMessage = `Validation failed: ${validationErrors}`;
-            } else if (err.response?.data?.message) {
-                errorMessage = err.response.data.message;
+            } else if (err.message) {
+                errorMessage = err.message;
             }
             
             setError(errorMessage);
@@ -124,16 +118,16 @@ const Banks = () => {
 
     const handleToggleBankStatus = async (bankId, currentStatus) => {
         try {
-            const response = await axios.patch(`${API_URL}/api/v1/banks/${bankId}/toggle-status`);
+            const response = await bankAPI.toggleStatus(bankId);
             
-            if (response.data.success) {
+            if (response.success) {
                 await fetchBanks(); // Refresh banks list
                 const statusText = currentStatus ? 'disabled' : 'activated';
                 alert(`Bank ${statusText} successfully!`);
             }
         } catch (err) {
             console.error('Error toggling bank status:', err);
-            const errorMessage = err.response?.data?.message || 'Failed to toggle bank status';
+            const errorMessage = err.message || 'Failed to toggle bank status';
             setError(errorMessage);
             alert(errorMessage);
         }
