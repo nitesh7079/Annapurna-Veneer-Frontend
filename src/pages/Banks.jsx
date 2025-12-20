@@ -25,7 +25,7 @@ const Banks = () => {
     });
 
     const getApiUrl = () => {
-        return 'https://shyam-veneer-backend-1.onrender.com';
+        return 'https://annapurnaveneer.online';
     };
 
     const API_URL = getApiUrl();
@@ -232,7 +232,7 @@ const Banks = () => {
                             </div>
                             <div>
                                 <h1 className="text-4xl font-bold text-amber-50 tracking-wide drop-shadow-lg">Bank Management</h1>
-                                <p className="text-amber-200 mt-1 text-sm">Shyam Veneer - Premium Plywood</p>
+                                <p className="text-amber-200 mt-1 text-sm">Annapurna Veneer - Premium Plywood</p>
                             </div>
                         </div>
                         <button

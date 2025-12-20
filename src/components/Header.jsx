@@ -50,7 +50,7 @@ const Header = () => {
               </div>
               <div className="ml-4">
                 <h1 className="text-2xl font-bold text-white tracking-tight drop-shadow-lg">
-                  Shyam Veneer
+                  Annapurna Veneer
                 </h1>
                 <p className="text-sm text-amber-200 font-bold">Premium Plywood Solutions</p>
               </div>

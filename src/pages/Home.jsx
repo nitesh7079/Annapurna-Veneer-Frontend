@@ -60,7 +60,7 @@ const Home = () => {
       submitData.append('email', formData.email);
       submitData.append('phone', formData.phone);
       submitData.append('message', formData.message);
-      submitData.append('_subject', 'New Contact Form Submission - Shyam Veneer');
+      submitData.append('_subject', 'New Contact Form Submission - Annapurna Veneer');
       submitData.append('_captcha', 'false'); // Disable captcha
       submitData.append('_template', 'table'); // Use table format
       
@@ -170,7 +170,7 @@ const Home = () => {
                   <span className="text-2xl">🤖</span>
                 </div>
                 <div>
-                  <h3 className="font-bold">Shyam Assistant</h3>
+                  <h3 className="font-bold">Annapurna Assistant</h3>
                   <p className="text-xs text-amber-100">Online now</p>
                 </div>
               </div>
@@ -188,7 +188,7 @@ const Home = () => {
               {chatStep === 'greeting' && (
                 <div className="space-y-4">
                   <div className="bg-amber-100 text-amber-900 p-4 rounded-lg rounded-tl-none animate-fadeIn">
-                    <p className="mb-2">👋 Hello! Welcome to Shyam Veneer!</p>
+                    <p className="mb-2">👋 Hello! Welcome to Annapurna Veneer!</p>
                     <p className="mb-3">How are you today?</p>
                     <p className="text-sm">I'm here to help you with your plywood and furniture needs.</p>
                   </div>
@@ -322,7 +322,7 @@ const Home = () => {
           </div>
           
           <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight drop-shadow-2xl">
-            Shyam Veneer
+            Annapurna Veneer
           </h1>
           
           <p className="text-xl md:text-3xl text-amber-50 mb-4 font-light drop-shadow-lg">
@@ -399,7 +399,7 @@ const Home = () => {
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-800 mb-4">Why Choose Shyam Veneer?</h2>
+            <h2 className="text-4xl font-bold text-gray-800 mb-4">Why Choose Annapurna Veneer?</h2>
             <p className="text-xl text-gray-600">Your trusted partner for all wood needs</p>
           </div>
           

@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { bankAPI } from '../services/api';
 import LoadingSpinner from '../components/LoadingSpinner';
+import { downloadOtherDebitPDF, downloadOtherDebitExcel } from '../utils/downloadUtils';
 
-const API_URL = 'https://shyam-veneer-backend-1.onrender.com/api/v1';
+const API_URL = 'https://annapurna-veneer-backend.onrender.com/api/v1';
 
 const otherDebitAPI = {
   getAll: async () => {
@@ -16,16 +17,10 @@ const otherDebitAPI = {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data),
     });
-    if (!response.ok) throw new Error('Failed to create');
-    return response.json();
-  },
-  update: async (id, data) => {
-    const response = await fetch(`${API_URL}/otherDebit/${id}`, {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
-    });
-    if (!response.ok) throw new Error('Failed to update');
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(errorData.message || `Failed to create: ${response.statusText}`);
+    }
     return response.json();
   },
   applyPayment: async (data) => {
@@ -37,6 +32,18 @@ const otherDebitAPI = {
     if (!response.ok) throw new Error('Failed to apply payment');
     return response.json();
   },
+  update: async (id, data) => {
+    const response = await fetch(`${API_URL}/otherDebit/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(errorData.message || `Failed to update: ${response.statusText}`);
+    }
+    return response.json();
+  },
 };
 
 function OtherDebit() {
@@ -44,10 +51,10 @@ function OtherDebit() {
   const [loading, setLoading] = useState(false);
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
-  const [editingTransaction, setEditingTransaction] = useState(null);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [showPaymentHistoryModal, setShowPaymentHistoryModal] = useState(false);
   const [selectedTransaction, setSelectedTransaction] = useState(null);
+  const [isEditMode, setIsEditMode] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [expandedNames, setExpandedNames] = useState({});
@@ -66,8 +73,11 @@ function OtherDebit() {
     Amount: '',
     ModeofPayment: '',
     Category: 'Other',
+    TransactionName: '',
+    TransactionType: 'Debit',
     PaymentStatus: 'Pending',
     Description: '',
+    OpeningBalance: '',
   });
 
   const [nameSuggestions, setNameSuggestions] = useState([]);
@@ -185,12 +195,30 @@ function OtherDebit() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
     setError('');
     setSuccess('');
 
+    const name = formData.Name?.trim();
+    const txnName = formData.TransactionName?.trim() || formData.Name?.trim() || formData.Category;
+    const description = formData.Description?.trim();
+
+    if (!name) {
+      setError('Name is required');
+      return;
+    }
+
+    setLoading(true);
+
     try {
-      const response = await otherDebitAPI.create(formData);
+      const dataToSend = {
+        ...formData,
+        Name: name,
+        TransactionName: txnName,
+        Description: description,
+        TransactionType: 'Debit'
+      };
+      console.log('Sending data to backend:', dataToSend);
+      const response = await otherDebitAPI.create(dataToSend);
       setSuccess(response.message || 'Transaction created successfully!');
       setShowAddModal(false);
       setFormData({
@@ -198,8 +226,11 @@ function OtherDebit() {
         Amount: '',
         ModeofPayment: '',
         Category: 'Other',
+        TransactionName: '',
+        TransactionType: 'Debit',
         PaymentStatus: 'Pending',
         Description: '',
+        OpeningBalance: '',
       });
       fetchTransactions();
     } catch (err) {
@@ -228,49 +259,73 @@ function OtherDebit() {
     }
   };
 
+  const calculateTotalPaid = (payments) => {
+    return payments.reduce((sum, payment) => sum + payment.amount, 0);
+  };
+
   const openEditModal = (transaction) => {
-    setEditingTransaction(transaction);
+    setSelectedTransaction(transaction);
     setFormData({
       Name: transaction.Name,
       Amount: transaction.Amount,
-      ModeofPayment: transaction.ModeofPayment,
-      Category: transaction.Category || '',
+      ModeofPayment: transaction.ModeofPayment || '',
+      Category: transaction.Category,
+      TransactionName: transaction.TransactionName,
+      TransactionType: transaction.TransactionType,
       PaymentStatus: transaction.PaymentStatus,
-      PaymentDeadline: transaction.PaymentDeadline ? new Date(transaction.PaymentDeadline).toISOString().split('T')[0] : '',
       Description: transaction.Description || '',
+      OpeningBalance: transaction.OpeningBalance || '',
     });
+    setIsEditMode(true);
     setShowEditModal(true);
   };
 
-  const handleUpdate = async (e) => {
+  const handleUpdateSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError('');
     setSuccess('');
 
+    const name = formData.Name?.trim();
+    const txnName = formData.TransactionName?.trim() || formData.Name?.trim() || formData.Category;
+    const description = formData.Description?.trim();
+
+    if (!name) {
+      setError('Name is required');
+      return;
+    }
+
     try {
-      const response = await otherDebitAPI.update(editingTransaction._id, formData);
+      const dataToSend = {
+        ...formData,
+        Name: name,
+        TransactionName: txnName,
+        Description: description,
+        TransactionType: 'Debit'
+      };
+      console.log('Updating transaction:', dataToSend);
+      const response = await otherDebitAPI.update(selectedTransaction._id, dataToSend);
       setSuccess(response.message || 'Transaction updated successfully!');
       setShowEditModal(false);
-      setEditingTransaction(null);
+      setIsEditMode(false);
       setFormData({
         Name: '',
         Amount: '',
         ModeofPayment: '',
-        Category: '',
+        Category: 'Other',
+        TransactionName: '',
+        TransactionType: 'Debit',
         PaymentStatus: 'Pending',
         Description: '',
+        OpeningBalance: '',
       });
+      setSelectedTransaction(null);
       fetchTransactions();
     } catch (err) {
       setError(err.message || 'Failed to update transaction');
     } finally {
       setLoading(false);
     }
-  };
-
-  const calculateTotalPaid = (payments) => {
-    return payments.reduce((sum, payment) => sum + payment.amount, 0);
   };
 
   const openPaymentModal = (transaction) => {
@@ -349,78 +404,25 @@ function OtherDebit() {
     return grouped;
   };
 
-  if (loading) return (
-    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50">
-      <div className="container mx-auto px-4 py-8">
-        <div className="animate-pulse space-y-6">
-          {/* Header skeleton */}
-          <div className="bg-white rounded-2xl shadow-2xl p-8 border-4">
-            <div className="flex justify-between items-center">
-              <div className="flex items-center space-x-4">
-                <div className="bg-gray-300 p-4 rounded-xl w-16 h-16"></div>
-                <div className="space-y-2">
-                  <div className="h-8 bg-gray-300 rounded w-64"></div>
-                  <div className="h-4 bg-gray-300 rounded w-48"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-          {/* Form skeleton */}
-          <div className="bg-white rounded-2xl shadow-2xl p-8 space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {[1, 2, 3, 4, 5, 6].map((i) => (
-                <div key={i} className="space-y-2">
-                  <div className="h-4 bg-gray-300 rounded w-24"></div>
-                  <div className="h-10 bg-gray-300 rounded"></div>
-                </div>
-              ))}
-            </div>
-            <div className="flex justify-end space-x-4 pt-6">
-              <div className="h-10 bg-gray-300 rounded w-24"></div>
-              <div className="h-10 bg-gray-300 rounded w-32"></div>
-            </div>
-          </div>
-          
-          {/* Table skeleton */}
-          <div className="bg-white rounded-2xl shadow-2xl p-8">
-            <div className="space-y-4">
-              <div className="h-6 bg-gray-300 rounded w-48"></div>
-              <div className="space-y-3">
-                {[1, 2, 3, 4].map((i) => (
-                  <div key={i} className="flex items-center space-x-4 p-4 border-b">
-                    <div className="h-4 bg-gray-300 rounded w-32"></div>
-                    <div className="h-4 bg-gray-300 rounded w-24"></div>
-                    <div className="h-4 bg-gray-300 rounded w-28"></div>
-                    <div className="h-4 bg-gray-300 rounded w-20"></div>
-                    <div className="h-8 bg-gray-300 rounded w-16"></div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+  if (loading) return <LoadingSpinner />;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50">
+    <div className="min-h-screen bg-gradient-to-br from-teal-50 via-cyan-50 to-emerald-50">
       <div className="container mx-auto px-4 py-8">
-      <div className="bg-gradient-to-r from-amber-900 via-amber-800 to-amber-900 rounded-2xl shadow-2xl p-8 mb-8 border-4 border-amber-700">
+      <div className="bg-gradient-to-r from-teal-800 via-teal-700 to-emerald-800 rounded-2xl shadow-2xl p-8 mb-8 border-4 border-teal-600">
         <div className="flex justify-between items-center">
           <div className="flex items-center space-x-4">
-            <div className="bg-amber-100 p-4 rounded-xl shadow-lg">
-              <svg className="w-12 h-12 text-amber-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="bg-cyan-100 p-4 rounded-xl shadow-lg">
+              <svg className="w-12 h-12 text-teal-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
               </svg>
             </div>
             <div>
-              <h1 className="text-4xl font-bold text-amber-50 tracking-wide drop-shadow-lg">Other Debit</h1>
-              <p className="text-amber-200 mt-1 text-sm">Shyam Veneer - Premium Plywood</p>
+              <h1 className="text-4xl font-bold text-cyan-50 tracking-wide drop-shadow-lg">Other Debit</h1>
+              <p className="text-cyan-200 mt-1 text-sm">Annapurna Veneer - Premium Plywood</p>
             </div>
           </div>
-          <div className="space-x-3">
+          <div className="flex flex-wrap items-center gap-3">
             <button
               onClick={() => setShowPaymentModal(true)}
               className="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white px-8 py-3 rounded-xl font-semibold shadow-xl hover:shadow-2xl transition-all transform hover:scale-105 border-2 border-green-500"
@@ -434,7 +436,7 @@ function OtherDebit() {
             </button>
             <button
               onClick={() => setShowAddModal(true)}
-              className="bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-700 hover:to-amber-800 text-white px-8 py-3 rounded-xl font-semibold shadow-xl hover:shadow-2xl transition-all transform hover:scale-105 border-2 border-amber-500"
+              className="bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700 text-white px-8 py-3 rounded-xl font-semibold shadow-xl hover:shadow-2xl transition-all transform hover:scale-105 border-2 border-yellow-400"
             >
               <span className="flex items-center">
                 <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -443,6 +445,26 @@ function OtherDebit() {
                 Add Debit
               </span>
             </button>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => downloadOtherDebitPDF(transactions)}
+                className="bg-gradient-to-r from-red-600 to-pink-600 hover:from-red-700 hover:to-pink-700 text-white px-6 py-3 rounded-xl font-semibold shadow-xl hover:shadow-2xl transition-all flex items-center gap-2"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                PDF
+              </button>
+              <button
+                onClick={() => downloadOtherDebitExcel(transactions)}
+                className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white px-6 py-3 rounded-xl font-semibold shadow-xl hover:shadow-2xl transition-all flex items-center gap-2"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                Excel
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -470,55 +492,61 @@ function OtherDebit() {
       )}
 
       {/* Filters */}
-      <div className="bg-white border-4 border-amber-200 p-6 rounded-2xl shadow-xl">
-        <h3 className="text-xl font-bold mb-4 text-amber-900">Filters</h3>
+      <div className="bg-white border-4 border-teal-200 p-6 rounded-2xl shadow-xl">
+        <h3 className="text-xl font-bold mb-4 text-teal-900">Filters</h3>
         <div className="grid grid-cols-5 gap-4">
           <div>
-            <label className="block text-sm font-semibold text-amber-800 mb-2">Name</label>
+            <label className="block text-sm font-semibold text-teal-800 mb-2">Name</label>
             <input
               type="text"
               name="name"
               value={filters.name}
               onChange={handleFilterChange}
               placeholder="Search name..."
-              className="w-full px-4 py-2 border-2 border-amber-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 shadow-sm"
+              className="w-full px-4 py-2 border-2 border-teal-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 shadow-sm"
             />
           </div>
           <div>
-            <label className="block text-sm font-semibold text-amber-800 mb-2">Category</label>
+            <label className="block text-sm font-semibold text-teal-800 mb-2">Category</label>
             <select
               name="category"
               value={filters.category}
               onChange={handleFilterChange}
-              className="w-full px-4 py-2 border-2 border-amber-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 shadow-sm"
+              className="w-full px-4 py-2 border-2 border-teal-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 shadow-sm"
             >
               <option value="">All Categories</option>
-              <option value="Purchase">Purchase</option>
-              <option value="Expense">Expense</option>
-              <option value="Utility">Utility</option>
-              <option value="Other">Other</option>
-              <option value="Sundry Creditors">Sundry Creditors</option>
-              <option value="Sundry Debitors">Sundry Debitors</option>
+              {[
+                "Bank Accounts", "Bank OCC A/c", "Bank OD A/c", "Branch / Divisions", "Capital Account",
+                "Cash-in-hand", "Current Assets", "Current Liabilities", "Deposits (Asset)", "Direct Expenses",
+                "Direct Incomes", "Duties & Taxes", "Expenses (Direct)", "Expenses (Indirect)", "Fixed Assets",
+                "Income (Direct)", "Income (Indirect)", "Indirect Expenses", "Indirect Incomes", "Investments",
+                "Loans & Advances (Asset)", "Loans (Liability)", "Misc. Expenses (ASSET)", "Provisions",
+                "Purchase Accounts", "Reserves & Surplus", "Retained Earnings", "Sales Accounts", "Secured Loans",
+                "Stock-in-hand", "Sundry Creditors", "Sundry Debtors", "Suspense A/c", "Unsecured Loans",
+                "Purchase", "Expense", "Utility", "Sundry Debitors", "Other"
+              ].map(category => (
+                <option key={category} value={category}>{category}</option>
+              ))}
             </select>
           </div>
           <div>
-            <label className="block text-sm font-semibold text-amber-800 mb-2">Date From</label>
+            <label className="block text-sm font-semibold text-teal-800 mb-2">Date From</label>
             <input
               type="date"
               name="dateFrom"
               value={filters.dateFrom}
               onChange={handleFilterChange}
-              className="w-full px-4 py-2 border-2 border-amber-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 shadow-sm"
+              className="w-full px-4 py-2 border-2 border-teal-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 shadow-sm"
             />
           </div>
           <div>
-            <label className="block text-sm font-semibold text-amber-800 mb-2">Date To</label>
+            <label className="block text-sm font-semibold text-teal-800 mb-2">Date To</label>
             <input
               type="date"
               name="dateTo"
               value={filters.dateTo}
               onChange={handleFilterChange}
-              className="w-full px-4 py-2 border-2 border-amber-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 shadow-sm"
+              className="w-full px-4 py-2 border-2 border-teal-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 shadow-sm"
             />
           </div>
           <div className="flex items-end">
@@ -533,26 +561,25 @@ function OtherDebit() {
       </div>
 
       {/* Transactions Table */}
-      <div className="bg-white border-4 border-amber-200 rounded-2xl shadow-2xl overflow-hidden">
+      <div className="bg-white border-4 border-teal-200 rounded-2xl shadow-2xl overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-amber-200">
-            <thead className="bg-gradient-to-r from-amber-800 via-amber-700 to-amber-800">
+          <table className="min-w-full divide-y divide-teal-200">
+            <thead className="bg-gradient-to-r from-teal-800 via-teal-700 to-emerald-800">
               <tr>
-                <th className="px-6 py-4 text-left text-xs font-bold text-amber-50 uppercase tracking-wider border-r border-amber-600">Order#</th>
-                <th className="px-6 py-4 text-left text-xs font-bold text-amber-50 uppercase tracking-wider border-r border-amber-600">Name</th>
-                <th className="px-6 py-4 text-left text-xs font-bold text-amber-50 uppercase tracking-wider border-r border-amber-600">Transaction Type</th>
-                <th className="px-6 py-4 text-left text-xs font-bold text-amber-50 uppercase tracking-wider border-r border-amber-600">Amount</th>
-                <th className="px-6 py-4 text-left text-xs font-bold text-amber-50 uppercase tracking-wider border-r border-amber-600">Category</th>
-                <th className="px-6 py-4 text-left text-xs font-bold text-amber-50 uppercase tracking-wider border-r border-amber-600">Payment Status</th>
-                <th className="px-6 py-4 text-left text-xs font-bold text-amber-50 uppercase tracking-wider border-r border-amber-600">Mode of Payment</th>
-                <th className="px-6 py-4 text-left text-xs font-bold text-amber-50 uppercase tracking-wider border-r border-amber-600">Description</th>
-                <th className="px-6 py-4 text-left text-xs font-bold text-amber-50 uppercase tracking-wider">Actions</th>
+                <th className="px-6 py-4 text-left text-xs font-bold text-cyan-50 uppercase tracking-wider border-r border-teal-600">Order#</th>
+                <th className="px-6 py-4 text-left text-xs font-bold text-cyan-50 uppercase tracking-wider border-r border-teal-600">Name</th>
+                <th className="px-6 py-4 text-left text-xs font-bold text-cyan-50 uppercase tracking-wider border-r border-teal-600">Category</th>
+                <th className="px-6 py-4 text-left text-xs font-bold text-cyan-50 uppercase tracking-wider border-r border-teal-600">Amount</th>
+                <th className="px-6 py-4 text-left text-xs font-bold text-cyan-50 uppercase tracking-wider border-r border-teal-600">Payment Status</th>
+                <th className="px-6 py-4 text-left text-xs font-bold text-cyan-50 uppercase tracking-wider border-r border-teal-600">Mode of Payment</th>
+                <th className="px-6 py-4 text-left text-xs font-bold text-cyan-50 uppercase tracking-wider border-r border-teal-600">Description</th>
+                <th className="px-6 py-4 text-left text-xs font-bold text-cyan-50 uppercase tracking-wider">Actions</th>
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
               {Object.keys(groupTransactionsByName()).length === 0 ? (
                 <tr>
-                  <td colSpan="9" className="px-6 py-4 text-center text-gray-500">
+                  <td colSpan="8" className="px-6 py-4 text-center text-gray-500">
                     No debit transactions found
                   </td>
                 </tr>
@@ -576,14 +603,13 @@ function OtherDebit() {
                       >
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                           <span className="flex items-center">
-                            {isExpanded ? '▼' : '▶'} 
+                            {isExpanded ? 'Γû╝' : 'Γû╢'} 
                             <span className="ml-2">{totalTransactions} transactions</span>
                           </span>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{name}</td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Debit</td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">₹{totalAmount}</td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">-</td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Γé╣{totalAmount}</td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <span className={`px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${
                             allConfirmed 
@@ -607,10 +633,9 @@ function OtherDebit() {
                         return (
                           <tr key={transaction._id} className="hover:bg-gray-50 bg-white">
                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 pl-12">{transaction.OrderNumber}</td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-400">└─ {transaction.Name}</td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{transaction.TransactionType}</td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">₹{transaction.Amount}</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-400">ΓööΓöÇ {transaction.Name}</td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{transaction.Category}</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Γé╣{transaction.Amount}</td>
                             <td className="px-6 py-4 whitespace-nowrap">
                               <span className={`px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${
                                 transaction.PaymentStatus === 'Confirmed' 
@@ -625,8 +650,7 @@ function OtherDebit() {
                             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
                               <button
                                 onClick={() => openEditModal(transaction)}
-                                className="text-amber-600 hover:text-amber-900 bg-amber-50 hover:bg-amber-100 px-2 py-1 rounded text-xs"
-                                title="Edit transaction"
+                                className="text-purple-600 hover:text-purple-900 bg-purple-50 hover:bg-purple-100 px-2 py-1 rounded text-xs"
                               >
                                 Edit
                               </button>
@@ -670,7 +694,6 @@ function OtherDebit() {
                   value={formData.Name}
                   onChange={handleInputChange}
                   onFocus={() => formData.Name && setShowSuggestions(nameSuggestions.length > 0)}
-                  required
                   autoComplete="off"
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
@@ -698,7 +721,6 @@ function OtherDebit() {
                   name="Amount"
                   value={formData.Amount}
                   onChange={handleInputChange}
-                  required
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
@@ -708,45 +730,21 @@ function OtherDebit() {
                   name="Category"
                   value={formData.Category}
                   onChange={handleInputChange}
-                  required
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
                   <option value="">Select Category</option>
-                  <option value="Bank Accounts">Bank Accounts</option>
-                  <option value="Bank OCC A/c">Bank OCC A/c</option>
-                  <option value="Bank OD A/c">Bank OD A/c</option>
-                  <option value="Branch/Divisions">Branch/Divisions</option>
-                  <option value="Capital Account">Capital Account</option>
-                  <option value="Cash-in-hand">Cash-in-hand</option>
-                  <option value="Current Assets">Current Assets</option>
-                  <option value="Current Liabilities">Current Liabilities</option>
-                  <option value="Deposits (Asset)">Deposits (Asset)</option>
-                  <option value="Direct Expenses">Direct Expenses</option>
-                  <option value="Direct Incomes">Direct Incomes</option>
-                  <option value="Duties & Taxes">Duties & Taxes</option>
-                  <option value="Expenses (Direct)">Expenses (Direct)</option>
-                  <option value="Expenses (Indirect)">Expenses (Indirect)</option>
-                  <option value="Fixed Assets">Fixed Assets</option>
-                  <option value="Income (Direct)">Income (Direct)</option>
-                  <option value="Income (Indirect)">Income (Indirect)</option>
-                  <option value="Indirect Expenses">Indirect Expenses</option>
-                  <option value="Indirect Incomes">Indirect Incomes</option>
-                  <option value="Investments">Investments</option>
-                  <option value="Loans & Advances (Asset)">Loans & Advances (Asset)</option>
-                  <option value="Loans (Liability)">Loans (Liability)</option>
-                  <option value="Misc. Expenses (ASSET)">Misc. Expenses (ASSET)</option>
-                  <option value="Provisions">Provisions</option>
-                  <option value="Purchase Accounts">Purchase Accounts</option>
-                  <option value="Reserves & Surplus">Reserves & Surplus</option>
-                  <option value="Retained Earnings">Retained Earnings</option>
-                  <option value="Sales Accounts">Sales Accounts</option>
-                  <option value="Secured Loans">Secured Loans</option>
-                  <option value="Stock-in-hand">Stock-in-hand</option>
-                  <option value="Sundry Creditors">Sundry Creditors</option>
-                  <option value="Sundry Debitors">Sundry Debitors</option>
-                  <option value="Suspense A/c">Suspense A/c</option>
-                  <option value="Unsecured Loans">Unsecured Loans</option>
-                  <option value="VAT A/C">VAT A/C</option>
+                  {[
+                    "Bank Accounts", "Bank OCC A/c", "Bank OD A/c", "Branch / Divisions", "Capital Account",
+                    "Cash-in-hand", "Current Assets", "Current Liabilities", "Deposits (Asset)", "Direct Expenses",
+                    "Direct Incomes", "Duties & Taxes", "Expenses (Direct)", "Expenses (Indirect)", "Fixed Assets",
+                    "Income (Direct)", "Income (Indirect)", "Indirect Expenses", "Indirect Incomes", "Investments",
+                    "Loans & Advances (Asset)", "Loans (Liability)", "Misc. Expenses (ASSET)", "Provisions",
+                    "Purchase Accounts", "Reserves & Surplus", "Retained Earnings", "Sales Accounts", "Secured Loans",
+                    "Stock-in-hand", "Sundry Creditors", "Sundry Debtors", "Suspense A/c", "Unsecured Loans",
+                    "Purchase", "Expense", "Utility", "Sundry Debitors", "Other"
+                  ].map(category => (
+                    <option key={category} value={category}>{category}</option>
+                  ))}
                 </select>
               </div>
               <div>
@@ -784,8 +782,19 @@ function OtherDebit() {
                   <option value="Confirmed">Confirmed</option>
                 </select>
               </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Opening Balance</label>
+                <input
+                  type="number"
+                  name="OpeningBalance"
+                  value={formData.OpeningBalance}
+                  onChange={handleInputChange}
+                  placeholder="Enter opening balance (if any)"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
               <div className="col-span-2">
-                <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Description *</label>
                 <textarea
                   name="Description"
                   value={formData.Description}
@@ -815,6 +824,137 @@ function OtherDebit() {
         </div>
       )}
 
+      {/* Edit Debit Transaction Modal */}
+      {showEditModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <h2 className="text-2xl font-bold mb-4">Edit Debit Transaction</h2>
+            <form onSubmit={handleUpdateSubmit} className="grid grid-cols-2 gap-4">
+              <div className="relative">
+                <label className="block text-sm font-medium text-gray-700 mb-1">Name *</label>
+                <input
+                  type="text"
+                  name="Name"
+                  value={formData.Name}
+                  onChange={handleInputChange}
+                  autoComplete="off"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Amount *</label>
+                <input
+                  type="number"
+                  name="Amount"
+                  value={formData.Amount}
+                  onChange={handleInputChange}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Category *</label>
+                <select
+                  name="Category"
+                  value={formData.Category}
+                  onChange={handleInputChange}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                  <option value="">Select Category</option>
+                  {[
+                    "Bank Accounts", "Bank OCC A/c", "Bank OD A/c", "Branch / Divisions", "Capital Account",
+                    "Cash-in-hand", "Current Assets", "Current Liabilities", "Deposits (Asset)", "Direct Expenses",
+                    "Direct Incomes", "Duties & Taxes", "Expenses (Direct)", "Expenses (Indirect)", "Fixed Assets",
+                    "Income (Direct)", "Income (Indirect)", "Indirect Expenses", "Indirect Incomes", "Investments",
+                    "Loans & Advances (Asset)", "Loans (Liability)", "Misc. Expenses (ASSET)", "Provisions",
+                    "Purchase Accounts", "Reserves & Surplus", "Retained Earnings", "Sales Accounts", "Secured Loans",
+                    "Stock-in-hand", "Sundry Creditors", "Sundry Debtors", "Suspense A/c", "Unsecured Loans",
+                    "Purchase", "Expense", "Utility", "Sundry Debitors", "Other"
+                  ].map(category => (
+                    <option key={category} value={category}>{category}</option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Mode of Payment</label>
+                <select
+                  name="ModeofPayment"
+                  value={formData.ModeofPayment}
+                  onChange={handleInputChange}
+                  disabled={formData.PaymentStatus === 'Pending'}
+                  className={`w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                    formData.PaymentStatus === 'Pending' ? 'bg-gray-100 text-gray-500 cursor-not-allowed' : ''
+                  }`}
+                >
+                  <option value="">Select Payment Mode</option>
+                  {formData.PaymentStatus === 'Confirmed' && (
+                    <>
+                      {banks.filter(bank => bank.isActive).map((bank) => (
+                        <option key={bank._id} value={bank.bankName}>
+                          {bank.bankName}
+                        </option>
+                      ))}
+                    </>
+                  )}
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Payment Status</label>
+                <select
+                  name="PaymentStatus"
+                  value={formData.PaymentStatus}
+                  onChange={handleInputChange}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                  <option value="Pending">Pending</option>
+                  <option value="Confirmed">Confirmed</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Opening Balance</label>
+                <input
+                  type="number"
+                  name="OpeningBalance"
+                  value={formData.OpeningBalance}
+                  onChange={handleInputChange}
+                  placeholder="Enter opening balance (if any)"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+              <div className="col-span-2">
+                <label className="block text-sm font-medium text-gray-700 mb-1">Description *</label>
+                <textarea
+                  name="Description"
+                  value={formData.Description}
+                  onChange={handleInputChange}
+                  rows="3"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+              <div className="col-span-2 flex justify-end space-x-3">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setShowEditModal(false);
+                    setIsEditMode(false);
+                    setSelectedTransaction(null);
+                  }}
+                  className="px-4 py-2 bg-gray-300 hover:bg-gray-400 text-gray-800 rounded-md transition"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-md transition disabled:opacity-50"
+                >
+                  {loading ? 'Updating...' : 'Update Transaction'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
       {/* Add Payment Modal */}
       {showPaymentModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
@@ -828,7 +968,6 @@ function OtherDebit() {
                   name="Name"
                   value={paymentData.Name}
                   onChange={handlePaymentInputChange}
-                  required
                   autoComplete="off"
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
@@ -843,7 +982,7 @@ function OtherDebit() {
                         className="px-3 py-2 cursor-pointer hover:bg-gray-100 border-b border-gray-100"
                       >
                         <div className="font-medium">{transaction.Name}</div>
-                        <div className="text-sm text-gray-500">Balance: ₹{transaction.Amount - calculateTotalPaid(transaction.Payments || [])}</div>
+                        <div className="text-sm text-gray-500">Balance: Γé╣{transaction.Amount - calculateTotalPaid(transaction.Payments || [])}</div>
                       </div>
                     ))}
                   </div>
@@ -856,7 +995,6 @@ function OtherDebit() {
                   name="paymentAmount"
                   value={paymentData.paymentAmount}
                   onChange={handlePaymentInputChange}
-                  required
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
@@ -866,7 +1004,6 @@ function OtherDebit() {
                   name="ModeofPayment"
                   value={paymentData.ModeofPayment}
                   onChange={handlePaymentInputChange}
-                  required
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
                   <option value="">Select Payment Mode</option>
@@ -898,172 +1035,6 @@ function OtherDebit() {
         </div>
       )}
 
-      {/* Edit Other Debit Modal */}
-      {showEditModal && editingTransaction && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 overflow-y-auto">
-          <div className="bg-white rounded-lg p-6 max-w-2xl w-full my-8">
-            <h2 className="text-2xl font-bold mb-4">Edit Other Debit</h2>
-            <form onSubmit={handleUpdate} className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Name *</label>
-                  <input
-                    type="text"
-                    name="Name"
-                    value={formData.Name}
-                    onChange={handleInputChange}
-                    required
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Amount *</label>
-                  <input
-                    type="number"
-                    name="Amount"
-                    value={formData.Amount}
-                    onChange={handleInputChange}
-                    required
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Category *</label>
-                  <select
-                    name="Category"
-                    value={formData.Category}
-                    onChange={handleInputChange}
-                    required
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  >
-                    <option value="">Select Category</option>
-                    <option value="Bank Accounts">Bank Accounts</option>
-                    <option value="Bank OCC A/c">Bank OCC A/c</option>
-                    <option value="Bank OD A/c">Bank OD A/c</option>
-                    <option value="Branch/Divisions">Branch/Divisions</option>
-                    <option value="Capital Account">Capital Account</option>
-                    <option value="Cash-in-hand">Cash-in-hand</option>
-                    <option value="Current Assets">Current Assets</option>
-                    <option value="Current Liabilities">Current Liabilities</option>
-                    <option value="Deposits (Asset)">Deposits (Asset)</option>
-                    <option value="Direct Expenses">Direct Expenses</option>
-                    <option value="Direct Incomes">Direct Incomes</option>
-                    <option value="Duties & Taxes">Duties & Taxes</option>
-                    <option value="Expenses (Direct)">Expenses (Direct)</option>
-                    <option value="Expenses (Indirect)">Expenses (Indirect)</option>
-                    <option value="Fixed Assets">Fixed Assets</option>
-                    <option value="Income (Direct)">Income (Direct)</option>
-                    <option value="Income (Indirect)">Income (Indirect)</option>
-                    <option value="Indirect Expenses">Indirect Expenses</option>
-                    <option value="Indirect Incomes">Indirect Incomes</option>
-                    <option value="Investments">Investments</option>
-                    <option value="Loans & Advances (Asset)">Loans & Advances (Asset)</option>
-                    <option value="Loans (Liability)">Loans (Liability)</option>
-                    <option value="Misc. Expenses (ASSET)">Misc. Expenses (ASSET)</option>
-                    <option value="Provisions">Provisions</option>
-                    <option value="Purchase Accounts">Purchase Accounts</option>
-                    <option value="Reserves & Surplus">Reserves & Surplus</option>
-                    <option value="Retained Earnings">Retained Earnings</option>
-                    <option value="Sales Accounts">Sales Accounts</option>
-                    <option value="Secured Loans">Secured Loans</option>
-                    <option value="Stock-in-hand">Stock-in-hand</option>
-                    <option value="Sundry Creditors">Sundry Creditors</option>
-                    <option value="Sundry Debitors">Sundry Debitors</option>
-                    <option value="Suspense A/c">Suspense A/c</option>
-                    <option value="Unsecured Loans">Unsecured Loans</option>
-                    <option value="VAT A/C">VAT A/C</option>
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Mode of Payment</label>
-                  <select
-                    name="ModeofPayment"
-                    value={formData.ModeofPayment}
-                    onChange={handleInputChange}
-                    disabled={formData.PaymentStatus === 'Pending'}
-                    className={`w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                      formData.PaymentStatus === 'Pending' ? 'bg-gray-100 text-gray-500 cursor-not-allowed' : ''
-                    }`}
-                  >
-                    <option value="">Select Payment Mode</option>
-                    {formData.PaymentStatus === 'Confirmed' && (
-                      <>
-                        {banks.filter(bank => bank.isActive).map((bank) => (
-                          <option key={bank._id} value={bank.bankName}>
-                            {bank.bankName}
-                          </option>
-                        ))}
-                      </>
-                    )}
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Payment Status</label>
-                  <select
-                    name="PaymentStatus"
-                    value={formData.PaymentStatus}
-                    onChange={handleInputChange}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  >
-                    <option value="Pending">Pending</option>
-                    <option value="Confirmed">Confirmed</option>
-                  </select>
-                </div>
-                {formData.PaymentStatus === 'Pending' && (
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Payment Deadline</label>
-                    <input
-                      type="date"
-                      name="PaymentDeadline"
-                      value={formData.PaymentDeadline}
-                      onChange={handleInputChange}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
-                  </div>
-                )}
-                <div className="col-span-2">
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
-                  <textarea
-                    name="Description"
-                    value={formData.Description}
-                    onChange={handleInputChange}
-                    rows="3"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  />
-                </div>
-              </div>
-              <div className="flex justify-end space-x-4">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setShowEditModal(false);
-                    setEditingTransaction(null);
-                    setFormData({
-                      Name: '',
-                      Amount: '',
-                      ModeofPayment: '',
-                      Category: '',
-                      PaymentStatus: 'Pending',
-                      Description: '',
-                    });
-                  }}
-                  className="px-4 py-2 bg-gray-300 hover:bg-gray-400 text-gray-800 rounded-md transition"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className="px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white rounded-md transition disabled:opacity-50"
-                >
-                  {loading ? 'Updating...' : 'Update Transaction'}
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
-
       {/* Payment History Modal */}
       {showPaymentHistoryModal && selectedTransaction && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
@@ -1074,16 +1045,17 @@ function OtherDebit() {
                 onClick={() => setShowPaymentHistoryModal(false)}
                 className="text-gray-500 hover:text-gray-700"
               >
-                ✕
+                Γ£ò
               </button>
             </div>
             <div className="mb-4 p-4 bg-gray-50 rounded">
               <div className="grid grid-cols-2 gap-4">
                 <div><span className="font-medium">Name:</span> {selectedTransaction.Name}</div>
                 <div><span className="font-medium">Order Number:</span> {selectedTransaction.OrderNumber}</div>
-                <div><span className="font-medium">Total Amount:</span> ₹{selectedTransaction.Amount}</div>
-                <div><span className="font-medium">Amount Paid:</span> ₹{calculateTotalPaid(selectedTransaction.Payments || [])}</div>
-                <div><span className="font-medium">Amount Due:</span> ₹{selectedTransaction.Amount - calculateTotalPaid(selectedTransaction.Payments || [])}</div>
+                <div><span className="font-medium">Transaction:</span> {selectedTransaction.TransactionName}</div>
+                <div><span className="font-medium">Total Amount:</span> Γé╣{selectedTransaction.Amount}</div>
+                <div><span className="font-medium">Amount Paid:</span> Γé╣{calculateTotalPaid(selectedTransaction.Payments || [])}</div>
+                <div><span className="font-medium">Amount Due:</span> Γé╣{selectedTransaction.Amount - calculateTotalPaid(selectedTransaction.Payments || [])}</div>
               </div>
             </div>
             
@@ -1103,7 +1075,7 @@ function OtherDebit() {
                         <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-900">
                           {new Date(payment.createdAt).toLocaleDateString()}
                         </td>
-                        <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-900">₹{payment.amount}</td>
+                        <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-900">Γé╣{payment.amount}</td>
                         <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-900">{payment.ModeofPayment}</td>
                       </tr>
                     ))}
@@ -1122,3 +1094,8 @@ function OtherDebit() {
 }
 
 export default OtherDebit;
+
+
+
+
+

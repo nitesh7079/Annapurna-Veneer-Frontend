@@ -238,7 +238,7 @@ const Accounting = () => {
             </div>
             <div>
               <h1 className="text-4xl font-bold text-amber-50 tracking-wide drop-shadow-lg">Accounting Dashboard</h1>
-              <p className="text-amber-200 mt-1 text-sm">Shyam Veneer - Premium Plywood</p>
+              <p className="text-amber-200 mt-1 text-sm">Annapurna Veneer - Premium Plywood</p>
             </div>
           </div>
           <button 

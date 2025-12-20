@@ -23,7 +23,7 @@ export const NotificationProvider = ({ children }) => {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 5000); // 5s timeout
       
-      const response = await fetch('https://shyam-veneer-backend-1.onrender.com/api/v1/notifications/unreaded', {
+      const response = await fetch('https://annapurnaveneer.online/api/v1/notifications/unreaded', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -64,7 +64,7 @@ export const NotificationProvider = ({ children }) => {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 10000);
       
-      const response = await fetch('https://shyam-veneer-backend-1.onrender.com/api/v1/notifications/all', {
+      const response = await fetch('https://annapurnaveneer.online/api/v1/notifications/all', {
         signal: controller.signal
       });
       
@@ -86,7 +86,7 @@ export const NotificationProvider = ({ children }) => {
   // Mark notification as read
   const markAsRead = async (notificationId) => {
     try {
-      const response = await fetch(`https://shyam-veneer-backend-1.onrender.com/api/v1/notifications/markAsRead/${notificationId}`, {
+      const response = await fetch(`https://annapurnaveneer.online/api/v1/notifications/markAsRead/${notificationId}`, {
         method: 'PUT'
       });
       

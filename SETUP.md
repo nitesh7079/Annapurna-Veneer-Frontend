@@ -133,7 +133,7 @@ Make sure your backend has CORS enabled for `http://localhost:3000`
 ### If components don't load:
 Check that the API_BASE_URL in each component matches your backend URL:
 ```javascript
-const API_BASE_URL = 'https://shyam-veneer-backend.onrender.com/api/v1';
+const API_BASE_URL = 'https://annapurnaveneer.online/api/v1';
 ```
 
 ### If styles don't apply:

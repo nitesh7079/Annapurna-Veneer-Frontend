@@ -1,17 +1,17 @@
 import axios from 'axios';
 
 const getApiUrl = () => {
-  // Shyam Veneer - Use deployed backend by default. Change here if you want a different base.
-  const deployed = 'https://shyam-veneer-backend-1.onrender.com/api/v1';
-  console.log('Shyam Veneer API - Using deployed backend:', deployed);
+  // Annapurna Veneer - Use deployed backend by default. Change here if you want a different base.
+  const deployed = 'https://annapurnaveneer.online/api/v1';
+  console.log('Annapurna Veneer API - Using deployed backend:', deployed);
   return deployed;
 };
 
-// Shyam Veneer - Test API connectivity
+// Annapurna Veneer - Test API connectivity
 const testApiConnectivity = async (apiUrl) => {
   try {
     const testUrl = apiUrl.replace('/api/v1', '/api/v1/accounts/balance');
-    console.log('Shyam Veneer API - Testing connectivity to:', testUrl);
+    console.log('Annapurna Veneer API - Testing connectivity to:', testUrl);
     
     const response = await fetch(testUrl, {
       method: 'GET',
@@ -20,22 +20,22 @@ const testApiConnectivity = async (apiUrl) => {
     });
     
     if (response.ok) {
-      console.log('Shyam Veneer API - Connectivity test successful');
+      console.log('Annapurna Veneer API - Connectivity test successful');
       return true;
     } else {
-      console.error('Shyam Veneer API - Connectivity test failed with status:', response.status);
+      console.error('Annapurna Veneer API - Connectivity test failed with status:', response.status);
       return false;
     }
   } catch (error) {
-    console.error('Shyam Veneer API - Connectivity test error:', error);
+    console.error('Annapurna Veneer API - Connectivity test error:', error);
     return false;
   }
 };
 
 const apiUrl = getApiUrl();
-console.log('Shyam Veneer - API URL being used:', apiUrl);
-console.log('Shyam Veneer - Current hostname:', window.location.hostname);
-console.log('Shyam Veneer - Current port:', window.location.port);
+console.log('Annapurna Veneer - API URL being used:', apiUrl);
+console.log('Annapurna Veneer - Current hostname:', window.location.hostname);
+console.log('Annapurna Veneer - Current port:', window.location.port);
 
 const api = axios.create({
   baseURL: apiUrl,
@@ -54,23 +54,23 @@ api.interceptors.request.use(
     
     if (savedToken) {
       config.headers['Authorization'] = `Bearer ${savedToken}`;
-      console.log('Shyam Veneer API - Added JWT token to request');
+      console.log('Annapurna Veneer API - Added JWT token to request');
     }
     
     if (savedUser) {
       try {
         const user = JSON.parse(savedUser);
-        console.log('Shyam Veneer API - User from localStorage:', user);
+        console.log('Annapurna Veneer API - User from localStorage:', user);
         if (user && user.id) {
           config.headers['x-user-id'] = user.id;
-          console.log('Shyam Veneer API - Added x-user-id header:', user.id);
+          console.log('Annapurna Veneer API - Added x-user-id header:', user.id);
         }
       } catch (error) {
-        console.error('Shyam Veneer API - Error parsing user from localStorage:', error);
+        console.error('Annapurna Veneer API - Error parsing user from localStorage:', error);
       }
     }
     
-    console.log('Shyam Veneer API - Request:', {
+    console.log('Annapurna Veneer API - Request:', {
       url: config.baseURL + config.url,
       method: config.method,
       data: config.data,
@@ -80,18 +80,18 @@ api.interceptors.request.use(
     return config;
   },
   (error) => {
-    console.error('Shyam Veneer API - Request Error:', error);
+    console.error('Annapurna Veneer API - Request Error:', error);
     return Promise.reject(error);
   }
 );
 
 api.interceptors.response.use(
   (response) => {
-    console.log('Shyam Veneer API - Response:', response.data);
+    console.log('Annapurna Veneer API - Response:', response.data);
     return response;
   },
   (error) => {
-    console.error('Shyam Veneer API - Response Error:', {
+    console.error('Annapurna Veneer API - Response Error:', {
       message: error.message,
       status: error.response?.status,
       data: error.response?.data,
@@ -101,7 +101,7 @@ api.interceptors.response.use(
   }
 );
 
-// Shyam Veneer - User Authentication API
+// Annapurna Veneer - User Authentication API
 export const userAPI = {
   register: async (userData) => {
     try {
@@ -122,7 +122,7 @@ export const userAPI = {
   },
 };
 
-// Shyam Veneer - Buy Orders API
+// Annapurna Veneer - Buy Orders API
 export const buyAPI = {
   // Get all buy orders
   getAll: async () => {
@@ -165,7 +165,7 @@ export const buyAPI = {
   },
 };
 
-// Shyam Veneer - Sell Orders API
+// Annapurna Veneer - Sell Orders API
 export const sellAPI = {
   // Get all sell orders
   getAll: async () => {
@@ -208,7 +208,7 @@ export const sellAPI = {
   },
 };
 
-// Shyam Veneer - Buy/Sell API (kept for backward compatibility with BuySell.jsx and Reports.jsx)
+// Annapurna Veneer - Buy/Sell API (kept for backward compatibility with BuySell.jsx and Reports.jsx)
 export const buySellAPI = {
   // Get all buy/sell entries
   getAll: async () => {
@@ -231,7 +231,7 @@ export const buySellAPI = {
   },
 };
 
-// Shyam Veneer - Account Management API
+// Annapurna Veneer - Account Management API
 export const accountAPI = {
   // Get all transactions
   getAll: async (filters = {}) => {
@@ -251,19 +251,19 @@ export const accountAPI = {
   // Get latest transaction per person (case-sensitive, unique people only)
   getLatestPerPerson: async (filters = {}) => {
     try {
-      console.log('Shyam Veneer API - Fetching latest transactions per person with filters:', filters);
+      console.log('Annapurna Veneer API - Fetching latest transactions per person with filters:', filters);
       const cleanFilters = Object.fromEntries(
         Object.entries(filters).filter(([key, value]) => value !== '' && value !== null && value !== undefined)
       );
       const queryParams = new URLSearchParams(cleanFilters).toString();
       const url = `/accounts/latest-per-person${queryParams ? '?' + queryParams : ''}`;
-      console.log('Shyam Veneer API - URL for latest per person:', `${api.defaults.baseURL}${url}`);
+      console.log('Annapurna Veneer API - URL for latest per person:', `${api.defaults.baseURL}${url}`);
       
       const response = await api.get(url);
-      console.log('Shyam Veneer API - Latest per person response:', response.data);
+      console.log('Annapurna Veneer API - Latest per person response:', response.data);
       return response.data;
     } catch (error) {
-      console.error('Shyam Veneer API - Failed to fetch latest transactions per person:', error);
+      console.error('Annapurna Veneer API - Failed to fetch latest transactions per person:', error);
       
       // Enhanced error handling for cross-device access
       if (error.code === 'NETWORK_ERROR' || error.code === 'ERR_NETWORK') {
@@ -305,13 +305,13 @@ export const accountAPI = {
   // Create new transaction
   create: async (transactionData) => {
     try {
-      console.log('Shyam Veneer API - Creating transaction:', transactionData);
+      console.log('Annapurna Veneer API - Creating transaction:', transactionData);
       const response = await api.post('/accounts', transactionData);
-      console.log('Shyam Veneer API - Transaction created:', response.data);
+      console.log('Annapurna Veneer API - Transaction created:', response.data);
       return response.data;
     } catch (error) {
-      console.error('Shyam Veneer API - Transaction error:', error);
-      console.error('Shyam Veneer API - Error response:', error.response);
+      console.error('Annapurna Veneer API - Transaction error:', error);
+      console.error('Annapurna Veneer API - Error response:', error.response);
       
       if (error.code === 'NETWORK_ERROR' || error.code === 'ERR_NETWORK') {
         throw { message: 'Network connection failed. Please check your internet connection.' };
@@ -378,7 +378,7 @@ export const accountAPI = {
   },
 };
 
-// Shyam Veneer - Other Credit API
+// Annapurna Veneer - Other Credit API
 export const otherCreditAPI = {
   // Get all other credit transactions
   getAll: async () => {
@@ -421,7 +421,7 @@ export const otherCreditAPI = {
   },
 };
 
-// Shyam Veneer - Other Debit API
+// Annapurna Veneer - Other Debit API
 export const otherDebitAPI = {
   // Get all other debit transactions
   getAll: async () => {
@@ -464,7 +464,7 @@ export const otherDebitAPI = {
   },
 };
 
-// Shyam Veneer - Bank Management API
+// Annapurna Veneer - Bank Management API
 export const bankAPI = {
   // Get all banks
   getAll: async () => {
@@ -497,7 +497,7 @@ export const bankAPI = {
   },
 };
 
-// Shyam Veneer - Notification Management API
+// Annapurna Veneer - Notification Management API
 export const notificationAPI = {
   // Get all notifications
   getAll: async () => {

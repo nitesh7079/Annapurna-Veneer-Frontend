@@ -54,8 +54,8 @@ const Login = () => {
 
     try {
       const url = isLogin 
-        ? 'https://shyam-veneer-backend-1.onrender.com/api/v1/user/login'
-        : 'https://shyam-veneer-backend-1.onrender.com/api/v1/user/register';
+        ? 'https://annapurnaveneer.online/api/v1/user/login'
+        : 'https://annapurnaveneer.online/api/v1/user/register';
       
       const body = isLogin 
         ? { email: formData.email, password: formData.password }
@@ -172,7 +172,7 @@ const Login = () => {
             {isLogin ? 'Welcome Back' : 'Join Us'}
           </h1>
           <p className="text-amber-700 text-lg font-medium">
-            Shyam Veneer - Premium Plywood Solutions
+            Annapurna Veneer - Premium Plywood Solutions
           </p>
           <p className="text-amber-600 mt-1">
             {isLogin ? 'Sign in to your account' : 'Create your account today'}

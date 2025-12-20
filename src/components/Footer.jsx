@@ -8,7 +8,7 @@ const Footer = () => {
               <div className="w-12 h-12 bg-gradient-to-br from-amber-500 to-amber-700 rounded-2xl flex items-center justify-center mr-3 shadow-xl border-4 border-amber-300">
                 <span className="text-white font-bold text-xl">SV</span>
               </div>
-              <h3 className="text-2xl font-bold text-white tracking-tight drop-shadow-lg">Shyam Veneer</h3>
+              <h3 className="text-2xl font-bold text-white tracking-tight drop-shadow-lg">Annapurna Veneer</h3>
             </div>
             <p className="text-amber-200 mb-4 font-medium">
               Leading supplier of premium quality plywood and veneer products. 
@@ -47,7 +47,7 @@ const Footer = () => {
         <div className="border-t border-amber-700 mt-8 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-amber-300 text-sm font-medium">
-              © 2025 Shyam Veneer. All rights reserved.
+              © 2025 Annapurna Veneer. All rights reserved.
             </p>
             <div className="flex flex-col md:flex-row items-center gap-4 md:gap-6">
               <span className="text-amber-200 text-sm font-medium">Made with ❤️ for quality wood solutions</span>
