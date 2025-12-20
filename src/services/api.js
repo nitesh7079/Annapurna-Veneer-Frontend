@@ -392,7 +392,7 @@ export const otherCreditAPI = {
   },
 
   // Add new other credit transaction
-  add: async (creditData) => {
+  create: async (creditData) => {
     try {
       const response = await api.post('/otherCredit', creditData);
       return response.data;
@@ -402,7 +402,7 @@ export const otherCreditAPI = {
   },
 
   // Add payment to other credit transaction
-  addPayment: async (paymentData) => {
+  applyPayment: async (paymentData) => {
     try {
       const response = await api.post('/otherCredit/payments', paymentData);
       return response.data;
@@ -435,7 +435,7 @@ export const otherDebitAPI = {
   },
 
   // Add new other debit transaction
-  add: async (debitData) => {
+  create: async (debitData) => {
     try {
       const response = await api.post('/otherDebit', debitData);
       return response.data;
@@ -445,7 +445,7 @@ export const otherDebitAPI = {
   },
 
   // Add payment to other debit transaction
-  addPayment: async (paymentData) => {
+  applyPayment: async (paymentData) => {
     try {
       const response = await api.post('/otherDebit/payments', paymentData);
       return response.data;

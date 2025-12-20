@@ -1,50 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { bankAPI } from '../services/api';
+import { bankAPI, otherCreditAPI } from '../services/api';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { downloadOtherCreditPDF, downloadOtherCreditExcel } from '../utils/downloadUtils';
-
-const API_URL = 'https://shyam-veneer-backend-1.onrender.com/api/v1';
-
-const otherCreditAPI = {
-  getAll: async () => {
-    const response = await fetch(`${API_URL}/otherCredit`);
-    if (!response.ok) throw new Error('Failed to fetch');
-    return response.json();
-  },
-  create: async (data) => {
-    const response = await fetch(`${API_URL}/otherCredit`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
-    });
-    if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
-      throw new Error(errorData.message || `Failed to create: ${response.statusText}`);
-    }
-    return response.json();
-  },
-  applyPayment: async (data) => {
-    const response = await fetch(`${API_URL}/otherCredit/payments`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
-    });
-    if (!response.ok) throw new Error('Failed to apply payment');
-    return response.json();
-  },
-  update: async (id, data) => {
-    const response = await fetch(`${API_URL}/otherCredit/${id}`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
-    });
-    if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
-      throw new Error(errorData.message || `Failed to update: ${response.statusText}`);
-    }
-    return response.json();
-  },
-};
 
 function OtherCredit() {
   const [transactions, setTransactions] = useState([]);
