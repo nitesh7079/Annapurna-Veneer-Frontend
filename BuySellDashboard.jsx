@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const API_BASE_URL = 'https://annapurnaveneer.online/api/v1';
+const API_BASE_URL = 'https://shyam-veneer-backend-1.onrender.com/api/v1';
 
 const BuySellDashboard = () => {
   const [activeTab, setActiveTab] = useState('dashboard');

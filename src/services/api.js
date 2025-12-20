@@ -2,7 +2,8 @@ import axios from 'axios';
 
 const getApiUrl = () => {
   // Annapurna Veneer - Use deployed backend by default. Change here if you want a different base.
-  const deployed = 'https://annapurnaveneer.online/api/v1';
+  // Temporarily using old domain until annapurnaveneer.online is fully configured
+  const deployed = 'https://shyam-veneer-backend-1.onrender.com/api/v1';
   console.log('Annapurna Veneer API - Using deployed backend:', deployed);
   return deployed;
 };

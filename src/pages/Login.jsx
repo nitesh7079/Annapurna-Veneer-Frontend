@@ -54,8 +54,8 @@ const Login = () => {
 
     try {
       const url = isLogin 
-        ? 'https://annapurnaveneer.online/api/v1/user/login'
-        : 'https://annapurnaveneer.online/api/v1/user/register';
+        ? 'https://shyam-veneer-backend-1.onrender.com/api/v1/user/login'
+        : 'https://shyam-veneer-backend-1.onrender.com/api/v1/user/register';
       
       const body = isLogin 
         ? { email: formData.email, password: formData.password }
