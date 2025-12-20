@@ -3,7 +3,7 @@ import { bankAPI } from '../services/api';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { downloadOtherDebitPDF, downloadOtherDebitExcel } from '../utils/downloadUtils';
 
-const API_URL = 'https://annapurna-veneer-backend.onrender.com/api/v1';
+const API_URL = 'https://shyam-veneer-backend-1.onrender.com/api/v1';
 
 const otherDebitAPI = {
   getAll: async () => {
